@@ -6,11 +6,10 @@ import kz.bgm.platform.model.service.CatalogStorage;
 import kz.bgm.platform.model.service.LuceneSearch;
 import kz.bgm.platform.utils.DateUtils;
 import kz.bgm.platform.utils.Month;
+import kz.bgm.platform.utils.ReportParser;
 import kz.bgm.platform.utils.Year;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
+import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
@@ -18,16 +17,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.File;
-import java.text.ParseException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping(value = "/reports")
@@ -105,7 +107,6 @@ public class Reporter {
     }
 
 
-
     @RequestMapping(value = "/customer-reports")
     public String showAllCustomerReports(Model model,
                                          HttpSession ses,
@@ -126,7 +127,6 @@ public class Reporter {
 
         return "/reports/all-customer-reports";
     }
-
 
 
     @RequestMapping(value = "/report")
@@ -150,141 +150,141 @@ public class Reporter {
     }
 
 
-
-
     @RequestMapping(value = "/upload-mobile-report", method = RequestMethod.POST)
-    public String uploadMobileReport(HttpServletRequest req) {
+    public String uploadMobileReport(
+            HttpSession ses,
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
 
-        ServletFileUpload fileUploader = new ServletFileUpload(new DiskFileItemFactory());
 
-        try {
-            List<FileItem> fields = fileUploader.parseRequest(req);
+//        try {
+        log.info("got request admin uploader report");
 
-            if (fields == null) {
-                log.warn("No multipart fields found");
-                return "redirect:/admin/reports.html?er=no-file-reports-uploaded";
+        CustomerReport report = new CustomerReport();
+
+        String updateFilePath = REPORTS_HOME + "/" + file.getName();
+
+        Path path = Paths.get(updateFilePath);
+        Files.write(path, file.getBytes());
+
+        List<CustomerReportItem> allItems = ReportParser.parseMobileReport(updateFilePath);
+
+        Date now = new Date();
+
+        report.setUploadDate(now);
+        report.setTracks(allItems.size());
+        report.setType(CustomerReport.Type.MOBILE);
+
+        long reportId = dbService.saveCustomerReport(report);
+        report.setId(reportId);
+
+        List<ReportItemTrack> tracks = new ArrayList<>();
+
+        for (CustomerReportItem i : allItems) {
+            i.setReportId(reportId);
+
+            long itemId = dbService.saveCustomerReportItem(i);
+
+            List<SearchResult> found = null;
+            try {
+                found = luceneService.search(i.getArtist(), i.getAuthors(), i.getTrack(), LIMIT);
+            } catch (IOException | ParseException e) {
+                e.printStackTrace();
             }
-            log.info("got request admin uploader report");
 
-            CustomerReport report = new CustomerReport();
-
-            List<CustomerReportItem> allItems = new ArrayList<>();
-            fillItems(fields, report, allItems);
-            Date now = new Date();
-
-            report.setUploadDate(now);
-            report.setTracks(allItems.size());
-            report.setType(CustomerReport.Type.MOBILE);
-
-            long reportId = dbService.saveCustomerReport(report);
-            report.setId(reportId);
-
-            List<ReportItemTrack> tracks = new ArrayList<>();
-
-            for (CustomerReportItem i : allItems) {
-                i.setReportId(reportId);
-
-                long itemId = dbService.saveCustomerReportItem(i);
-
-                List<SearchResult> found = luceneService.search(i.getArtist(), i.getAuthors(), i.getTrack(), LIMIT);
-
+            if (found != null) {
                 for (SearchResult r : found) {
                     tracks.add(new ReportItemTrack(itemId, r.getTrackId(), r.getScore()));
                 }
             }
-
-
-            HttpSession ses = req.getSession(true);
-            ses.setAttribute("report-" + reportId, report);
-
-            return "redirect:/admin/view/report-upload-result.jsp?rid=" + reportId;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/reports/report?er=" + e.getMessage();
         }
+
+
+        ses.setAttribute("report-" + reportId, report);
+
+        return "redirect:/admin/view/report-upload-result.jsp?rid=" + reportId;
+
+
     }
 
 
     @RequestMapping(value = "/upload-public-report", method = RequestMethod.POST)
     public String uploadPublicReport(HttpServletRequest req) {
-        ServletFileUpload fileUploader = new ServletFileUpload(new DiskFileItemFactory());
+//        ServletFileUpload fileUploader = new ServletFileUpload(new DiskFileItemFactory());
+//
+//        try {
+////            String dateParam = req.getParameter("dt");
+////            Date reportDate = dateParam != null ? FORMAT.parse(dateParam) : new Date();
+//
+//            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+//            Date reportDate = format.parse("2012/01/01");
+//
+////            String periodParam = req.getParameter("per");
+////            int per = periodParam != null ? Integer.parseInt(periodParam) : 0;
+////            CustomerReport.Period period = periodParam != null ?
+////                    CustomerReport.Period.values()[per] :
+////                    CustomerReport.Period.MONTH;
+//
+//            CustomerReport.Period period = CustomerReport.Period.MONTH;
+//            List<FileItem> files = fileUploader.parseRequest(req);
+//
+//            if (files == null) {
+//                return "redirect:/reports/report?er=no-freports-uploaded";
+//            }
+//
+//
+//            List<CustomerReportItem> allItems = new ArrayList<>();
+//            for (FileItem item : files) {
+//
+//                String reportFile = REPORTS_HOME + "/" + item.getName();
+//                saveToFile(item, reportFile);
+//
+//                log.info("Got client report " + item.getName());
+//
+////                List<CustomerReportItem> items = ReportParser.parsePublicReport(reportFile);
+////                allItems.addAll(items);
+//            }
+//
+//            Date now = new Date();
+//
+//            CustomerReport report = new CustomerReport();
+//            report.setStartDate(reportDate);
+//            report.setPeriod(period);
+//            report.setUploadDate(now);
+//            report.setType(CustomerReport.Type.PUBLIC);
+//            report.setTracks(allItems.size());
+//
+//            long reportId = dbService.saveCustomerReport(report);
+//            report.setId(reportId);
+//
+//            int detected = 0;
+//
+//            for (CustomerReportItem i : allItems) {
+//                i.setReportId(reportId);
+//                List<SearchResult> ids = luceneService.search(i.getArtist(), null, i.getTrack(), 100);
+//                if (ids.size() > 0) {
+//                    i.setCompositionId(ids.get(0).getTrackId());
+//                    detected++;
+//                }
+//            }
+//            log.info("composition detected " + detected);
+//
+//            report.setDetected(detected);
+//
+//            dbService.saveCustomerReportItems(allItems);
+//
+//            HttpSession ses = req.getSession(true);
+//            ses.setAttribute("report-" + reportId, report);
+//
+//            return "redirect:/admin/view/report-upload-result?rid=" + reportId;
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return "redirect:/admin/reports.html?er=" + e.getMessage();
+//        }
 
-        try {
-//            String dateParam = req.getParameter("dt");
-//            Date reportDate = dateParam != null ? FORMAT.parse(dateParam) : new Date();
-
-            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-            Date reportDate = format.parse("2012/01/01");
-
-//            String periodParam = req.getParameter("per");
-//            int per = periodParam != null ? Integer.parseInt(periodParam) : 0;
-//            CustomerReport.Period period = periodParam != null ?
-//                    CustomerReport.Period.values()[per] :
-//                    CustomerReport.Period.MONTH;
-
-            CustomerReport.Period period = CustomerReport.Period.MONTH;
-            List<FileItem> files = fileUploader.parseRequest(req);
-
-            if (files == null) {
-                return "redirect:/reports/report?er=no-freports-uploaded";
-            }
-
-
-            List<CustomerReportItem> allItems = new ArrayList<>();
-            for (FileItem item : files) {
-
-                String reportFile = REPORTS_HOME + "/" + item.getName();
-                saveToFile(item, reportFile);
-
-                log.info("Got client report " + item.getName());
-
-//                List<CustomerReportItem> items = ReportParser.parsePublicReport(reportFile);
-//                allItems.addAll(items);
-            }
-
-            Date now = new Date();
-
-            CustomerReport report = new CustomerReport();
-            report.setStartDate(reportDate);
-            report.setPeriod(period);
-            report.setUploadDate(now);
-            report.setType(CustomerReport.Type.PUBLIC);
-            report.setTracks(allItems.size());
-
-            long reportId = dbService.saveCustomerReport(report);
-            report.setId(reportId);
-
-            int detected = 0;
-
-            for (CustomerReportItem i : allItems) {
-                i.setReportId(reportId);
-                List<SearchResult> ids = luceneService.search(i.getArtist(), null, i.getTrack(), 100);
-                if (ids.size() > 0) {
-                    i.setCompositionId(ids.get(0).getTrackId());
-                    detected++;
-                }
-            }
-            log.info("composition detected " + detected);
-
-            report.setDetected(detected);
-
-            dbService.saveCustomerReportItems(allItems);
-
-            HttpSession ses = req.getSession(true);
-            ses.setAttribute("report-" + reportId, report);
-
-            return "redirect:/admin/view/report-upload-result?rid=" + reportId;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "redirect:/admin/reports.html?er=" + e.getMessage();
-        }
+        return null;
     }
-
-
-
-
 
 
     @RequestMapping(value = "/report-upload-result")
@@ -327,7 +327,6 @@ public class Reporter {
     }
 
 
-
 //
 //    @RequestMapping(value = "/report-calculator")
 //    public String showReportCalculator(Model model) {
@@ -338,76 +337,76 @@ public class Reporter {
 //    }
 
 
-    private void fillItems(List<FileItem> fields, CustomerReport report, List<CustomerReportItem> allItems) throws Exception {
-        for (FileItem item : fields) {
-            if (item.isFormField()) {
-                fillParam(item, report);
-            } else {
-
-                String reportFile = REPORTS_HOME + "/" + item.getName();
-                saveToFile(item, reportFile);
-
-                log.info("Got client report " + item.getName());
-
-//                List<CustomerReportItem> items = ReportParser.parseMobileReport(reportFile);
-//                allItems.addAll(items);
-            }
-        }
-    }
-
-
-    public CustomerReport fillParam(FileItem item, CustomerReport customerReport) {
-        String param = item.getFieldName();
-        String value = item.getString();
-
-        switch (param) {
-            case "dt":
-                log.info("--Report date =" + value);
-
-                Date reportDate = null;
-                try {
-                    reportDate = value != null ? FORMAT.parse(value) : new Date();
-                } catch (ParseException e) {
-                    log.warn(e.getMessage());
-                }
-
-                customerReport.setStartDate(reportDate);
-                break;
-
-            case "period":
-                int per = value != null ? Integer.parseInt(value) : 0;
-                CustomerReport.Period period = value != null ?
-                        CustomerReport.Period.values()[per] :
-                        CustomerReport.Period.MONTH;
-
-                log.info("--Report period =" + period);
-
-                customerReport.setPeriod(period);
-                break;
-
-            case "cid":
-                log.info("--Report customer id =" + value);
-
-                long customerId = Long.parseLong(value);
-                Customer customer = dbService.getCustomer(customerId);
-
-                if (customer == null) {
-                    log.info("Customer not found");
-                    return null;
-                }
-                customerReport.setCustomerId(customer.getId());
-                break;
-        }
-
-
-        return customerReport;
-    }
-
-    private void saveToFile(FileItem item, String filename) throws Exception {
-        log.info("File name:" + item.getName());
-        File reportFile = new File(filename);
-        item.write(reportFile);
-    }
-    
+//    private void fillItems(List<FileItem> fields, CustomerReport report, List<CustomerReportItem> allItems) throws Exception {
+//        for (FileItem item : fields) {
+//            if (item.isFormField()) {
+//                fillParam(item, report);
+//            } else {
+//
+//                String reportFile = REPORTS_HOME + "/" + item.getName();
+//                saveToFile(item, reportFile);
+//
+//                log.info("Got client report " + item.getName());
+//
+////                List<CustomerReportItem> items = ReportParser.parseMobileReport(reportFile);
+////                allItems.addAll(items);
+//            }
+//        }
+//    }
+//
+//
+//    public CustomerReport fillParam(FileItem item, CustomerReport customerReport) {
+//        String param = item.getFieldName();
+//        String value = item.getString();
+//
+//        switch (param) {
+//            case "dt":
+//                log.info("--Report date =" + value);
+//
+//                Date reportDate = null;
+//                try {
+//                    reportDate = value != null ? FORMAT.parse(value) : new Date();
+//                } catch (ParseException e) {
+//                    log.warn(e.getMessage());
+//                }
+//
+//                customerReport.setStartDate(reportDate);
+//                break;
+//
+//            case "period":
+//                int per = value != null ? Integer.parseInt(value) : 0;
+//                CustomerReport.Period period = value != null ?
+//                        CustomerReport.Period.values()[per] :
+//                        CustomerReport.Period.MONTH;
+//
+//                log.info("--Report period =" + period);
+//
+//                customerReport.setPeriod(period);
+//                break;
+//
+//            case "cid":
+//                log.info("--Report customer id =" + value);
+//
+//                long customerId = Long.parseLong(value);
+//                Customer customer = dbService.getCustomer(customerId);
+//
+//                if (customer == null) {
+//                    log.info("Customer not found");
+//                    return null;
+//                }
+//                customerReport.setCustomerId(customer.getId());
+//                break;
+//        }
+//
+//
+//        return customerReport;
+//    }
+//
+//    private void saveToFile(FileItem item, String filename) throws Exception {
+//        log.info("File name:" + item.getName());
+//        File reportFile = new File(filename);
+//        item.write(reportFile);
+//    }
+//
 
 }

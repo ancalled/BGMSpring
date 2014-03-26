@@ -3,9 +3,6 @@ package kz.bgm.platform.utils;
 import kz.bgm.platform.model.domain.CustomerReportItem;
 import org.apache.log4j.Logger;
 //import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,8 +67,8 @@ public class ReportParser {
 //        return items;
 //    }
 //
-//    public static List<CustomerReportItem> parseMobileReport(String fileName)
-//            throws IOException, InvalidFormatException {
+    public static List<CustomerReportItem> parseMobileReport(String fileName)
+            throws IOException/*, InvalidFormatException*/ {
 //
 //        log.info("Parsing mobile report from: " + fileName + "... ");
 //
@@ -108,7 +105,9 @@ public class ReportParser {
 //        }
 //        log.info("Mobile report parsed done, tracks count: " + items.size());
 //        return items;
-//    }
+
+        return null;
+    }
 //
 //
 //    public static List<CustomerReportItem> parsePublicReport(String fileName)

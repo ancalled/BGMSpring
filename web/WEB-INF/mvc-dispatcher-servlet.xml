@@ -44,6 +44,7 @@
 
 
 
+
     <mvc:annotation-driven content-negotiation-manager="contentNegotiationManager"/>
     <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <!-- Turn off working out content type based on URL file extension, should fall back to looking at the Accept headers -->

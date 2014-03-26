@@ -4,7 +4,6 @@ import kz.bgm.platform.model.domain.Track;
 import kz.bgm.platform.model.service.CatalogStorage;
 import kz.bgm.platform.model.service.DbStorage;
 import org.apache.log4j.Logger;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -27,84 +26,84 @@ public class CatalogLoader {
 
     private static final Logger log = Logger.getLogger(CatalogLoader.class);
 
-    private static void loadCatalog(CatalogStorage catalog, String catalogName) throws IOException, InvalidFormatException {
-        List<Track> authItems = new ArrayList<Track>();
-        List<Track> commonItems = new ArrayList<Track>();
-        CatalogParser parser = new CatalogParser();
-
-        if (catalogName.equals("WCh")) {
-
-            List<Track> warnerAut = parser.loadData(
-                    CAT_HOME + "warner_chapel.xlsx", false);
-            authItems.addAll(warnerAut);
-
-        } else if (catalogName.equals("NMI_WEST")) {
-
-            List<Track> nmiAutZap = parser.loadData(
-                    CAT_HOME + "nmi_aut_zap.xlsx", false);
-            authItems.addAll(nmiAutZap);
-
-        } else if (catalogName.equals("NMI")) {
+//    private static void loadCatalog(CatalogStorage catalog, String catalogName) throws IOException, InvalidFormatException {
+//        List<Track> authItems = new ArrayList<Track>();
+//        List<Track> commonItems = new ArrayList<Track>();
+//        CatalogParser parser = new CatalogParser();
 //
-            List<Track> nmiAut = parser.loadData(
-                    CAT_HOME + "nmi_aut.xlsx", false);
-            authItems.addAll(nmiAut);
-
-        } else if (catalogName.equals("PMI_WEST")) {
-
-            List<Track> pmiAutZap = parser.loadData(
-                    CAT_HOME + "pmi_aut_zap.xlsx", false);
-            authItems.addAll(pmiAutZap);
-
-        } else if (catalogName.equals("PMI")) {
-
-            List<Track> pmiAut = parser.loadData(
-                    CAT_HOME + "pmi_aut.xlsx", false);
-            authItems.addAll(pmiAut);
-
-        } else if (catalogName.equals("NMI related")) {
-
-            List<Track> nmiCom = parser.loadData(
-                    CAT_HOME + "nmi_com.xlsx", true);
-            commonItems.addAll(nmiCom);
-
-        } else if (catalogName.equals("PMI related")) {
-
-            List<Track> pmiCom = parser.loadData(
-                    CAT_HOME + "pmi_com.xlsx", true);
-            commonItems.addAll(pmiCom);
-        }
-
-
-        System.out.println("Processing " + authItems.size() + " items to database...");
-
-        System.out.println("Processing auth Tracks " + authItems.size());
-
-        if (!authItems.isEmpty()) {
-            catalog.saveTracks(authItems, catalogName);
-        }
-        if (!commonItems.isEmpty()) {
-            catalog.saveTracks(commonItems, catalogName);
-        }
-
-    }
-
-    public static void loadSony(CatalogStorage catalog, String fileName, String catalogName) throws IOException, InvalidFormatException {
-        List<Track> trackList = new ArrayList<Track>();
-        CatalogParser parser = new CatalogParser();
-
-        if ("MSG_MCS".equals(catalogName)) {
-            trackList = parser.loadMGS(
-                    CAT_HOME + fileName);
-
-        } else if ("AMP".equals(catalogName)) {
-            trackList = parser.loadSonyMusic(CAT_HOME + fileName);
-        }
-
-        if (!trackList.isEmpty()) {
-            catalog.saveTracks(trackList, catalogName);
-        }
-    }
+//        if (catalogName.equals("WCh")) {
+//
+//            List<Track> warnerAut = parser.loadData(
+//                    CAT_HOME + "warner_chapel.xlsx", false);
+//            authItems.addAll(warnerAut);
+//
+//        } else if (catalogName.equals("NMI_WEST")) {
+//
+//            List<Track> nmiAutZap = parser.loadData(
+//                    CAT_HOME + "nmi_aut_zap.xlsx", false);
+//            authItems.addAll(nmiAutZap);
+//
+//        } else if (catalogName.equals("NMI")) {
+////
+//            List<Track> nmiAut = parser.loadData(
+//                    CAT_HOME + "nmi_aut.xlsx", false);
+//            authItems.addAll(nmiAut);
+//
+//        } else if (catalogName.equals("PMI_WEST")) {
+//
+//            List<Track> pmiAutZap = parser.loadData(
+//                    CAT_HOME + "pmi_aut_zap.xlsx", false);
+//            authItems.addAll(pmiAutZap);
+//
+//        } else if (catalogName.equals("PMI")) {
+//
+//            List<Track> pmiAut = parser.loadData(
+//                    CAT_HOME + "pmi_aut.xlsx", false);
+//            authItems.addAll(pmiAut);
+//
+//        } else if (catalogName.equals("NMI related")) {
+//
+//            List<Track> nmiCom = parser.loadData(
+//                    CAT_HOME + "nmi_com.xlsx", true);
+//            commonItems.addAll(nmiCom);
+//
+//        } else if (catalogName.equals("PMI related")) {
+//
+//            List<Track> pmiCom = parser.loadData(
+//                    CAT_HOME + "pmi_com.xlsx", true);
+//            commonItems.addAll(pmiCom);
+//        }
+//
+//
+//        System.out.println("Processing " + authItems.size() + " items to database...");
+//
+//        System.out.println("Processing auth Tracks " + authItems.size());
+//
+//        if (!authItems.isEmpty()) {
+//            catalog.saveTracks(authItems, catalogName);
+//        }
+//        if (!commonItems.isEmpty()) {
+//            catalog.saveTracks(commonItems, catalogName);
+//        }
+//
+//    }
+//
+//    public static void loadSony(CatalogStorage catalog, String fileName, String catalogName) throws IOException, InvalidFormatException {
+//        List<Track> trackList = new ArrayList<Track>();
+//        CatalogParser parser = new CatalogParser();
+//
+//        if ("MSG_MCS".equals(catalogName)) {
+//            trackList = parser.loadMGS(
+//                    CAT_HOME + fileName);
+//
+//        } else if ("AMP".equals(catalogName)) {
+//            trackList = parser.loadSonyMusic(CAT_HOME + fileName);
+//        }
+//
+//        if (!trackList.isEmpty()) {
+//            catalog.saveTracks(trackList, catalogName);
+//        }
+//    }
 
 //    public static void main(String[] args) throws IOException, InvalidFormatException, ClassNotFoundException, SQLException {
 //

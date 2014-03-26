@@ -4,10 +4,10 @@ import kz.bgm.platform.model.domain.SearchResult;
 import kz.bgm.platform.model.domain.Track;
 import kz.bgm.platform.model.service.CatalogStorage;
 import kz.bgm.platform.model.service.LuceneSearch;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
+//import org.apache.commons.fileupload.FileItem;
+//import org.apache.commons.fileupload.FileUploadException;
+//import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+//import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.log4j.Logger;
 import org.apache.lucene.queryparser.classic.ParseException;
 
@@ -39,14 +39,14 @@ public class MassSearchServlet extends HttpServlet {
 
     private CatalogStorage catalogService;
     private LuceneSearch luceneSearch;
-    private ServletFileUpload fileUploader;
+//    private ServletFileUpload fileUploader;
 
 
     @Override
     public void init() throws ServletException {
 //        catalogService = CatalogFactory.getStorage();
 //        luceneSearch = LuceneSearch.getInstance();
-        fileUploader = new ServletFileUpload(new DiskFileItemFactory());
+//        fileUploader = new ServletFileUpload(new DiskFileItemFactory());
     }
 
     @Override
