@@ -1,16 +1,6 @@
 package kz.bgm.platform.utils;
 
-import kz.bgm.platform.model.domain.Track;
-import kz.bgm.platform.model.service.CatalogStorage;
-import kz.bgm.platform.model.service.DbStorage;
 import org.apache.log4j.Logger;
-
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
 
 public class CatalogLoader {
 

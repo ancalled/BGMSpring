@@ -4,7 +4,8 @@ import kz.bgm.platform.model.domain.Catalog;
 import kz.bgm.platform.model.domain.CatalogUpdate;
 import kz.bgm.platform.model.domain.Platform;
 import kz.bgm.platform.model.domain.Track;
-import kz.bgm.platform.model.service.CatalogStorage;
+import kz.bgm.platform.model.service.CatalogUpdateService;
+import kz.bgm.platform.model.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,13 +25,16 @@ public class MainController {
 
 
     @Autowired
-    private CatalogStorage dbService;
+    private MainService mainService;
+
+    @Autowired
+    private CatalogUpdateService catalogUpdateService;
 
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String showIndex(Model model) {
-        List<Platform> platforms = dbService.getPlatforms();
-        List<Catalog> catalogs = dbService.getCatalogs();
+        List<Platform> platforms = mainService.getPlatforms();
+        List<Catalog> catalogs = mainService.getCatalogs();
 
         Map<Long, List<Catalog>> catMap =
                 catalogs.stream()
@@ -61,10 +65,10 @@ public class MainController {
                               @RequestParam(value = "catId", required = true) long catId
     ) {
 
-        Catalog catalog = dbService.getCatalog(catId);
+        Catalog catalog = mainService.getCatalog(catId);
         model.addAttribute("catalog", catalog);
 
-        List<CatalogUpdate> updates = dbService.getAllCatalogUpdates(catId);
+        List<CatalogUpdate> updates = catalogUpdateService.getAllCatalogUpdates(catId);
         model.addAttribute("updates", updates);
 
         return "catalog";
@@ -85,9 +89,9 @@ public class MainController {
             @RequestParam(value = "catId", required = false) Long catId
     ) {
         if (catId != null) {
-            return dbService.getRandomTracks(catId, num);
+            return mainService.getRandomTracks(catId, num);
         } else {
-            return dbService.getRandomTracks(num);
+            return mainService.getRandomTracks(num);
         }
     }
 

@@ -1,7 +1,8 @@
 package kz.bgm.platform.web.controllers;
 
 import kz.bgm.platform.model.domain.*;
-import kz.bgm.platform.model.service.CatalogStorage;
+import kz.bgm.platform.model.service.AdminService;
+import kz.bgm.platform.model.service.MainService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collection;
 import java.util.List;
 
 @Controller
@@ -19,14 +19,16 @@ public class AdminController {
 
     private static final Logger log = Logger.getLogger(AdminController.class);
 
+    @Autowired
+    private MainService mainService;
 
     @Autowired
-    private CatalogStorage dbService;
+    private AdminService adminService;
 
 
     @RequestMapping(value = "/customers")
     public String showCustomers(Model model) {
-        List<Customer> customers = dbService.getAllCustomers();
+        List<Customer> customers = adminService.getAllCustomers();
         model.addAttribute("customers", customers);
 
         return "/admin/customers";
@@ -38,7 +40,7 @@ public class AdminController {
                                  @RequestParam(value = "platformId", required = true) long platformId
     ) {
 
-        Platform platform = dbService.getPlatform(platformId);
+        Platform platform = mainService.getPlatform(platformId);
         model.addAttribute("platform", platform);
 
         return "/admin/add-catalog";
@@ -55,8 +57,8 @@ public class AdminController {
     public String showCustomerDetail(Model model,
                                      @RequestParam(value = "cid") long id
     ) {
-        Customer customer = dbService.getCustomer(id);
-        List<User> users = dbService.getUsersByCustomerId(id);
+        Customer customer = adminService.getCustomer(id);
+        List<User> users = adminService.getUsersByCustomerId(id);
 
         model.addAttribute("customer", customer);
         model.addAttribute("users", users);
@@ -74,7 +76,7 @@ public class AdminController {
     public String showCreateUserForm(Model model,
                                      @RequestParam(value = "cid") long customerId) {
 
-        Customer customer = dbService.getCustomer(customerId);
+        Customer customer = adminService.getCustomer(customerId);
         model.addAttribute("customer", customer);
 
         return "/admin/create-user-form";
@@ -85,8 +87,8 @@ public class AdminController {
     public String showEditTrack(Model model,
                                 @RequestParam(value = "id", required = true) long id) {
 
-        Track track = dbService.getTrack(id);
-        List<Catalog> catalogs = dbService.getCatalogs();
+        Track track = mainService.getTrack(id);
+        List<Catalog> catalogs = mainService.getCatalogs();
 
         model.addAttribute("track", track);
         model.addAttribute("catalogs", catalogs);
@@ -102,7 +104,7 @@ public class AdminController {
         Platform platform = new Platform();
         platform.setName(name);
         platform.setRights(true);
-        dbService.createPlatform(platform);
+        adminService.createPlatform(platform);
 
         return "redirect:/mvc/main/index";
     }
@@ -120,7 +122,7 @@ public class AdminController {
         catalog.setRoyalty(royalty);
         catalog.setRightType(rightType);
         catalog.setPlatformId(platformId);
-        dbService.createCatalog(catalog);
+        adminService.createCatalog(catalog);
 
         return "redirect:/mvc/main/index";
     }
@@ -140,7 +142,7 @@ public class AdminController {
         customer.setAuthorRoyalty(authorRoyalty);
         customer.setAuthorRoyalty(relatedRoyalty);
         customer.setCustomerType(type);
-        dbService.createCustomer(customer);
+        adminService.createCustomer(customer);
 
         return "redirect:/mvc/admin/customers";
     }
@@ -161,7 +163,7 @@ public class AdminController {
         user.setPass(pass);
         user.setFullName(fullName);
         user.setEmail(email);
-        dbService.createUser(user);
+        adminService.createUser(user);
 
         return "redirect:/mvc/admin/customer?cid=" + customerId;
     }
@@ -171,7 +173,7 @@ public class AdminController {
     public String deleteUser(
             @RequestParam(value = "user-id", required = true) long userId
     ) {
-        dbService.removeUser(userId);
+        adminService.removeUser(userId);
         return "redirect:/mvc/main/index";
     }
 
@@ -180,7 +182,7 @@ public class AdminController {
     public String deleteCustomer(
             @RequestParam(value = "customer-id", required = true) long customerId
     ) {
-        dbService.removeCustomer(customerId);
+        adminService.removeCustomer(customerId);
         return "redirect:/mvc/main/index";
     }
 
@@ -208,7 +210,7 @@ public class AdminController {
         track.setComposer(composer);
         track.setMobileShare(shareMobile);
         track.setPublicShare(sharePublic);
-        dbService.updateTrack(track);
+        adminService.updateTrack(track);
 
         return "redirect:/mvc/admin/edit-track?id=" + id;
     }

@@ -1,8 +1,8 @@
 package kz.bgm.platform.web.controllers;
 
 import kz.bgm.platform.model.domain.*;
-import kz.bgm.platform.model.service.CatalogStorage;
-import kz.bgm.platform.utils.LuceneIndexRebuildUtil;
+import kz.bgm.platform.model.service.CatalogUpdateService;
+import kz.bgm.platform.model.service.MainService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -42,7 +41,10 @@ public class CatalogUpdater {
 
 
     @Autowired
-    private CatalogStorage dbService;
+    private CatalogUpdateService catalogUpdateService;
+
+    @Autowired
+    private MainService mainService;
 
 
     @RequestMapping(value = "/update-catalog",
@@ -81,7 +83,7 @@ public class CatalogUpdater {
 
             log.info("Got catalog updates " + file.getName());
 
-            update = dbService.saveCatalogUpdate(update);
+            update = catalogUpdateService.saveCatalogUpdate(update);
             doUpdate(update);
 
             return new UpdateResult("ok", null, update.getId());
@@ -98,11 +100,11 @@ public class CatalogUpdater {
         //todo
         log.debug("Starting update catalog...");
 //        changeStatus(UpdateStatus.FILE_UPLOADED);
-        CatalogUpdate updateResult = dbService.importCatalogUpdate(update);
+        CatalogUpdate updateResult = catalogUpdateService.importCatalogUpdate(update);
 
         log.debug("Load complete, calc stats...");
 //        changeStatus(UpdateStatus.SQL_LOAD_COMPLETE);
-        dbService.calculateCatalogUpdateStats(update.getId(), updateResult.getStatus());
+        catalogUpdateService.calculateCatalogUpdateStats(update.getId(), updateResult.getStatus());
 
         log.debug("Stat calc complete.");
 //        changeStatus(UpdateStatus.UPDATE_STATISTICS_FINISHED);
@@ -117,10 +119,9 @@ public class CatalogUpdater {
     ) {
 
         CatalogUpdate catUpdate = (CatalogUpdate) ses.getAttribute("catalog-update-" + updateId);
-         //todo
+        //todo
         return null;
     }
-
 
 
     @RequestMapping(value = "check-apply-status", method = RequestMethod.GET, produces = "application/json")
@@ -136,9 +137,6 @@ public class CatalogUpdater {
     }
 
 
-
-
-
     @RequestMapping(value = "/catalog-update", method = RequestMethod.GET)   //todo split into 3 different models
     public String showCatalogUpdate(Model model,
                                     @RequestParam(value = "id", required = true) long updateId,
@@ -151,11 +149,11 @@ public class CatalogUpdater {
 
         model.addAttribute("erCode", erCode);
 
-        CatalogUpdate update = dbService.getCatalogUpdate(updateId);
+        CatalogUpdate update = catalogUpdateService.getCatalogUpdate(updateId);
         if (update != null) {
             model.addAttribute("update", update);
 
-            Catalog catalog = dbService.getCatalog(update.getCatalogId());
+            Catalog catalog = mainService.getCatalog(update.getCatalogId());
             model.addAttribute("catalog", catalog);
 
             if (from > update.getCrossing()) {
@@ -169,7 +167,7 @@ public class CatalogUpdater {
                     model.addAttribute("tab1", "active");
 
                     List<TrackDiff> diffs =
-                            dbService.
+                            catalogUpdateService.
                                     geChangedTracksOfCatalogUpdate(updateId, from, TRACKS_PER_PAGE);
                     model.addAttribute("diffs", diffs);
 
@@ -180,7 +178,7 @@ public class CatalogUpdater {
                     model.addAttribute("tab2", "active");
 
                     List<Track> allNewTracks =
-                            dbService.
+                            catalogUpdateService.
                                     getNewTracksOfCatalogUpdate(updateId, fromNew, TRACKS_PER_PAGE);
 //                                                    getTempTracks(catalog.getId(), fromNew, TRACKS_PER_PAGE);
                     model.addAttribute("tracks", allNewTracks);
@@ -192,12 +190,12 @@ public class CatalogUpdater {
                     model.addAttribute("tab1", "active");
 
                     List<TrackDiff> diffs =
-                            dbService.
+                            catalogUpdateService.
                                     geChangedTracksOfCatalogUpdate(updateId, from, TRACKS_PER_PAGE);
                     model.addAttribute("diffs", diffs);
 
                     List<Track> allNewTracks =
-                            dbService.
+                            catalogUpdateService.
                                     getNewTracksOfCatalogUpdate(updateId, fromNew, TRACKS_PER_PAGE);
 //                                                    getTempTracks(catalog.getId(), fromNew, TRACKS_PER_PAGE);
                     model.addAttribute("tracks", allNewTracks);
@@ -232,24 +230,24 @@ public class CatalogUpdater {
     private void doApplyUpdate(long id) {
         log.info("Applying catalog updates, id: " + id);
 //        changeStatus(CatalogUpdateApplyStatus.APPLY_CATALOG_STEP1);
-        dbService.applyCatalogUpdateStep1(id);
+        catalogUpdateService.applyCatalogUpdateStep1(id);
 
 //        changeStatus(CatalogUpdateApplyStatus.APPLY_CATALOG_STEP2);
-        dbService.applyCatalogUpdateStep2(id);
+        catalogUpdateService.applyCatalogUpdateStep2(id);
 
 //        changeStatus(CatalogUpdateApplyStatus.APPLY_CATALOG_STEP3);
-        dbService.applyCatalogUpdateStep3(id);
+        catalogUpdateService.applyCatalogUpdateStep3(id);
 
         log.info("Get all new tracks for reindex");
 //        changeStatus(CatalogUpdateApplyStatus.APPLY_CATALOG_STEP3);
-        List<Track> updatedTracks = dbService.getAllTracksOfCatalogUpdate(id);
+        List<Track> updatedTracks = catalogUpdateService.getAllTracksOfCatalogUpdate(id);
 
         log.info("Found " + updatedTracks.size() + " indexes. Rebuilding index for this tracks");
-        try {
-            LuceneIndexRebuildUtil.rebuildIndex(updatedTracks);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            LuceneIndexRebuildUtil.rebuildIndex(updatedTracks);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         log.info("Done. Reinitializing searcher");
         //reinit searcher after index update
@@ -260,7 +258,6 @@ public class CatalogUpdater {
 
         log.info("Applied.");
     }
-
 
 
 }

@@ -24,15 +24,13 @@
     </bean>
 
 
-    <bean name="dbService" class="kz.bgm.platform.model.service.DbStorage"/>
 
+    <!--<bean name="luceneService" class="kz.bgm.platform.model.service.LuceneSearch">-->
+        <!--<constructor-arg name="indexDir" value="/home/ancalled/Documents/tmp/39/bgm-lucene"/>-->
+        <!--&lt;!&ndash;<constructor-arg name="indexDir" value="/Users/ancalled/Documents/tmp/16/bgm-lucene"/>&ndash;&gt;-->
+        <!--&lt;!&ndash;<constructor-arg name="indexDir" value="./lucene-indexes"/>&ndash;&gt;-->
 
-    <bean name="luceneService" class="kz.bgm.platform.model.service.LuceneSearch">
-        <constructor-arg name="indexDir" value="/home/ancalled/Documents/tmp/39/bgm-lucene"/>
-        <!--<constructor-arg name="indexDir" value="/Users/ancalled/Documents/tmp/16/bgm-lucene"/>-->
-        <!--<constructor-arg name="indexDir" value="./lucene-indexes"/>-->
-
-    </bean>
+    <!--</bean>-->
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">-->

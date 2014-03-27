@@ -2,8 +2,9 @@ package kz.bgm.platform.web.controllers;
 
 
 import kz.bgm.platform.model.domain.*;
-import kz.bgm.platform.model.service.CatalogStorage;
-import kz.bgm.platform.model.service.LuceneSearch;
+import kz.bgm.platform.model.service.AdminService;
+import kz.bgm.platform.model.service.CustomerReportService;
+import kz.bgm.platform.model.service.SearchService;
 import kz.bgm.platform.utils.DateUtils;
 import kz.bgm.platform.utils.Month;
 import kz.bgm.platform.utils.ReportParser;
@@ -29,7 +30,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Controller
 @RequestMapping(value = "/reports")
@@ -47,10 +47,13 @@ public class Reporter {
 
 
     @Autowired
-    private CatalogStorage dbService;
+    private CustomerReportService reportService;
 
     @Autowired
-    private LuceneSearch luceneService;
+    private SearchService searchService;
+
+    @Autowired
+    private AdminService adminService;
 
 
     @RequestMapping(value = "/reports")
@@ -62,7 +65,7 @@ public class Reporter {
                               @RequestParam(value = "non-active") String showNonActiveStr
     ) {
 
-        List<Customer> customers = dbService.getAllCustomers();
+        List<Customer> customers = adminService.getAllCustomers();
         model.addAttribute("customers", customers);
 
 
@@ -77,7 +80,7 @@ public class Reporter {
 
         Date notLaterThen = DateUtils.getPreviousMonth(from, monthsAgo);
 
-        List<CustomerReport> reports = dbService.getAllCustomerReports(notLaterThen);
+        List<CustomerReport> reports = reportService.getAllCustomerReports(notLaterThen);
 
         List<Year> years = DateUtils.getQuartersBefore(from, quartersAgo);
         for (CustomerReport r : reports) {
@@ -119,7 +122,7 @@ public class Reporter {
     ) {
         User user = (User) ses.getAttribute("user");
         if (user != null) {
-            List<CustomerReport> reports = dbService.
+            List<CustomerReport> reports = reportService.
                     getCustomerReports(user.getCustomerId(), from, to);
 
             model.addAttribute("reports", reports);
@@ -137,8 +140,8 @@ public class Reporter {
                              @RequestParam(value = "page", defaultValue = "0") int page
     ) {
 
-        CustomerReport report = dbService.getCustomerReport(reportId);
-        List<CustomerReportItem> items = dbService.getCustomerReportsItems(reportId, from, size);
+        CustomerReport report = reportService.getCustomerReport(reportId);
+        List<CustomerReportItem> items = reportService.getCustomerReportsItems(reportId, from, size);
 
         model.addAttribute("report", report)
                 .addAttribute("items", items)
@@ -175,7 +178,7 @@ public class Reporter {
         report.setTracks(allItems.size());
         report.setType(CustomerReport.Type.MOBILE);
 
-        long reportId = dbService.saveCustomerReport(report);
+        long reportId = reportService.saveCustomerReport(report);
         report.setId(reportId);
 
         List<ReportItemTrack> tracks = new ArrayList<>();
@@ -183,11 +186,11 @@ public class Reporter {
         for (CustomerReportItem i : allItems) {
             i.setReportId(reportId);
 
-            long itemId = dbService.saveCustomerReportItem(i);
+            long itemId = reportService.saveCustomerReportItem(i);
 
             List<SearchResult> found = null;
             try {
-                found = luceneService.search(i.getArtist(), i.getAuthors(), i.getTrack(), LIMIT);
+                found = searchService.search(i.getArtist(), i.getAuthors(), i.getTrack(), LIMIT);
             } catch (IOException | ParseException e) {
                 e.printStackTrace();
             }
@@ -314,14 +317,14 @@ public class Reporter {
             return "redirect:/admin/view/report?id=" + reportId + "&er=user-not-found";
         }
 
-        CustomerReport report = dbService.getCustomerReport(reportId);
+        CustomerReport report = reportService.getCustomerReport(reportId);
 
         if (report == null) {
             System.err.println("Report not found!");
             return "redirect:/admin/view/report?id=" + reportId + "&er=report-not-found";
         }
 
-        dbService.acceptReport(reportId);
+        reportService.acceptReport(reportId);
 
         return "redirect:/reports/report?id=" + reportId;
     }

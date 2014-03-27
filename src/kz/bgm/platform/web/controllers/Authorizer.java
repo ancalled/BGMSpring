@@ -1,7 +1,7 @@
 package kz.bgm.platform.web.controllers;
 
 import kz.bgm.platform.model.domain.AdminUser;
-import kz.bgm.platform.model.service.CatalogStorage;
+import kz.bgm.platform.model.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 public class Authorizer {
 
     @Autowired
-    private CatalogStorage dbService;
+    private MainService mainService;
 
     @RequestMapping(value = "logon", method = RequestMethod.POST)
     public String logon(
@@ -25,7 +25,7 @@ public class Authorizer {
     ) {
 
         if (login != null && pass != null) {
-            AdminUser user = dbService.getAdmin(login, pass);
+            AdminUser user = mainService.getAdmin(login, pass);
             if (user != null) {
                 session.setAttribute("admin", user);
 

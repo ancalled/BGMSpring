@@ -4,8 +4,8 @@ import kz.bgm.platform.model.domain.Platform;
 import kz.bgm.platform.model.domain.SearchResult;
 import kz.bgm.platform.model.domain.SearchType;
 import kz.bgm.platform.model.domain.Track;
-import kz.bgm.platform.model.service.CatalogStorage;
-import kz.bgm.platform.model.service.LuceneSearch;
+import kz.bgm.platform.model.service.MainService;
+import kz.bgm.platform.model.service.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,14 +29,15 @@ public class Searcher {
 
 
     @Autowired
-    private CatalogStorage dbService;
+    private SearchService searchService;
 
     @Autowired
-    private LuceneSearch luceneService;
+    private MainService mainService;
+
 
     @RequestMapping(value = "/search", method = RequestMethod.GET)
     public String showSearch(Model model, HttpSession ses) {
-        Collection<Platform> platforms = dbService.getPlatforms();
+        Collection<Platform> platforms = mainService.getPlatforms();
 
         model.addAttribute("platforms", platforms);
         model.addAttribute("query", ses.getAttribute("query"));
@@ -72,7 +73,7 @@ public class Searcher {
 //            mass.add(jsonObject);
 //        }
 
-        return dbService.searchTracksByName(find);
+        return searchService.searchTracksByName(find);
     }
 
     @RequestMapping(value = "/do-search", method = RequestMethod.POST)
@@ -100,7 +101,7 @@ public class Searcher {
         List<Long> requested = getCatalogsId(req);
         List<Long> catalogs = new ArrayList<>();
         if (requested.isEmpty()) {
-            List<Long> available = dbService.getAllCatalogIds();
+            List<Long> available = mainService.getAllCatalogIds();
             catalogs.addAll(available);
         } else {
             catalogs.addAll(requested);
@@ -119,42 +120,42 @@ public class Searcher {
 
             switch (searchType) {
                 case ALL:
-                    result = dbService.getTracks(
-                            luceneService.search(query, limit),
+                    result = searchService.getTracks(
+                            searchService.search(query, limit),
                             catalogs);
                     break;
 
                 case CODE:
-                    result = dbService.searchTracksByCode(query, catalogs);
+                    result = searchService.searchTracksByCode(query, catalogs);
                     break;
 
                 case TRACK:
-                    result = dbService.getTracks(
-                            luceneService.search(null, null, query, limit),
+                    result = searchService.getTracks(
+                            searchService.search(null, null, query, limit),
                             catalogs);
                     break;
 
                 case ARTIST:
-                    result = dbService.getTracks(
-                            luceneService.search(query, null, null, limit),
+                    result = searchService.getTracks(
+                            searchService.search(query, null, null, limit),
                             catalogs);
                     break;
 
                 case COMPOSER:
-                    result = dbService.getTracks(
-                            luceneService.search(null, query, null, limit),
+                    result = searchService.getTracks(
+                            searchService.search(null, query, null, limit),
                             catalogs);
                     break;
 
                 case ARTIST_TRACK:
-                    result = dbService.getTracks(
-                            luceneService.search(first, null, second, limit),
+                    result = searchService.getTracks(
+                            searchService.search(first, null, second, limit),
                             catalogs);
                     break;
 
                 case COMPOSER_TRACK:
-                    result = dbService.getTracks(
-                            luceneService.search(null, first, second, limit),
+                    result = searchService.getTracks(
+                            searchService.search(null, first, second, limit),
                             catalogs);
                     break;
 
@@ -167,9 +168,9 @@ public class Searcher {
         HttpSession session = req.getSession();
 
         if (result != null) {
-            Collections.sort(result, (o1, o2) -> Double.compare(o2.getScore(), o1.getScore()));
+            result.sort((o1, o2) -> Double.compare(o2.getScore(), o1.getScore()));
+            session.setAttribute("tracks", result);
         }
-        session.setAttribute("tracks", result);
         session.setAttribute("query", query);
         session.setAttribute("searchType", searchType);
 
