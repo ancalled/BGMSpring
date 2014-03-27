@@ -1,50 +1,52 @@
 package kz.bgm.platform.model.domain;
 
 
+import java.util.Date;
+import java.util.List;
+
 public class SearchResult {
 
-    private long trackId;
-    private float score;
-    private Track track;
+    private final long id;
+    private final String query;
+    private final SearchType searchType;
+    private final List<Long> catalogIds;
+    private final Date whenQueried;
+    private List<SearchResultItem> tracks;
 
-
-    public SearchResult() {
+    public SearchResult(long id, String query, SearchType type, List<Long> catalogIds) {
+        this.id = id;
+        this.query = query;
+        this.searchType = type;
+        this.catalogIds = catalogIds;
+        whenQueried = new Date();
     }
 
-    public SearchResult(Track track) {
-        this.track = track;
-        if (track != null) {
-            this.trackId = track.getId();
-            this.score = 100;
-        }
+    public long getId() {
+        return id;
     }
 
-    public SearchResult(long trackId, float score) {
-        this.trackId = trackId;
-        this.score = score;
+    public String getQuery() {
+        return query;
     }
 
-    public long getTrackId() {
-        return trackId;
+    public SearchType getSearchType() {
+        return searchType;
     }
 
-    public void setTrackId(long trackId) {
-        this.trackId = trackId;
+    public List<Long> getCatalogIds() {
+        return catalogIds;
     }
 
-    public float getScore() {
-        return score;
+    public Date getWhenQueried() {
+        return whenQueried;
     }
 
-    public void setScore(float score) {
-        this.score = score;
+
+    public List<SearchResultItem> getTracks() {
+        return tracks;
     }
 
-    public Track getTrack() {
-        return track;
-    }
-
-    public void setTrack(Track track) {
-        this.track = track;
+    public void setTracks(List<SearchResultItem> tracks) {
+        this.tracks = tracks;
     }
 }

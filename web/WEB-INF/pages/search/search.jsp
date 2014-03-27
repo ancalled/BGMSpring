@@ -8,95 +8,11 @@
 <html>
 <head>
     <script src="${ctx}/js/jquery.js"></script>
-    <%--<script src="/js/bootstrap.js"></script>--%>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <link rel="stylesheet" type="text/css" href="${ctx}/css/bootstrap.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="${ctx}/css/temp.css" media="screen"/>
+
     <title>Поиск</title>
-    <style>
-
-        div.search-params {
-            background: #edf9f9;
-            margin-left: 0;
-            padding: 5px 0 10px 0;
-        }
-
-        .search-params label {
-            display: block;
-        }
-
-        span.catalog {
-            border-radius: 3;
-            padding: 0 4px 0 4px;
-        }
-
-        .search-result  table.table {
-            font-size: 10pt;
-        }
-
-        div.catalog-title {
-            font-weight: bold;
-            margin: 5px 0 8px 0;
-            color: #8f6e5f;
-        }
-
-        div.toggler {
-            margin: 10px 0 5px 0
-        }
-
-        .toggler a {
-            text-decoration: none;
-            color: #008ace;
-            border-bottom: 1px dotted #008ace;
-            margin: 0 2px 0 2px;
-            cursor: pointer;
-        }
-
-        .author {
-            padding: 0 4px 0 4px;
-            background: #ffe9c9;
-        }
-
-        .related {
-            padding: 0 4px 0 4px;
-            background: #cdfef9;
-        }
-
-        .author_related {
-            padding: 0 4px 0 4px;
-            background: #e6e6e6;
-        }
-
-        .input-block-level {
-            width: 540px;
-        }
-
-        td.centered {
-            text-align: center;
-        }
-
-        tr.same-track td {
-            border-top: none;
-            /*padding: 5px 0 0 0;*/
-            line-height: 15px;
-        }
-
-        td.score {
-            color: #8f6e5f;
-        }
-
-        label.separated {
-            margin-top: 15px;
-        }
-
-        .light {
-            opacity: 0.4;
-        }
-
-        .dark {
-            opacity: 1;
-        }
-
-    </style>
 </head>
 <body>
 <c:import url="../navbar.jsp">
@@ -135,37 +51,44 @@
                             <h4>Поиск</h4>
                             <fieldset>
                                 <label for="field-all" class="radio">
-                                    <input type="radio" name="field" value="all" id="field-all">
+                                    <input type="radio" name="type" value="ALL" id="field-all"
+                                    ${result.searchType eq 'ALL' or empty result ? 'checked="checked"' : ""}>
                                     по всем полям
                                 </label>
 
                                 <label for="field-name" class="radio">
-                                    <input type="radio" name="field" value="track" id="field-name">
+                                    <input type="radio" name="type" value="TRACK" id="field-name"
+                                    ${result.searchType eq 'TRACK' ? 'checked="checked"' : ""}>
                                     по названию трека
                                 </label>
 
                                 <label for="field-artist" class="radio separated">
-                                    <input type="radio" name="field" value="artist" id="field-artist">
+                                    <input type="radio" name="type" value="ARTIST" id="field-artist"
+                                    ${result.searchType eq 'ARTIST' ? 'checked="checked"' : ""}>
                                     по артисту
                                 </label>
 
                                 <label for="field-composer" class="radio">
-                                    <input type="radio" name="field" value="composer" id="field-composer">
+                                    <input type="radio" name="type" value="COMPOSER" id="field-composer"
+                                    ${result.searchType eq 'COMPOSER' ? 'checked="checked"' : ""}>
                                     по композитору
                                 </label>
 
                                 <label for="field-code" class="radio">
-                                    <input type="radio" name="field" value="code" id="field-code">
+                                    <input type="radio" name="type" value="CODE" id="field-code"
+                                    ${result.searchType eq 'CODE' ? 'checked="checked"' : ""}>
                                     по коду
                                 </label>
 
                                 <label for="field-artist-track" class="radio separated">
-                                    <input type="radio" name="field" value="artist_track" id="field-artist-track">
+                                    <input type="radio" name="type" value="ARTIST_TRACK" id="field-artist-track"
+                                    ${result.searchType eq 'ARTIST_TRACK' ? 'checked="checked"' : ""}>
                                     по артисту и треку (через «;»)
                                 </label>
 
                                 <label for="field-composer-track" class="radio">
-                                    <input type="radio" name="field" value="composer_track" id="field-composer-track">
+                                    <input type="radio" name="type" value="COMPOSER_TRACK" id="field-composer-track"
+                                    ${result.searchType eq 'COMPOSER_TRACK' ? 'checked="checked"' : ""}>
                                     по композитору и треку (через «;»)
                                 </label>
 
@@ -183,11 +106,20 @@
                                         <div class="catalog-title">${p.name}</div>
                                         <fieldset>
                                             <c:forEach var="c" items="${p.catalogs}" varStatus="loop">
-                                                <%--<c:set target="${colorMap}" property="${c.name}" value="${c.color}"/>--%>
+                                                <c:set var="checked" value="yes"/>
+                                                <c:if test="${not empty result}">
+                                                    <c:set var="checked" value="no"/>
+                                                    <c:forEach var="cid" items="${result.catalogIds}">
+                                                        <c:if test="${cid == c.id}">
+                                                            <c:set var="checked" value="yes"/>
+                                                        </c:if>
+                                                    </c:forEach>
+                                                </c:if>
+
                                                 <label for="checkbox-${loop.index}" class="checkbox">
-                                                    <input type="checkbox" value="${c.id}"
-                                                           name="catalog-${c.id}"
-                                                           id="checkbox-${loop.index}">
+                                                    <input type="checkbox"
+                                                           name="catalogs" value="${c.id}"
+                                                           id="checkbox-${loop.index}" ${checked eq 'yes'? 'checked="checked"' : ''}>
                                                         ${c.name}
                                                 </label>
                                             </c:forEach>
@@ -208,10 +140,11 @@
     <div class="row">
 
         <div class="span10 search-result">
-            <c:if test="${not empty query}">
+            <c:if test="${not empty result}">
 
                 <legend>
-                    Результат поиска (${fn:length(tracks) gt 99 ? 'больше 100' : fn:length(tracks)} треков)
+                    Результат поиска (${fn:length(result.tracks) gt 99 ? 'больше 100' : fn:length(result.tracks)}
+                    треков)
                 </legend>
 
 
@@ -237,8 +170,7 @@
                     <c:set var="lastArtist" value="none"/>
                     <c:set var="lastCode" value="none"/>
 
-
-                    <c:forEach var="r" items="${tracks}" varStatus="s">
+                    <c:forEach var="r" items="${result.tracks}" varStatus="s">
                         <tr class="${fn:toLowerCase(lastComposer)eq fn:toLowerCase(r.track.composer) &&
                         fn:toLowerCase(lastName)eq fn:toLowerCase(r.track.name)||
                         fn:toLowerCase(lastArtist)eq fn:toLowerCase(r.track.artist&&
@@ -320,13 +252,6 @@
         }
     }
 
-    <%--function nextPage(from) {--%>
-    <%--from_page_input.value = from;--%>
-    <%--till_page_input.value = '${pageSize}';--%>
-    <%--search_input.value = "${query}";--%>
-    <%--searchForm.submit();--%>
-    <%--}--%>
-
     function updateParams() {
         $('[type=checkbox]').each(function () {
             var param = getParameterByName((this).name);
@@ -379,7 +304,7 @@
         lightElements[i].onmousedown = function () {
             var catalogElement = document.getElementById("catalog-" + this.id);
             window.location.replace(
-                    "/admin/view/edit-track?id=" + this.id + "&catalog=" + $.trim(catalogElement.textContent));
+                            "/admin/view/edit-track?id=" + this.id + "&catalog=" + $.trim(catalogElement.textContent));
         }
     }
 

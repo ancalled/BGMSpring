@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class MainServiceImpl implements MainService {
@@ -75,6 +80,22 @@ public class MainServiceImpl implements MainService {
         );
     }
 
+
+    @Override
+    public List<Platform> getPlatformsWithCatalogs() {
+        List<Platform> platforms = getPlatforms();
+        List<Catalog> catalogs = getCatalogs();
+
+        Map<Long, List<Catalog>> catMap =
+                catalogs.stream()
+                        .collect(groupingBy(Catalog::getPlatformId,
+                                mapping(c -> c, toList())));
+
+        platforms.stream()
+                .forEach(p -> p.setCatalogs(catMap.get(p.getId())));
+
+        return platforms;
+    }
 
     @Override
     public List<Catalog> getCatalogs() {

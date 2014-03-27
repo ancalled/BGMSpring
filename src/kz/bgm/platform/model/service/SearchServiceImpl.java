@@ -1,8 +1,9 @@
 package kz.bgm.platform.model.service;
 
 
-import kz.bgm.platform.model.domain.SearchResult;
+import kz.bgm.platform.model.domain.SearchResultItem;
 import kz.bgm.platform.model.domain.Track;
+import kz.bgm.platform.model.service.db.TrackAndCatalogMapper;
 import kz.bgm.platform.model.service.db.TrackMapper;
 import org.apache.log4j.Logger;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -17,7 +18,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -34,7 +34,6 @@ import static java.util.Collections.singletonMap;
 
 @Service
 public class SearchServiceImpl implements SearchService {
-
 
 
     private static final Logger log = Logger.getLogger(SearchServiceImpl.class);
@@ -60,7 +59,7 @@ public class SearchServiceImpl implements SearchService {
     ///home/ancalled/Documents/tmp/39/bgm-lucene
     @PostConstruct
     public void initSearcher() throws IOException {
-        String indexDir = "home/ancalled/Documents/tmp/39/bgm-lucene";
+        String indexDir = "/home/ancalled/Documents/tmp/39/bgm-lucene";
         FSDirectory index = FSDirectory.open(new File(indexDir));
         IndexReader reader = DirectoryReader.open(index);
         searcher = new IndexSearcher(reader);
@@ -134,21 +133,26 @@ public class SearchServiceImpl implements SearchService {
 
 
     @Override
-    public List<SearchResult> searchTracksByCode(String code, List<Long> catIds) {
-        MapSqlParameterSource source = new MapSqlParameterSource();
-        source.addValue("code", code);
-        source.addValue("catIds", catIds);
+    public List<SearchResultItem> searchTracksByCode(String code, List<Long> catIds) {
+
+        String catIdsStr = catIds
+                .stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(", "));
 
         List<Track> tracks = db.query(
-                "SELECT * FROM composition WHERE " +
-                        "code=:code " +
-                        "AND catalog_id IN (:catIds)",
-                new TrackMapper(), source
+                "SELECT t.*, " +
+                        "c.name cat_name " +
+                        "FROM composition t " +
+                        "LEFT JOIN catalog c ON (c.id = t.catalog_id) " +
+                        "WHERE t.code=? " +
+                        "AND t.catalog_id IN (" + catIdsStr + ")",
+                new TrackAndCatalogMapper("", "cat_name"), code
         );
 
         return tracks
                 .stream()
-                .map(SearchResult::new)
+                .map(SearchResultItem::new)
                 .collect(Collectors.toList());
     }
 
@@ -183,36 +187,41 @@ public class SearchServiceImpl implements SearchService {
 
 
     @Override
-    public List<SearchResult> getTracks(List<SearchResult> found, List<Long> catalogIds) {
+    public List<SearchResultItem> getTracks(List<SearchResultItem> found, List<Long> catalogIds) {
 
-        if (found == null || catalogIds == null ||
-                found.isEmpty() || catalogIds.isEmpty()) return null;
+        if (found == null || catalogIds == null) return null;
+        if (found.isEmpty() || catalogIds.isEmpty()) return Collections.emptyList();
 
-        List<Long> trackIds = found
+        String trackIdsStr = found
                 .stream()
-                .map(SearchResult::getTrackId)
-                .distinct()
-                .collect(Collectors.toList());
+                .map(r -> String.valueOf(r.getTrackId()))
+                .collect(Collectors.joining(", "));
 
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("trackIds", trackIds);
-        params.addValue("catIds", catalogIds);
+        String catIdsStr = catalogIds
+                .stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(", "));
 
         List<Track> tracks = db.query(
-                "SELECT * FROM composition WHERE " +
-                        "id IN (:trackIds) " +
-                        "AND catalog_id IN (:catIds)",
-                new TrackMapper(),
-                params
+                "SELECT t.*," +
+                        "c.name cat_name" +
+                        " FROM composition t " +
+                        "LEFT JOIN catalog c ON (t.catalog_id = c.id) " +
+                        "WHERE t.id IN (" + trackIdsStr + ") " +
+                        "AND catalog_id IN (" + catIdsStr + ")",
+                new TrackAndCatalogMapper("", "cat_name")
         );
 
         Map<Long, Track> trackMap = tracks
                 .stream()
                 .collect(Collectors.toMap(Track::getId, (t) -> t));
 
-        found.stream().forEach(sr -> sr.setTrack(trackMap.get(sr.getTrackId())));
+        found.stream()
+                .forEach(sr -> sr.setTrack(trackMap.get(sr.getTrackId())));
 
-        return found;
+        return found.stream()
+                .filter(sr -> sr.getTrack() != null)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -230,7 +239,7 @@ public class SearchServiceImpl implements SearchService {
     }
 
 
-    public List<SearchResult> search(String queryString, int limit) throws IOException, ParseException {
+    public List<SearchResultItem> search(String queryString, int limit) throws IOException, ParseException {
         log.info("Got query '" + queryString + "'");
 
         String[] fields = new String[]{FIELD_ARTIST, FIELD_NAME, FIELD_COMPOSER};
@@ -246,7 +255,7 @@ public class SearchServiceImpl implements SearchService {
 
         ScoreDoc[] hits = topDocs.scoreDocs;
 
-        List<SearchResult> result = new ArrayList<>();
+        List<SearchResultItem> result = new ArrayList<>();
 
         log.info("Found " + totalHits + " tracks id.");
 
@@ -254,14 +263,14 @@ public class SearchServiceImpl implements SearchService {
             ScoreDoc hit = hits[k];
             Document d = searcher.doc(hit.doc);
             long id = Long.parseLong(d.get(FIELD_ID));
-            result.add(new SearchResult(id, hit.score));
+            result.add(new SearchResultItem(id, hit.score));
         }
 
         return result;
     }
 
 
-    public List<SearchResult> search(String artist, String authors, String composition, int limit)
+    public List<SearchResultItem> search(String artist, String authors, String composition, int limit)
             throws IOException, ParseException {
 
         BooleanQuery query = new BooleanQuery();
@@ -285,12 +294,12 @@ public class SearchServiceImpl implements SearchService {
 
         TopDocs hits = searcher.search(query, limit);
 
-        List<SearchResult> result = new ArrayList<>();
+        List<SearchResultItem> result = new ArrayList<>();
 
         for (ScoreDoc hit : hits.scoreDocs) {
             Document d = searcher.doc(hit.doc);
             long id = Long.parseLong(d.get(FIELD_ID));
-            result.add(new SearchResult(id, hit.score));
+            result.add(new SearchResultItem(id, hit.score));
         }
 
         return result;

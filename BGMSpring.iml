@@ -31,7 +31,6 @@
     <orderEntry type="library" name="Spring Security-3.2.2" level="project" />
     <orderEntry type="library" name="Spring MVC-4.0.2.RELEASE" level="project" />
     <orderEntry type="library" name="jstl:jstl:1.2" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="javax.servlet:servlet-api:2.5" level="project" />
     <orderEntry type="library" name="commons-dbcp:commons-dbcp:1.4" level="project" />
     <orderEntry type="library" name="log4j:log4j:1.2.17" level="project" />
     <orderEntry type="library" name="com.fasterxml.jackson.core:jackson-databind:2.3.2" level="project" />
@@ -39,6 +38,7 @@
     <orderEntry type="library" name="org.apache.lucene:lucene-queryparser:4.7.0" level="project" />
     <orderEntry type="library" name="org.apache.lucene:lucene-analyzers-common:4.7.0" level="project" />
     <orderEntry type="library" name="mysql:mysql-connector-java:5.1.29" level="project" />
+    <orderEntry type="library" name="javax.servlet:javax.servlet-api:3.1.0" level="project" />
   </component>
 </module>
 

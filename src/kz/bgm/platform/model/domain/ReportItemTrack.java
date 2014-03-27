@@ -1,6 +1,5 @@
 package kz.bgm.platform.model.domain;
 
-import kz.bgm.platform.model.service.LuceneSearch;
 
 import java.io.Serializable;
 

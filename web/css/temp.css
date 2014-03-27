@@ -1,0 +1,81 @@
+div.search-params {
+    background: #edf9f9;
+    margin-left: 0;
+    padding: 5px 0 10px 0;
+}
+
+.search-params label {
+    display: block;
+}
+
+span.catalog {
+    border-radius: 3;
+    padding: 0 4px 0 4px;
+}
+
+.search-result  table.table {
+    font-size: 10pt;
+}
+
+div.catalog-title {
+    font-weight: bold;
+    margin: 5px 0 8px 0;
+    color: #8f6e5f;
+}
+
+div.toggler {
+    margin: 10px 0 5px 0
+}
+
+.toggler a {
+    text-decoration: none;
+    color: #008ace;
+    border-bottom: 1px dotted #008ace;
+    margin: 0 2px 0 2px;
+    cursor: pointer;
+}
+
+.author {
+    padding: 0 4px 0 4px;
+    background: #ffe9c9;
+}
+
+.related {
+    padding: 0 4px 0 4px;
+    background: #cdfef9;
+}
+
+.author_related {
+    padding: 0 4px 0 4px;
+    background: #e6e6e6;
+}
+
+.input-block-level {
+    width: 540px;
+}
+
+td.centered {
+    text-align: center;
+}
+
+tr.same-track td {
+    border-top: none;
+    /*padding: 5px 0 0 0;*/
+    line-height: 15px;
+}
+
+td.score {
+    color: #8f6e5f;
+}
+
+label.separated {
+    margin-top: 15px;
+}
+
+.light {
+    opacity: 0.4;
+}
+
+.dark {
+    opacity: 1;
+}

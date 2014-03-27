@@ -1,7 +1,7 @@
 package kz.bgm.platform.model.service;
 
 
-import kz.bgm.platform.model.domain.SearchResult;
+import kz.bgm.platform.model.domain.SearchResultItem;
 import kz.bgm.platform.model.domain.Track;
 import org.apache.lucene.queryparser.classic.ParseException;
 
@@ -15,7 +15,7 @@ public interface SearchService {
 
     List<Track> searchTracksByName(String songName);
 
-    List<SearchResult> searchTracksByCode(String code, List<Long> catalogs);
+    List<SearchResultItem> searchTracksByCode(String code, List<Long> catalogs);
 
     List<Track> searchTracksByComposer(String composer);
 
@@ -26,11 +26,11 @@ public interface SearchService {
 
     List<Track> getTracks(List<Long> ids);
 
-    List<SearchResult> getTracks(List<SearchResult> ids, List<Long> catalogIds);
+    List<SearchResultItem> getTracks(List<SearchResultItem> ids, List<Long> catalogIds);
 
-    List<SearchResult> search(String queryString, int limit) throws IOException, ParseException;
+    List<SearchResultItem> search(String queryString, int limit) throws IOException, ParseException;
 
-    List<SearchResult> search(String artist, String authors, String composition, int limit)
+    List<SearchResultItem> search(String artist, String authors, String composition, int limit)
             throws IOException, ParseException;
 
 }

@@ -33,16 +33,7 @@ public class MainController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
     public String showIndex(Model model) {
-        List<Platform> platforms = mainService.getPlatforms();
-        List<Catalog> catalogs = mainService.getCatalogs();
-
-        Map<Long, List<Catalog>> catMap =
-                catalogs.stream()
-                        .collect(groupingBy(Catalog::getPlatformId,
-                                mapping(c -> c, toList())));
-
-        platforms.stream()
-                .forEach(p -> p.setCatalogs(catMap.get(p.getId())));
+        List<Platform> platforms = mainService.getPlatformsWithCatalogs();
 
         int totalTracks =
                 platforms.stream()

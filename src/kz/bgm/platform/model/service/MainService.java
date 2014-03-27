@@ -16,6 +16,8 @@ public interface MainService {
 
     List<Platform> getPlatforms();
 
+    List<Platform> getPlatformsWithCatalogs();
+
     List<Platform> getOwnPlatforms();
 
     List<Long> getOwnCatalogIds();
