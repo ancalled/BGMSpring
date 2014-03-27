@@ -26,21 +26,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d87401e3-6623-4189-847c-4be267ebd3f6" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/commons_fileupload_1_3_javadoc.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/lucene_queryparser_4_1_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java_5_1_23_bin.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/poi_3_9_20121203.xml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BGMSpring.iml" afterPath="$PROJECT_DIR$/BGMSpring.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/BGMSpring_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/BGMSpring_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/utils/CatalogLoader.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/utils/CatalogLoader.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/utils/CatalogParser.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/utils/CatalogParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/utils/ExcelUtils.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/utils/ExcelUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/web/admin/action/MassSearchServlet.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/web/admin/action/MassSearchServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/utils/ReportBuilder.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/utils/ReportBuilder.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/utils/ReportParser.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/utils/ReportParser.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Reporter.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Reporter.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/mysql_mysql_connector_java_5_1_29.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/org_apache_lucene_lucene_analyzers_common_4_7_0.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/org_apache_lucene_lucene_queryparser_4_7_0.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/model/service/DbStorage.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/model/service/DbStorage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Searcher.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Searcher.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/model/service/db/TrackMapper.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/model/service/db/TrackMapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/mvc-dispatcher-servlet.xml" afterPath="$PROJECT_DIR$/web/WEB-INF/mvc-dispatcher-servlet.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BGMSpring.iws" />
@@ -122,45 +114,148 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Reporter.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Reporter.java">
+      <file leaf-file-name="mvc-dispatcher-servlet.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/web/WEB-INF/mvc-dispatcher-servlet.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.02734375" vertical-offset="2995" max-vertical-offset="7524">
-              <caret line="166" column="0" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CatalogUpdater.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/CatalogUpdater.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="700" max-vertical-offset="4536">
-              <caret line="66" column="16" selection-start-line="63" selection-start-column="12" selection-end-line="66" selection-end-column="13" />
+            <state vertical-scroll-proportion="-19.12" vertical-offset="314" max-vertical-offset="1026">
+              <caret line="44" column="31" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ReportParser.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/utils/ReportParser.java">
+      <file leaf-file-name="DbStorage.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/service/DbStorage.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="2916">
-              <caret line="108" column="20" selection-start-line="108" selection-start-column="20" selection-end-line="108" selection-end-column="20" />
+            <state vertical-scroll-proportion="2.1207597" vertical-offset="849" max-vertical-offset="24570">
+              <caret line="155" column="33" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <marker date="1395834062091" expanded="true" signature="1171:1235" placeholder="SELECT id FR..catalog..." />
+                <marker date="1395834062091" expanded="true" signature="1405:1467" placeholder="SELECT * FRO..platform..." />
+                <marker date="1395834062091" expanded="true" signature="1692:1753" placeholder="SELECT * FRO..catalog..." />
+                <marker date="1395834062091" expanded="true" signature="1970:2035" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="2246:2268" placeholder="SELECT * FRO..platform..." />
+                <marker date="1395834062091" expanded="true" signature="2424:2445" placeholder="SELECT * FRO..catalog..." />
+                <marker date="1395834062091" expanded="true" signature="2605:3304" placeholder="SELECT p.id ..platform..." />
+                <marker date="1395834062091" expanded="true" signature="3475:3497" placeholder="SELECT id FR..catalog..." />
+                <marker date="1395834062091" expanded="true" signature="3627:3809" placeholder="SELECT c.id ..catalog..." />
+                <marker date="1395834062091" expanded="true" signature="4490:4625" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="5139:5212" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="7604:7671" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="8037:8165" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="8486:8557" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="8740:8809" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="8992:9066" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="9344:9620" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="9416:9473" placeholder="SELECT (RAND..." />
+                <marker date="1395834062091" expanded="true" signature="9434:9465" placeholder="SELECT MAX(i..composition..." />
+                <marker date="1395834062091" expanded="true" signature="9981:10308" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="10052:10109" placeholder="SELECT (RAND..." />
+                <marker date="1395834062091" expanded="true" signature="10070:10101" placeholder="SELECT MAX(i..composition..." />
+                <marker date="1395834062091" expanded="true" signature="10536:10558" placeholder="SELECT * FRO..customer..." />
+                <marker date="1395834062091" expanded="true" signature="10721:10783" placeholder="SELECT * FRO..customer..." />
+                <marker date="1395834062091" expanded="true" signature="11027:11142" placeholder="SELECT * FRO..user_admin..." />
+                <marker date="1395834062091" expanded="true" signature="11399:11508" placeholder="SELECT * FRO..user..." />
+                <marker date="1395834062091" expanded="true" signature="11747:11810" placeholder="SELECT * FRO..user..." />
+                <marker date="1395834062091" expanded="true" signature="12181:12386" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="12693:13174" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="13964:14072" placeholder="UPDATE custo..." />
+                <marker date="1395834062091" expanded="true" signature="14266:14376" placeholder="UPDATE custo..." />
+                <marker date="1395834062091" expanded="true" signature="14689:15125" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="15999:16470" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="17738:19011" placeholder="SELECT cr.id..customer_report..." />
+                <marker date="1395834062091" expanded="true" signature="19281:19323" placeholder="SELECT * FRO..customer_report..." />
+                <marker date="1395834062091" expanded="true" signature="19581:19721" placeholder="SELECT * FRO..customer_report..." />
+                <marker date="1395834062091" expanded="true" signature="19968:20015" placeholder="SELECT * FRO..customer_report_item..." />
+                <marker date="1395834062091" expanded="true" signature="20225:20334" placeholder="UPDATE custo..." />
+                <marker date="1395834062091" expanded="true" signature="20537:20620" placeholder="SELECT * FRO..customer_report_item..." />
+                <marker date="1395834062091" expanded="true" signature="20859:22856" placeholder="SELECT i.id ..customer_report_item..." />
+                <marker date="1395834062091" expanded="true" signature="23192:25642" placeholder="SELECT i.id,..customer_report_item..." />
+                <marker date="1395834062091" expanded="true" signature="26049:27873" placeholder="SELECT i.id,..customer_report_item..." />
+                <marker date="1395834062091" expanded="true" signature="28302:28685" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="29405:29689" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="30205:30333" placeholder="DELETE FROM ..." />
+                <marker date="1395834062091" expanded="true" signature="30493:30610" placeholder="UPDATE custo..." />
+                <marker date="1395834062091" expanded="true" signature="30771:31033" placeholder="SELECT cat.i..catalog..." />
+                <marker date="1395834062091" expanded="true" signature="31184:31541" placeholder="UPDATE compo..." />
+                <marker date="1395834062091" expanded="true" signature="31888:31917" placeholder="DELETE FROM ..." />
+                <marker date="1395834062091" expanded="true" signature="32008:32041" placeholder="DELETE FROM ..." />
+                <marker date="1395834062091" expanded="true" signature="32167:32236" placeholder="SELECT * FRO..user..." />
+                <marker date="1395834062091" expanded="true" signature="32577:32881" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="33421:34215" placeholder="LOAD DATA LO..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="34580:34593" placeholder="SHOW WARNING..." />
+                <marker date="1395834062091" expanded="true" signature="35205:37847" placeholder="UPDATE catal..." />
+                <marker date="1395834062091" expanded="true" signature="35347:35463" placeholder="SELECT count..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="35569:35893" placeholder="SELECT count..composition..." />
+                <marker date="1395834062091" expanded="true" signature="36001:36381" placeholder="SELECT count..composition..." />
+                <marker date="1395834062091" expanded="true" signature="36493:37177" placeholder="SELECT count..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="37294:37771" placeholder="SELECT count..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="38062:38133" placeholder="SELECT * FRO..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="38334:39115" placeholder="SELECT t.id ..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="39356:40793" placeholder="SELECT c.cod..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="41050:42303" placeholder="SELECT c.cod..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="42586:43322" placeholder="UPDATE compo..." />
+                <marker date="1395834062091" expanded="true" signature="43500:44041" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="43624:44041" placeholder="SELECT code,..comp_tmp..." />
+                <marker date="1395834062091" expanded="true" signature="44238:44291" placeholder="UPDATE catal..." />
+                <marker date="1395834062091" expanded="true" signature="44376:44806" placeholder="UPDATE catal..." />
+                <marker date="1395834062091" expanded="true" signature="44426:44466" placeholder="SELECT * FRO..catalog_update..." />
+                <marker date="1395834062091" expanded="true" signature="44522:44590" placeholder="SELECT count..composition..." />
+                <marker date="1395834062091" expanded="true" signature="44635:44719" placeholder="SELECT count..composition..." />
+                <marker date="1395834062091" expanded="true" signature="44989:45030" placeholder="SELECT * FRO..catalog_update..." />
+                <marker date="1395834062091" expanded="true" signature="45288:45392" placeholder="SELECT * FRO..catalog_update..." />
+                <marker date="1395834062091" expanded="true" signature="45604:45640" placeholder="SELECT COUNT..composition..." />
+                <marker date="1395834062091" expanded="true" signature="45780:45816" placeholder="SELECT * FRO..composition..." />
+                <marker date="1395834062091" expanded="true" signature="46134:46197" placeholder="SELECT track..customer_basket_item..." />
+                <marker date="1395834062091" expanded="true" signature="46373:46442" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="46938:47258" placeholder="SELECT 'code..." />
+                <marker date="1395834062091" expanded="true" signature="46938:48314" placeholder="SELECT 'code..." />
+                <marker date="1395834062091" expanded="true" signature="47347:47995" placeholder="SELECT code,..composition..." />
+                <marker date="1395834062091" expanded="true" signature="48447:48672" placeholder="INSERT INTO ..." />
+                <marker date="1395834062091" expanded="true" signature="48936:49071" placeholder="INSERT INTO ..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mvc-dispatcher-servlet.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/web/WEB-INF/mvc-dispatcher-servlet.xml">
+      <file leaf-file-name="TrackMapper.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/service/db/TrackMapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-18.72" vertical-offset="324" max-vertical-offset="1062">
-              <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <folding>
+                <element signature="e#397#398#0" expanded="true" />
+                <element signature="e#421#422#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RowMapper.class" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$PROJECT_DIR$/lib/spring-jdbc-4.0.2.RELEASE.jar!/org/springframework/jdbc/core/RowMapper.class">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-3.6" vertical-offset="0" max-vertical-offset="234">
+              <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Searcher.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Searcher.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="1086" max-vertical-offset="4032">
+              <caret line="81" column="95" selection-start-line="81" selection-start-column="95" selection-end-line="81" selection-end-column="95" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Track.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/domain/Track.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0" vertical-offset="834" max-vertical-offset="1584">
+              <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="12" />
               <folding />
             </state>
           </provider>
@@ -179,12 +274,10 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/admin/action/UploadReportMobileServlet.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/admin/action/ApplyUpdateServlet.java" />
         <option value="$PROJECT_DIR$/web/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/admin/action/CheckApplyUpdateStatus.java" />
         <option value="$PROJECT_DIR$/web/index.html" />
-        <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Searcher.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Authorizer.java" />
         <option value="$PROJECT_DIR$/web/WEB-INF/pages/catalog.jsp" />
         <option value="$PROJECT_DIR$/web/WEB-INF/pages/reports/report-upload-result.jsp" />
@@ -221,15 +314,17 @@
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/model/domain/Track.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/AdminController.java" />
         <option value="$PROJECT_DIR$/web/WEB-INF/pages/admin/edit-track.jsp" />
-        <option value="$PROJECT_DIR$/src/kz/bgm/platform/model/service/DbStorage.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/utils/CatalogLoader.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/utils/CatalogParser.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/utils/ReportBuilder.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/utils/ExcelUtils.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/admin/action/MassSearchServlet.java" />
-        <option value="$PROJECT_DIR$/web/WEB-INF/mvc-dispatcher-servlet.xml" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/utils/ReportParser.java" />
         <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Reporter.java" />
+        <option value="$PROJECT_DIR$/web/WEB-INF/mvc-dispatcher-servlet.xml" />
+        <option value="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Searcher.java" />
+        <option value="$PROJECT_DIR$/src/kz/bgm/platform/model/service/db/TrackMapper.java" />
+        <option value="$PROJECT_DIR$/src/kz/bgm/platform/model/service/DbStorage.java" />
       </list>
     </option>
   </component>
@@ -585,6 +680,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="domain" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BGMSpring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BGMSpring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BGMSpring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BGMSpring" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="libraries" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -1108,8 +1235,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="53" y="24" width="1547" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
+      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32948717" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -1131,12 +1259,11 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24964234" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3297568" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32992327" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27648234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.6166667" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27648234" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6166667" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="REST Client" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.5846154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32948717" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1159,6 +1286,8 @@
     <option name="myTodoPanelSettings">
       <TodoPanelSettings />
     </option>
+    <MESSAGE value="Попдравил основные библиотеки, все берутся по maven-овским артифактам. poi пока выпилил" />
+    <option name="LAST_COMMIT_MESSAGE" value="Попдравил основные библиотеки, все берутся по maven-овским артифактам. poi пока выпилил" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1189,89 +1318,89 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="15837" max-vertical-offset="24552">
           <caret line="920" column="34" selection-start-line="920" selection-start-column="34" selection-end-line="920" selection-end-column="34" />
           <folding>
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT id FR..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..platform..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..platform..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT p.id ..platform..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT id FR..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT c.id ..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT (RAND..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT MAX(i..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT (RAND..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT MAX(i..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..user_admin..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..user..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..user..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE custo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE custo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT cr.id..customer_report..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer_report..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer_report..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE custo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT i.id ..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT i.id,..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT i.id,..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE custo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT cat.i..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE compo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..user..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="LOAD DATA LO..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SHOW WARNING..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE catal..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT t.id ..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT c.cod..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT c.cod..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE compo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT code,..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE catal..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE catal..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog_update..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog_update..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog_update..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT COUNT..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT track..customer_basket_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT 'code..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT 'code..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT code,..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="1171:1235" placeholder="SELECT id FR..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="1405:1467" placeholder="SELECT * FRO..platform..." />
+            <marker date="1395834062091" expanded="true" signature="1692:1753" placeholder="SELECT * FRO..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="1970:2035" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="2246:2268" placeholder="SELECT * FRO..platform..." />
+            <marker date="1395834062091" expanded="true" signature="2424:2445" placeholder="SELECT * FRO..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="2605:3304" placeholder="SELECT p.id ..platform..." />
+            <marker date="1395834062091" expanded="true" signature="3475:3497" placeholder="SELECT id FR..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="3627:3809" placeholder="SELECT c.id ..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="4490:4625" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="5139:5212" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="7604:7671" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="8037:8165" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="8486:8557" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="8740:8809" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="8992:9066" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="9344:9620" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="9416:9473" placeholder="SELECT (RAND..." />
+            <marker date="1395834062091" expanded="true" signature="9434:9465" placeholder="SELECT MAX(i..composition..." />
+            <marker date="1395834062091" expanded="true" signature="9981:10308" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="10052:10109" placeholder="SELECT (RAND..." />
+            <marker date="1395834062091" expanded="true" signature="10070:10101" placeholder="SELECT MAX(i..composition..." />
+            <marker date="1395834062091" expanded="true" signature="10536:10558" placeholder="SELECT * FRO..customer..." />
+            <marker date="1395834062091" expanded="true" signature="10721:10783" placeholder="SELECT * FRO..customer..." />
+            <marker date="1395834062091" expanded="true" signature="11027:11142" placeholder="SELECT * FRO..user_admin..." />
+            <marker date="1395834062091" expanded="true" signature="11399:11508" placeholder="SELECT * FRO..user..." />
+            <marker date="1395834062091" expanded="true" signature="11747:11810" placeholder="SELECT * FRO..user..." />
+            <marker date="1395834062091" expanded="true" signature="12181:12386" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="12693:13174" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="13964:14072" placeholder="UPDATE custo..." />
+            <marker date="1395834062091" expanded="true" signature="14266:14376" placeholder="UPDATE custo..." />
+            <marker date="1395834062091" expanded="true" signature="14689:15125" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="15999:16470" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="17738:19011" placeholder="SELECT cr.id..customer_report..." />
+            <marker date="1395834062091" expanded="true" signature="19281:19323" placeholder="SELECT * FRO..customer_report..." />
+            <marker date="1395834062091" expanded="true" signature="19581:19721" placeholder="SELECT * FRO..customer_report..." />
+            <marker date="1395834062091" expanded="true" signature="19968:20015" placeholder="SELECT * FRO..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="20225:20334" placeholder="UPDATE custo..." />
+            <marker date="1395834062091" expanded="true" signature="20537:20620" placeholder="SELECT * FRO..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="20859:22856" placeholder="SELECT i.id ..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="23192:25642" placeholder="SELECT i.id,..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="26049:27873" placeholder="SELECT i.id,..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="28302:28685" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="29405:29689" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="30205:30333" placeholder="DELETE FROM ..." />
+            <marker date="1395834062091" expanded="true" signature="30493:30610" placeholder="UPDATE custo..." />
+            <marker date="1395834062091" expanded="true" signature="30771:31033" placeholder="SELECT cat.i..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="31184:31541" placeholder="UPDATE compo..." />
+            <marker date="1395834062091" expanded="true" signature="31888:31917" placeholder="DELETE FROM ..." />
+            <marker date="1395834062091" expanded="true" signature="32008:32041" placeholder="DELETE FROM ..." />
+            <marker date="1395834062091" expanded="true" signature="32167:32236" placeholder="SELECT * FRO..user..." />
+            <marker date="1395834062091" expanded="true" signature="32577:32881" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="33421:34215" placeholder="LOAD DATA LO..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="34580:34593" placeholder="SHOW WARNING..." />
+            <marker date="1395834062091" expanded="true" signature="35205:37847" placeholder="UPDATE catal..." />
+            <marker date="1395834062091" expanded="true" signature="35347:35463" placeholder="SELECT count..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="35569:35893" placeholder="SELECT count..composition..." />
+            <marker date="1395834062091" expanded="true" signature="36001:36381" placeholder="SELECT count..composition..." />
+            <marker date="1395834062091" expanded="true" signature="36493:37177" placeholder="SELECT count..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="37294:37771" placeholder="SELECT count..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="38062:38133" placeholder="SELECT * FRO..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="38334:39115" placeholder="SELECT t.id ..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="39356:40793" placeholder="SELECT c.cod..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="41050:42303" placeholder="SELECT c.cod..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="42586:43322" placeholder="UPDATE compo..." />
+            <marker date="1395834062091" expanded="true" signature="43500:44041" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="43624:44041" placeholder="SELECT code,..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="44238:44291" placeholder="UPDATE catal..." />
+            <marker date="1395834062091" expanded="true" signature="44376:44806" placeholder="UPDATE catal..." />
+            <marker date="1395834062091" expanded="true" signature="44426:44466" placeholder="SELECT * FRO..catalog_update..." />
+            <marker date="1395834062091" expanded="true" signature="44522:44590" placeholder="SELECT count..composition..." />
+            <marker date="1395834062091" expanded="true" signature="44635:44719" placeholder="SELECT count..composition..." />
+            <marker date="1395834062091" expanded="true" signature="44989:45030" placeholder="SELECT * FRO..catalog_update..." />
+            <marker date="1395834062091" expanded="true" signature="45288:45392" placeholder="SELECT * FRO..catalog_update..." />
+            <marker date="1395834062091" expanded="true" signature="45604:45640" placeholder="SELECT COUNT..composition..." />
+            <marker date="1395834062091" expanded="true" signature="45780:45816" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="46134:46197" placeholder="SELECT track..customer_basket_item..." />
+            <marker date="1395834062091" expanded="true" signature="46373:46442" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="46938:47258" placeholder="SELECT 'code..." />
+            <marker date="1395834062091" expanded="true" signature="46938:48314" placeholder="SELECT 'code..." />
+            <marker date="1395834062091" expanded="true" signature="47347:47995" placeholder="SELECT code,..composition..." />
+            <marker date="1395834062091" expanded="true" signature="48447:48672" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="48936:49071" placeholder="INSERT INTO ..." />
           </folding>
         </state>
       </provider>
@@ -1296,14 +1425,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="2862" max-vertical-offset="3186">
           <caret line="159" column="12" selection-start-line="159" selection-start-column="12" selection-end-line="159" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Searcher.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1869031" vertical-offset="0" max-vertical-offset="3390">
-          <caret line="77" column="28" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
@@ -1348,13 +1469,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="288" max-vertical-offset="648">
           <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/service/db/TrackMapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="144" max-vertical-offset="720">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -1434,14 +1548,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/domain/Track.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="496" max-vertical-offset="1620">
-          <caret line="41" column="16" selection-start-line="41" selection-start-column="16" selection-end-line="41" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/AdminController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="3780" max-vertical-offset="4014">
@@ -1466,104 +1572,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/service/DbStorage.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="24552">
-          <caret line="912" column="28" selection-start-line="912" selection-start-column="28" selection-end-line="912" selection-end-column="28" />
-          <folding>
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT id FR..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..platform..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..platform..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT p.id ..platform..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT id FR..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT c.id ..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT (RAND..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT MAX(i..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT (RAND..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT MAX(i..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..user_admin..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..user..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..user..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE custo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE custo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT cr.id..customer_report..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer_report..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer_report..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE custo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT i.id ..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT i.id,..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT i.id,..customer_report_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE custo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT cat.i..catalog..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE compo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="DELETE FROM ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..user..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="LOAD DATA LO..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SHOW WARNING..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE catal..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT t.id ..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT c.cod..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT c.cod..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE compo..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT code,..comp_tmp..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE catal..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="UPDATE catal..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog_update..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT count..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog_update..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..catalog_update..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT COUNT..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT * FRO..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT track..customer_basket_item..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT 'code..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT 'code..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="SELECT code,..composition..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-            <marker date="1395826466307" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/utils/CatalogLoader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.60674155" vertical-offset="1458" max-vertical-offset="3600">
           <caret line="105" column="12" selection-start-line="28" selection-start-column="6" selection-end-line="105" selection-end-column="7" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1573,7 +1587,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="1188" max-vertical-offset="4914">
           <caret line="25" column="68" selection-start-line="25" selection-start-column="68" selection-end-line="25" selection-end-column="68" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1583,7 +1597,7 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3474">
           <caret line="4" column="0" selection-start-line="4" selection-start-column="2" selection-end-line="12" selection-end-column="24" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1632,27 +1646,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/web/WEB-INF/mvc-dispatcher-servlet.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-18.72" vertical-offset="324" max-vertical-offset="1062">
-          <caret line="44" column="0" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/utils/ReportParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1350" max-vertical-offset="2916">
+        <state vertical-scroll-proportion="1.368" vertical-offset="918" max-vertical-offset="2916">
           <caret line="108" column="20" selection-start-line="108" selection-start-column="20" selection-end-line="108" selection-end-column="20" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/CatalogUpdater.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="700" max-vertical-offset="4536">
+        <state vertical-scroll-proportion="0.17066666" vertical-offset="700" max-vertical-offset="4536">
           <caret line="66" column="16" selection-start-line="63" selection-start-column="12" selection-end-line="66" selection-end-column="13" />
           <folding />
         </state>
@@ -1660,10 +1666,153 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Reporter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.02734375" vertical-offset="2995" max-vertical-offset="7524">
+        <state vertical-scroll-proportion="-0.009497965" vertical-offset="2995" max-vertical-offset="7524">
           <caret line="166" column="0" selection-start-line="166" selection-start-column="0" selection-end-line="166" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/web/WEB-INF/mvc-dispatcher-servlet.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-19.12" vertical-offset="314" max-vertical-offset="1026">
+          <caret line="44" column="31" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/Searcher.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="1086" max-vertical-offset="4032">
+          <caret line="81" column="95" selection-start-line="81" selection-start-column="95" selection-end-line="81" selection-end-column="95" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/domain/Track.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="834" max-vertical-offset="1584">
+          <caret line="67" column="12" selection-start-line="67" selection-start-column="12" selection-end-line="67" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar:///usr/lib/jvm/jdk1.8.0/src.zip!/java/util/stream/Stream.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.90933335" vertical-offset="4934" max-vertical-offset="19674">
+          <caret line="358" column="14" selection-start-line="358" selection-start-column="14" selection-end-line="358" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$PROJECT_DIR$/lib/spring-jdbc-4.0.2.RELEASE.jar!/org/springframework/jdbc/core/RowMapper.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-3.6" vertical-offset="0" max-vertical-offset="234">
+          <caret line="6" column="17" selection-start-line="6" selection-start-column="17" selection-end-line="6" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/service/db/TrackMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <element signature="e#397#398#0" expanded="true" />
+            <element signature="e#421#422#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/model/service/DbStorage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="2.1207597" vertical-offset="849" max-vertical-offset="24570">
+          <caret line="155" column="33" selection-start-line="155" selection-start-column="0" selection-end-line="155" selection-end-column="0" />
+          <folding>
+            <marker date="1395834062091" expanded="true" signature="1171:1235" placeholder="SELECT id FR..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="1405:1467" placeholder="SELECT * FRO..platform..." />
+            <marker date="1395834062091" expanded="true" signature="1692:1753" placeholder="SELECT * FRO..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="1970:2035" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="2246:2268" placeholder="SELECT * FRO..platform..." />
+            <marker date="1395834062091" expanded="true" signature="2424:2445" placeholder="SELECT * FRO..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="2605:3304" placeholder="SELECT p.id ..platform..." />
+            <marker date="1395834062091" expanded="true" signature="3475:3497" placeholder="SELECT id FR..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="3627:3809" placeholder="SELECT c.id ..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="4490:4625" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="5139:5212" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="7604:7671" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="8037:8165" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="8486:8557" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="8740:8809" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="8992:9066" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="9344:9620" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="9416:9473" placeholder="SELECT (RAND..." />
+            <marker date="1395834062091" expanded="true" signature="9434:9465" placeholder="SELECT MAX(i..composition..." />
+            <marker date="1395834062091" expanded="true" signature="9981:10308" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="10052:10109" placeholder="SELECT (RAND..." />
+            <marker date="1395834062091" expanded="true" signature="10070:10101" placeholder="SELECT MAX(i..composition..." />
+            <marker date="1395834062091" expanded="true" signature="10536:10558" placeholder="SELECT * FRO..customer..." />
+            <marker date="1395834062091" expanded="true" signature="10721:10783" placeholder="SELECT * FRO..customer..." />
+            <marker date="1395834062091" expanded="true" signature="11027:11142" placeholder="SELECT * FRO..user_admin..." />
+            <marker date="1395834062091" expanded="true" signature="11399:11508" placeholder="SELECT * FRO..user..." />
+            <marker date="1395834062091" expanded="true" signature="11747:11810" placeholder="SELECT * FRO..user..." />
+            <marker date="1395834062091" expanded="true" signature="12181:12386" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="12693:13174" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="13964:14072" placeholder="UPDATE custo..." />
+            <marker date="1395834062091" expanded="true" signature="14266:14376" placeholder="UPDATE custo..." />
+            <marker date="1395834062091" expanded="true" signature="14689:15125" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="15999:16470" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="17738:19011" placeholder="SELECT cr.id..customer_report..." />
+            <marker date="1395834062091" expanded="true" signature="19281:19323" placeholder="SELECT * FRO..customer_report..." />
+            <marker date="1395834062091" expanded="true" signature="19581:19721" placeholder="SELECT * FRO..customer_report..." />
+            <marker date="1395834062091" expanded="true" signature="19968:20015" placeholder="SELECT * FRO..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="20225:20334" placeholder="UPDATE custo..." />
+            <marker date="1395834062091" expanded="true" signature="20537:20620" placeholder="SELECT * FRO..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="20859:22856" placeholder="SELECT i.id ..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="23192:25642" placeholder="SELECT i.id,..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="26049:27873" placeholder="SELECT i.id,..customer_report_item..." />
+            <marker date="1395834062091" expanded="true" signature="28302:28685" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="29405:29689" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="30205:30333" placeholder="DELETE FROM ..." />
+            <marker date="1395834062091" expanded="true" signature="30493:30610" placeholder="UPDATE custo..." />
+            <marker date="1395834062091" expanded="true" signature="30771:31033" placeholder="SELECT cat.i..catalog..." />
+            <marker date="1395834062091" expanded="true" signature="31184:31541" placeholder="UPDATE compo..." />
+            <marker date="1395834062091" expanded="true" signature="31888:31917" placeholder="DELETE FROM ..." />
+            <marker date="1395834062091" expanded="true" signature="32008:32041" placeholder="DELETE FROM ..." />
+            <marker date="1395834062091" expanded="true" signature="32167:32236" placeholder="SELECT * FRO..user..." />
+            <marker date="1395834062091" expanded="true" signature="32577:32881" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="33421:34215" placeholder="LOAD DATA LO..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="34580:34593" placeholder="SHOW WARNING..." />
+            <marker date="1395834062091" expanded="true" signature="35205:37847" placeholder="UPDATE catal..." />
+            <marker date="1395834062091" expanded="true" signature="35347:35463" placeholder="SELECT count..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="35569:35893" placeholder="SELECT count..composition..." />
+            <marker date="1395834062091" expanded="true" signature="36001:36381" placeholder="SELECT count..composition..." />
+            <marker date="1395834062091" expanded="true" signature="36493:37177" placeholder="SELECT count..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="37294:37771" placeholder="SELECT count..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="38062:38133" placeholder="SELECT * FRO..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="38334:39115" placeholder="SELECT t.id ..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="39356:40793" placeholder="SELECT c.cod..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="41050:42303" placeholder="SELECT c.cod..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="42586:43322" placeholder="UPDATE compo..." />
+            <marker date="1395834062091" expanded="true" signature="43500:44041" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="43624:44041" placeholder="SELECT code,..comp_tmp..." />
+            <marker date="1395834062091" expanded="true" signature="44238:44291" placeholder="UPDATE catal..." />
+            <marker date="1395834062091" expanded="true" signature="44376:44806" placeholder="UPDATE catal..." />
+            <marker date="1395834062091" expanded="true" signature="44426:44466" placeholder="SELECT * FRO..catalog_update..." />
+            <marker date="1395834062091" expanded="true" signature="44522:44590" placeholder="SELECT count..composition..." />
+            <marker date="1395834062091" expanded="true" signature="44635:44719" placeholder="SELECT count..composition..." />
+            <marker date="1395834062091" expanded="true" signature="44989:45030" placeholder="SELECT * FRO..catalog_update..." />
+            <marker date="1395834062091" expanded="true" signature="45288:45392" placeholder="SELECT * FRO..catalog_update..." />
+            <marker date="1395834062091" expanded="true" signature="45604:45640" placeholder="SELECT COUNT..composition..." />
+            <marker date="1395834062091" expanded="true" signature="45780:45816" placeholder="SELECT * FRO..composition..." />
+            <marker date="1395834062091" expanded="true" signature="46134:46197" placeholder="SELECT track..customer_basket_item..." />
+            <marker date="1395834062091" expanded="true" signature="46373:46442" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="46938:47258" placeholder="SELECT 'code..." />
+            <marker date="1395834062091" expanded="true" signature="46938:48314" placeholder="SELECT 'code..." />
+            <marker date="1395834062091" expanded="true" signature="47347:47995" placeholder="SELECT code,..composition..." />
+            <marker date="1395834062091" expanded="true" signature="48447:48672" placeholder="INSERT INTO ..." />
+            <marker date="1395834062091" expanded="true" signature="48936:49071" placeholder="INSERT INTO ..." />
           </folding>
         </state>
       </provider>

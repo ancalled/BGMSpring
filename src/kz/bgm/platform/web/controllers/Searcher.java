@@ -76,11 +76,10 @@ public class Searcher {
     }
 
     @RequestMapping(value = "/do-search", method = RequestMethod.POST)
-    public String doSearch(Model model,
-                           HttpServletRequest req,
+    public String doSearch(HttpServletRequest req,
                            HttpServletResponse resp,
-                           @RequestParam(value = "q") String query,
-                           @RequestParam(value = "field") String fieldStr
+                           @RequestParam(value = "q", required = true) String query,
+                           @RequestParam(value = "field", required = false, defaultValue = "all") String fieldStr
     )
             throws Exception {
         req.setCharacterEncoding("UTF-8");
@@ -97,7 +96,6 @@ public class Searcher {
         }
 
         int limit = LIMIT;
-
 
         List<Long> requested = getCatalogsId(req);
         List<Long> catalogs = new ArrayList<>();

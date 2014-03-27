@@ -21,8 +21,8 @@ public class TrackMapper implements RowMapper<Track> {
     @Override
     public Track mapRow(ResultSet rs, int i) throws SQLException {
         Track track = new Track();
-//        track.setCatalog(catalogMap.get(rs.getLong(tblPrefix + "catalog_id")));    //todo
         track.setId(rs.getLong(tblPrefix + "id"));
+        track.setCatalogId(rs.getLong(tblPrefix + "catalog_id"));
         track.setCode(rs.getString(tblPrefix + "code"));
         track.setName(rs.getString(tblPrefix + "name"));
         track.setArtist(rs.getString(tblPrefix + "artist"));

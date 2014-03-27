@@ -16,6 +16,7 @@ import java.util.*;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.singletonMap;
 import static kz.bgm.platform.model.domain.CatalogUpdate.Status;
 
 @Repository
@@ -146,18 +147,19 @@ public class DbStorage implements CatalogStorage {
         List<Long> trackIds = found
                 .stream()
                 .map(SearchResult::getTrackId)
+                .distinct()
                 .collect(Collectors.toList());
 
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("trackIds", trackIds);
-        parameters.addValue("catIds", catalogIds);
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("trackIds", trackIds);
+        params.addValue("catIds", catalogIds);
 
         List<Track> tracks = db.query(
                 "SELECT * FROM composition WHERE " +
                         "id IN (:trackIds) " +
                         "AND catalog_id IN (:catIds)",
                 new TrackMapper(),
-                parameters
+                params
         );
 
         Map<Long, Track> trackMap = tracks
@@ -179,7 +181,7 @@ public class DbStorage implements CatalogStorage {
                 "SELECT * FROM composition WHERE " +
                         "id IN (:ids)",
                 new TrackMapper(),
-                new MapSqlParameterSource("ids", ids)
+                singletonMap("ids", ids)
         );
     }
 
