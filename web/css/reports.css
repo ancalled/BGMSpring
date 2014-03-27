@@ -1,0 +1,119 @@
+div.months-by-quarters {
+    margin-top: 20px;
+    overflow: hidden;
+}
+
+div.months-by-quarters div {
+    display: block;
+}
+
+div.months-by-quarters div.incoming-report {
+    width: 25%;
+    float: left;
+}
+
+div.months-by-quarters div.clear {
+    clear: both;
+}
+
+div.months-by-quarters div.year {
+    font-size: 13pt;
+    font-weight: bold;
+    margin: 5px 0 3px 0;
+}
+
+div.incoming-report div.margins {
+    margin: 0 10px 10px 0;
+}
+
+div.content {
+    position: relative;
+}
+
+div.incoming-report div.content {
+    height: 170px;
+    background: #cceef1;
+}
+
+div.outgoing-report-report div.content {
+    height: 170px;
+}
+
+div.incoming-report div.future {
+    background: #eaeef1;
+}
+
+.content .header {
+    padding-top: 5px;
+    font-size: 14pt;
+    text-align: center;
+}
+
+.content .no-reports {
+    padding-top: 10px;
+    width: 100%;
+    text-align: center;
+    /*color: #8f8f8f;*/
+}
+
+.content .send-report {
+    font-size: 10pt;
+    /*padding-top: 10px;*/
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 0px;
+    margin: 5px 0 10px 0;
+}
+
+.btn-send:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .btn-primary.disabled, .btn-primary[disabled] {
+    color: #ffffff;
+    background-color: #bb8f73;
+}
+
+ul.reports {
+    list-style: none;
+    padding: 10px 5px 5px 0;
+    font-size: 10pt;
+    margin-left: 15px;
+}
+
+li.active a {
+    /*color: #000000;*/
+}
+
+li.not-active a {
+    color: #8f8f8f;
+    /*text-decoration: line-through;*/
+}
+
+.tab-content {
+    overflow: hidden;
+}
+
+div.quarter {
+    float: left;
+    width: 30px;
+    height: 150px;
+    font-size: 16pt;
+    padding-top: 5px;
+}
+
+div.outgoing-report {
+    width: 20%;
+    float: left;
+    height: 150px;
+}
+
+div.outgoing-report dl.catalogs {
+    margin: 0 0 5px 2px;
+    font-size: 10pt;
+}
+
+div.outgoing-report dl.catalogs dt {
+    width: 70px;
+}
+
+div.outgoing-report dl.catalogs dd {
+    margin-left: 85px;
+}

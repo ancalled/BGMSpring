@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Array;
 import java.net.URLEncoder;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

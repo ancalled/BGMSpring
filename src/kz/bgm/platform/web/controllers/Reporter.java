@@ -45,6 +45,8 @@ public class Reporter {
     public static final String FILE = "file";
     public static final int LIMIT = 10;
 
+    public static final String FROM_PATTERN = "yyyy-MM";
+
 
     @Autowired
     private CustomerReportService reportService;
@@ -58,26 +60,21 @@ public class Reporter {
 
     @RequestMapping(value = "/reports")
     public String showReports(Model model,
-                              @RequestParam(value = "from", required = false, defaultValue = "2011-01")
-                              @DateTimeFormat(pattern = "yyyy-MM")
+                              @RequestParam(value = "from", required = false)
+                              @DateTimeFormat(pattern = FROM_PATTERN)
                               Date from,
-                              @RequestParam(value = "quarters") String quartersAgoStr,
-                              @RequestParam(value = "non-active") String showNonActiveStr
+                              @RequestParam(value = "quarters", required = false, defaultValue = "6") int quartersAgo,
+                              @RequestParam(value = "non-active", required = false) String showNonActive
     ) {
 
         List<Customer> customers = adminService.getAllCustomers();
         model.addAttribute("customers", customers);
 
-
-        int quartersAgo = 6;
-        if (quartersAgoStr != null) {
-            quartersAgo = Integer.parseInt(quartersAgoStr);
-        }
-
-        boolean showNonAccepted = "yes".equals(showNonActiveStr);
+        boolean showNonAccepted = "yes".equals(showNonActive);
 
         int monthsAgo = quartersAgo * 3;
 
+        if (from == null) from = new Date();
         Date notLaterThen = DateUtils.getPreviousMonth(from, monthsAgo);
 
         List<CustomerReport> reports = reportService.getAllCustomerReports(notLaterThen);
@@ -106,7 +103,7 @@ public class Reporter {
         model.addAttribute("now", from);
         model.addAttribute("years", years);
 
-        return "/reports/reports-incoming";
+        return "/reports/reports";
     }
 
 

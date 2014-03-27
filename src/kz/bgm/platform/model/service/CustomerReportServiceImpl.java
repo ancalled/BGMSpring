@@ -195,12 +195,12 @@ public class CustomerReportServiceImpl implements CustomerReportService {
                         "  cr.revenue cr_revenue, " +
                         "  cr.accepted cr_accepted, " +
                         "  c.id c_id, " +
-                        "  c.name c_name,  " +
-                        "  c.shortName c_shortName,  " +
-                        "  c.customer_type c_customer_type, \n" +
-                        "  c.right_type c_right_type, \n" +
-                        "  c.authorRoyalty c_authorRoyalty,  " +
-                        "  c.relatedRoyalty c_relatedRoyalty,  " +
+                        "  c.name c_name, " +
+                        "  c.shortName c_shortName, " +
+                        "  c.customer_type c_customer_type, " +
+                        "  c.right_type c_right_type, " +
+                        "  c.authorRoyalty c_authorRoyalty, " +
+                        "  c.relatedRoyalty c_relatedRoyalty, " +
                         "  c.contract c_contract  " +
                         "FROM customer_report cr " +
                         "  LEFT JOIN customer c  " +
