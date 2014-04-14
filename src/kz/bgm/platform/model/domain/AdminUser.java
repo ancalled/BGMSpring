@@ -7,6 +7,7 @@ public class AdminUser {
     String login;
     String pass;
 
+
     public AdminUser() {
     }
 
