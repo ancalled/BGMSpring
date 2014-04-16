@@ -131,17 +131,17 @@ public class AdminController {
     @RequestMapping(value = "/create-customer", method = RequestMethod.POST)
     public String createCustomer(
             @RequestParam(value = "name", required = true) String name,
+            @RequestParam(value = "type", required = true) CustomerType customerType,
             @RequestParam(value = "rights", required = true) RightType rightType,
             @RequestParam(value = "authorRoyalty", required = false, defaultValue = "0.0") float authorRoyalty,
-            @RequestParam(value = "relatedRoyalty", required = false, defaultValue = "0.0") float relatedRoyalty,
-            @RequestParam(value = "relatedRoyalty", required = true) CustomerType type
+            @RequestParam(value = "relatedRoyalty", required = false, defaultValue = "0.0") float relatedRoyalty
     ) {
         Customer customer = new Customer();
         customer.setName(name);
+        customer.setCustomerType(customerType);
         customer.setRightType(rightType);
         customer.setAuthorRoyalty(authorRoyalty);
         customer.setAuthorRoyalty(relatedRoyalty);
-        customer.setCustomerType(type);
         adminService.createCustomer(customer);
 
         return "redirect:/mvc/admin/customers";
