@@ -136,6 +136,14 @@ public class MainServiceImpl implements MainService {
         return db.queryForList("SELECT id FROM catalog", Long.class);
     }
 
+    @Override
+    public List<Long> getNotEnemyCatalogIds() {
+        return db.queryForList("SELECT " +
+                "  c.id " +
+                "FROM catalog c LEFT JOIN platform p ON (c.platform_id = p.id) " +
+                "WHERE NOT p.name = 'Enemy'", Long.class);
+    }
+
 
     @Override
     public List<Long> getOwnCatalogIds() {

@@ -173,7 +173,7 @@ public class Searcher {
 
         if (resultId != null) {
             SearchResult sr = (SearchResult) ses.getAttribute("search-result-" + resultId);
-            if (sr != null) {
+            if (sr != null && sr.getTracks() != null && !sr.getTracks().isEmpty()) {
 
                 double bestScore = sr.getTracks().stream()
                         .mapToDouble(SearchResultItem::getScore)
@@ -202,12 +202,23 @@ public class Searcher {
 
                         });
 
-                sr.getGroups().sort((g1, g2) -> Double.compare(g2.getScore(), g1.getScore()));
+                sr.getGroups().sort((g1, g2) -> {
 
+                    int c = Double.compare(g2.getScore(), g1.getScore());
+                    if (c == 0) {
+                        float sh2 = g2.getTracks().get(0).getTrack().getMobileShare();
+                        float sh1 = g1.getTracks().get(0).getTrack().getMobileShare();
+                        c = Float.compare(sh2, sh1);
+                    }
+                    if (c == 0) {
+                        float sh2 = g2.getTracks().get(0).getTrack().getPublicShare();
+                        float sh1 = g1.getTracks().get(0).getTrack().getPublicShare();
+                        c = Float.compare(sh2, sh1);
+                    }
+                    return c;
+                });
 
                 model.addAttribute("bestScore", bestScore);
-
-
 
             }
 

@@ -43,6 +43,17 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
+    public Customer getCustomer(String name) {
+        List<Customer> res = db.query(
+                "SELECT * FROM customer WHERE " +
+                        "name=?",
+                new CustomerMapper(), name
+        );
+
+        return !res.isEmpty() ? res.get(0) : null;
+    }
+
+    @Override
     public List<User> getUsersByCustomerId(long id) {
         return db.query(
                 "SELECT * FROM user WHERE " +

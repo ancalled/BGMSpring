@@ -27,6 +27,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -80,25 +81,25 @@ public class Reporter {
         List<CustomerReport> reports = reportService.getAllCustomerReports(notLaterThen);
 
         List<Year> years = DateUtils.getQuartersBefore(from, quartersAgo);
-        for (CustomerReport r : reports) {
-            if (!showNonAccepted && !r.isAccepted()) continue;
-
-            Date reportDate = r.getStartDate();
-
-            for (Year y : years) {
-                for (Quarter q : y.getQuarters()) {
-                    for (Month m : q.getMonths()) {
-                        Date monthStart = m.getDate();
-                        Date monthEnd = DateUtils.getNextMonth(monthStart, 1);
-
-                        if (!reportDate.before(monthStart) &&
-                                reportDate.before(monthEnd)) {
-                            m.addReport(r);
-                        }
-                    }
-                }
-            }
-        }
+//        for (CustomerReport r : reports) {
+//            if (!showNonAccepted && !r.isAccepted()) continue;
+//
+//            LocalDate reportDate = r.getStartDate();
+//
+//            for (Year y : years) {
+//                for (Quarter q : y.getQuarters()) {
+//                    for (Month m : q.getMonths()) {
+//                        Date monthStart = m.getDate();
+//                        Date monthEnd = DateUtils.getNextMonth(monthStart, 1);
+//
+//                        if (!reportDate.isBefore(monthStart) &&
+//                                reportDate.isBefore(monthEnd)) {
+//                            m.addReport(r);
+//                        }
+//                    }
+//                }
+//            }
+//        }
 
         model.addAttribute("now", from);
         model.addAttribute("years", years);
@@ -158,53 +159,53 @@ public class Reporter {
 
 
 //        try {
-        log.info("got request admin uploader report");
+//        log.info("got request admin uploader report");
+//
+//        CustomerReport report = new CustomerReport();
+//
+//        String updateFilePath = REPORTS_HOME + "/" + file.getName();
+//
+//        Path path = Paths.get(updateFilePath);
+//        Files.write(path, file.getBytes());
+//
+//        List<CustomerReportItem> allItems = ReportParser.parseMobileReport(updateFilePath);
+//
+//        Date now = new Date();
+//
+//        report.setUploadDate(now);
+//        report.setTracks(allItems.size());
+//        report.setType(CustomerReport.Type.MOBILE);
+//
+//        long reportId = reportService.saveCustomerReport(report);
+//        report.setId(reportId);
+//
+//        List<ReportItemTrack> tracks = new ArrayList<>();
+//
+//        for (CustomerReportItem i : allItems) {
+//            i.setReportId(reportId);
+//
+//            long itemId = reportService.saveCustomerReportItem(i);
+//
+//            List<SearchResultItem> found = null;
+//            try {
+//                found = searchService.search(i.getArtist(), i.getAuthors(), i.getTrack(), LIMIT);
+//            } catch (IOException | ParseException e) {
+//                e.printStackTrace();
+//            }
+//
+//            if (found != null) {
+//                for (SearchResultItem r : found) {
+//                    tracks.add(new ReportItemTrack(itemId, r.getTrackId(), r.getScore()));
+//                }
+//            }
+//        }
+//
+//
+//        ses.setAttribute("report-" + reportId, report);
+//
+//        return "redirect:/admin/view/report-upload-result.jsp?rid=" + reportId;
 
-        CustomerReport report = new CustomerReport();
-
-        String updateFilePath = REPORTS_HOME + "/" + file.getName();
-
-        Path path = Paths.get(updateFilePath);
-        Files.write(path, file.getBytes());
-
-        List<CustomerReportItem> allItems = ReportParser.parseMobileReport(updateFilePath);
-
-        Date now = new Date();
-
-        report.setUploadDate(now);
-        report.setTracks(allItems.size());
-        report.setType(CustomerReport.Type.MOBILE);
-
-        long reportId = reportService.saveCustomerReport(report);
-        report.setId(reportId);
-
-        List<ReportItemTrack> tracks = new ArrayList<>();
-
-        for (CustomerReportItem i : allItems) {
-            i.setReportId(reportId);
-
-            long itemId = reportService.saveCustomerReportItem(i);
-
-            List<SearchResultItem> found = null;
-            try {
-                found = searchService.search(i.getArtist(), i.getAuthors(), i.getTrack(), LIMIT);
-            } catch (IOException | ParseException e) {
-                e.printStackTrace();
-            }
-
-            if (found != null) {
-                for (SearchResultItem r : found) {
-                    tracks.add(new ReportItemTrack(itemId, r.getTrackId(), r.getScore()));
-                }
-            }
-        }
-
-
-        ses.setAttribute("report-" + reportId, report);
-
-        return "redirect:/admin/view/report-upload-result.jsp?rid=" + reportId;
-
-
+        return null;
     }
 
 

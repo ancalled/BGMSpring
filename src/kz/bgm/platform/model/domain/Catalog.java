@@ -11,6 +11,7 @@ public class Catalog {
     private int tracks;
     private int artists;
     private String color;
+    private Platform platform;
 
 
     public String getColor() {
@@ -27,6 +28,14 @@ public class Catalog {
 
     public void setPlatformId(long platformId) {
         this.platformId = platformId;
+    }
+
+    public Platform getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(Platform platform) {
+        this.platform = platform;
     }
 
     public void setRightType(RightType rightType) {

@@ -11,6 +11,8 @@ public interface AdminService {
 
     Customer getCustomer(long id);
 
+    Customer getCustomer(String name);
+
     List<User> getUsersByCustomerId(long customerId);
 
 

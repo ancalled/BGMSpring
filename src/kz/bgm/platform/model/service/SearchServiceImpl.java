@@ -55,7 +55,6 @@ public class SearchServiceImpl implements SearchService {
     public void setDataSource(DataSource dataSource) {
         this.db = new JdbcTemplate(dataSource);
     }
-
     ///home/ancalled/Documents/tmp/39/bgm-lucene
     @PostConstruct
     public void initSearcher() throws IOException {
@@ -142,12 +141,23 @@ public class SearchServiceImpl implements SearchService {
 
         List<Track> tracks = db.query(
                 "SELECT t.*, " +
-                        "c.name cat_name " +
+                        "c.id cat_id, " +
+                        "c.name cat_name, " +
+                        "c.royalty cat_royalty, " +
+                        "c.platform_id cat_platform_id, " +
+                        "c.tracks cat_tracks, " +
+                        "c.artists cat_artists, " +
+                        "c.right_type cat_right_type, " +
+                        "c.color cat_color, " +
+                        "p.id plat_id, " +
+                        "p.name plat_name, " +
+                        "p.rights plat_rights " +
                         "FROM composition t " +
                         "LEFT JOIN catalog c ON (c.id = t.catalog_id) " +
+                        "LEFT JOIN platform p ON (c.platform_id = p.id) " +
                         "WHERE t.code=? " +
                         "AND t.catalog_id IN (" + catIdsStr + ")",
-                new TrackAndCatalogMapper("", "cat_name"), code
+                new TrackAndCatalogMapper("", "cat_", "plat_"), code
         );
 
         return tracks
@@ -204,12 +214,23 @@ public class SearchServiceImpl implements SearchService {
 
         List<Track> tracks = db.query(
                 "SELECT t.*," +
-                        "c.name cat_name" +
+                        "c.id cat_id, " +
+                        "c.name cat_name, " +
+                        "c.royalty cat_royalty, " +
+                        "c.platform_id cat_platform_id, " +
+                        "c.tracks cat_tracks, " +
+                        "c.artists cat_artists, " +
+                        "c.right_type cat_right_type, " +
+                        "c.color cat_color, " +
+                        "p.id plat_id, " +
+                        "p.name plat_name, " +
+                        "p.rights plat_rights " +
                         " FROM composition t " +
                         "LEFT JOIN catalog c ON (t.catalog_id = c.id) " +
+                        "LEFT JOIN platform p ON (c.platform_id = p.id) " +
                         "WHERE t.id IN (" + trackIdsStr + ") " +
                         "AND catalog_id IN (" + catIdsStr + ")",
-                new TrackAndCatalogMapper("", "cat_name")
+                new TrackAndCatalogMapper("", "cat_", "plat_")
         );
 
         Map<Long, Track> trackMap = tracks

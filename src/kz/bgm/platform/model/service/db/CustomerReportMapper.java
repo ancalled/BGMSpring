@@ -5,6 +5,9 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 public class CustomerReportMapper implements RowMapper<CustomerReport> {
 
@@ -30,10 +33,13 @@ public class CustomerReportMapper implements RowMapper<CustomerReport> {
             report.setCustomerId(customerId);
         }
 
-        report.setStartDate(rs.getDate(prefix + "start_date"));
+        report.setStartDate(LocalDate.ofEpochDay(rs.getDate(prefix + "start_date").getTime()));
         int period = rs.getInt(prefix + "period");
         report.setPeriod(CustomerReport.Period.values()[period]);
-        report.setUploadDate(rs.getDate(prefix + "upload_date"));
+        report.setUploadDate(
+                LocalDateTime.ofEpochSecond(
+                        rs.getDate(prefix + "upload_date").getTime(),
+                        0, ZoneOffset.MIN));
 
         report.setTracks(rs.getInt(prefix + "tracks"));
         report.setDetected(rs.getInt(prefix + "detected"));

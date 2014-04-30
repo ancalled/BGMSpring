@@ -2,13 +2,14 @@ package kz.bgm.platform.utils;
 
 import kz.bgm.platform.model.domain.CustomerReportItem;
 import org.apache.log4j.Logger;
-//import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.util.ArrayList;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
+
+//import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 public class ReportParser {
 
@@ -18,7 +19,7 @@ public class ReportParser {
     public static final int COL_ARTIST = 3;
     public static final int COL_AUTHOR = 4;
 
-//    public static List<CustomerReportItem> parseNotForBaseReports(String fileName)
+    //    public static List<CustomerReportItem> parseNotForBaseReports(String fileName)
 //            throws IOException, InvalidFormatException {
 //
 //        log.info("Parsing mobile report from: " + fileName + "... ");
@@ -152,5 +153,31 @@ public class ReportParser {
 //        ReportParser.parseMobileReport(filepath);
 //    }
 
+    public static CustomerReportItem parseFromLine(String l, String sep) {
+        String[] split = l.split(sep);
+        if (split.length < 6) return null;
+        for (String s : split) {
+            if (s.isEmpty()) return null;
+        }
+
+        CustomerReportItem item = new CustomerReportItem();
+        if (!split[0].isEmpty()) {
+            item.setNumber(Integer.parseInt(split[0]));
+        }
+        item.setTrack(split[1]);
+        item.setArtist(split[2]);
+        item.setContentType(split[3]);
+        item.setQty(Integer.parseInt(split[4]));
+        item.setPrice(Float.parseFloat(split[5]));
+        return item;
+    }
+
+
+    public static List<CustomerReportItem> parseItemsFromCsv(String fileName, String sep) throws IOException {
+        return Files.readAllLines(Paths.get(fileName)).stream()
+                .map(l -> parseFromLine(l, sep))
+                .filter(i -> i != null)
+                .collect(Collectors.toList());
+    }
 
 }

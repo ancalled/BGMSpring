@@ -133,4 +133,26 @@ public class CustomerReportItem {
     public void setFoundTrack(Track foundTrack) {
         this.foundTrack = foundTrack;
     }
+
+
+    public CustomerReportItem duplicate(SearchResultItem sr) {
+        CustomerReportItem i = new CustomerReportItem();
+        i.number = number;
+        i.reportId = reportId;
+        i.track = track;
+        i.artist = artist;
+        i.authors = authors;
+        i.contentType = contentType;
+        i.qty = qty;
+        i.price = price;
+
+
+        i.detected = true;
+        i.foundTrack = sr.getTrack();
+        i.compositionId = sr.getTrack().getId();
+
+        return i;
+    }
+
+
 }

@@ -4,6 +4,7 @@ import kz.bgm.platform.model.domain.CalculatedReportItem;
 import kz.bgm.platform.model.domain.CustomerReport;
 import kz.bgm.platform.model.domain.CustomerReportItem;
 import kz.bgm.platform.model.service.db.*;
+import kz.bgm.platform.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.ZoneOffset;
 import java.util.Date;
 import java.util.List;
 
@@ -50,8 +52,8 @@ public class CustomerReportServiceImpl implements CustomerReportService {
             );
 
             ps.setLong(1, report.getCustomerId());
-            ps.setDate(2, new java.sql.Date(report.getStartDate().getTime()));
-            ps.setDate(3, new java.sql.Date(report.getUploadDate().getTime()));
+            ps.setDate(2, new java.sql.Date(DateUtils.toEpochMillis(report.getStartDate())));
+            ps.setDate(3, new java.sql.Date(DateUtils.toEpochMillis(report.getUploadDate())));
             ps.setInt(4, report.getType().ordinal());
             ps.setInt(5, report.getPeriod().ordinal());
             ps.setInt(6, report.getTracks());

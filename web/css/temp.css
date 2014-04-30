@@ -59,7 +59,8 @@ td.centered {
 }
 
 tr.best-score td {
-    background: #F9FFFD;
+    /*background: #F9FFFD;*/
+    background: #EAFFF8;
 }
 
 tr.same-track td {
@@ -70,6 +71,20 @@ tr.same-track td {
 
 td.score {
     color: #8f6e5f;
+    max-width: 30pt;
+}
+
+td.track-code {
+    /*white-space:nowrap;*/
+    max-width: 100pt;
+}
+
+td.track-name {
+    min-width: 120pt;
+}
+
+tr.no-rights td {
+    color: #a6a6a6;
 }
 
 

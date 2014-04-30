@@ -15,6 +15,7 @@ public interface CustomerReportService {
 
     long saveCustomerReport(CustomerReport report);
 
+
     long updtDetectedTracksInCustomerReport(long id, int detected);
 
     long updtTracksInCustomerReport(long id, int tracks);

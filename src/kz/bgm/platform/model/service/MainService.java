@@ -27,6 +27,8 @@ public interface MainService {
 
     List<Long> getAllCatalogIds();
 
+    List<Long> getNotEnemyCatalogIds();
+
     List<Track> getRandomTracks(int num);
 
     List<Track> getRandomTracks(long catalogId, int num);

@@ -1,7 +1,8 @@
 package kz.bgm.platform.model.domain;
 
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class CustomerReport {
 
@@ -23,8 +24,8 @@ public class CustomerReport {
 
     private long id;
     private long customerId;
-    private Date startDate;
-    private Date uploadDate;
+    private LocalDate startDate;
+    private LocalDateTime uploadDate;
     private Period period;
     private Type type;
 
@@ -57,19 +58,19 @@ public class CustomerReport {
         this.customerId = customerId;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
-    public Date getUploadDate() {
+    public LocalDateTime getUploadDate() {
         return uploadDate;
     }
 
-    public void setUploadDate(Date uploadDate) {
+    public void setUploadDate(LocalDateTime uploadDate) {
         this.uploadDate = uploadDate;
     }
 

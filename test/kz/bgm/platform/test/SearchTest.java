@@ -1,8 +1,12 @@
 package kz.bgm.platform.test;
 
 
-import kz.bgm.platform.model.domain.SearchResultItem;
+import kz.bgm.platform.model.domain.*;
+import kz.bgm.platform.model.service.AdminService;
+import kz.bgm.platform.model.service.CustomerReportService;
+import kz.bgm.platform.model.service.MainService;
 import kz.bgm.platform.model.service.SearchService;
+import kz.bgm.platform.utils.ReportParser;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -10,15 +14,28 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SearchTest {
 
-    private SearchService searchService;
+    public static final double MIN_SCORE = 4.0;
+    public static final double BEST_RESULT_DEVIATION = 0.20;
+    public static final int LIMIT = 100;
+
+    private List<Long> catalogs = new ArrayList<>();
 
     public static final String USER_DIR = System.getProperty("user.dir");
+    private final SearchService searchService;
+    private final MainService mainService;
+    private final CustomerReportService customerReportService;
+    private final AdminService adminService;
 
 
     public SearchTest() throws IOException {
@@ -26,14 +43,103 @@ public class SearchTest {
 
         ApplicationContext context = new FileSystemXmlApplicationContext("/" + USER_DIR + "/web/WEB-INF/mvc-dispatcher-servlet.xml");
         searchService = context.getBean(SearchService.class);
+        mainService = context.getBean(MainService.class);
+        customerReportService = context.getBean(CustomerReportService.class);
+        adminService = context.getBean(AdminService.class);
+
+
+        List<Long> available = mainService.getAllCatalogIds();
+//        List<Long> available = mainService.getNotEnemyCatalogIds();
+        catalogs.addAll(available);
     }
 
 
-    public  List<SearchResultItem> search(String artist, String track) {
-        System.out.println("Searching for: " + artist + ": " + track);
+    public List<SearchResultItem> search(String query) {
+        String[] split = query.split("; ");
+        return search(split[0], split[1]);
+    }
+
+    public void processMobileReport(String customerName, String reportFile, LocalDate startDate) throws IOException, ParseException {
+        System.out.println("Processing report from file: " + reportFile);
+
+        Customer customer = adminService.getCustomer(customerName);
+        if (customer == null) {
+            System.err.println("Customer not found!");
+            return;
+        }
+
+        CustomerReport report = new CustomerReport();
+        report.setCustomer(customer);
+        report.setCustomerId(customer.getId());
+        report.setUploadDate(LocalDateTime.now());
+        report.setStartDate(startDate);
+        report.setPeriod(CustomerReport.Period.MONTH);
+        report.setType(CustomerReport.Type.MOBILE);
+        List<CustomerReportItem> items = ReportParser.parseItemsFromCsv(reportFile, ";");
+        System.out.println("Found " + items.size() + " items");
+
+        report.setTracks(items.size());
+
+        long reportId = customerReportService.saveCustomerReport(report);
+        System.out.println("Report id: " + reportId);
+
+        report.setId(reportId);
+
+        List<CustomerReportItem> detected = new ArrayList<>();
+        for (CustomerReportItem i : items) {
+            i.setReportId(reportId);
+            search(i.getArtist(), i.getTrack())
+                    .forEach(sr -> detected.add(i.duplicate(sr)));
+        }
+
+        System.out.println("Detected " + detected.size() + " items");
+
+        customerReportService.saveCustomerReportItems(detected);
+    }
+
+
+
+
+
+    public List<SearchResultItem> search(String artist, String track) {
 
         try {
-            return searchService.search(artist, null, track, 10);
+            List<SearchResultItem> tracks = searchService.getTracks(
+                    searchService.search(artist, null, track, LIMIT), catalogs);
+
+            List<SearchResultItem> filtered = new ArrayList<>();
+            if (tracks == null || tracks.isEmpty()) return filtered;
+
+            double bestScore = tracks.stream()
+                    .mapToDouble(SearchResultItem::getScore)
+                    .max().getAsDouble();
+
+            tracks.stream()
+                    .filter(i -> i.getScore() > MIN_SCORE &&
+                                    i.getScore() > bestScore * (1 - BEST_RESULT_DEVIATION) &&
+                                    i.getTrack() != null &&
+                                    (i.getTrack().getMobileShare() > 0 || i.getTrack().getPublicShare() > 0)
+                    )
+                    .collect(Collectors.groupingBy(i -> i.getTrack().getArtist() + ";" +
+                            i.getTrack().getName() + ";" +
+                            i.getTrack().getCatalog() + ";" +
+                            i.getTrack().getMobileShare() + ";" +
+                            i.getTrack().getPublicShare()))
+                    .forEach((s, rl) -> filtered.add(rl.get(0)));
+
+            List<SearchResultItem> filtered2 = new ArrayList<>();
+            filtered.stream()
+                    .collect(Collectors.groupingBy(i -> i.getTrack().getCatalog()))
+                    .forEach((s, rl) -> {
+                        rl.sort((i1, i2) -> Float.compare(i2.getScore(), i1.getScore()));
+                        SearchResultItem first = rl.get(0);
+                        filtered2.add(first);
+                    });
+
+            filtered2.sort((i1, i2) -> i1.getTrack().getCatalog().compareTo(i2.getTrack().getCatalog()));
+
+
+            return filtered2;
         } catch (ParseException | IOException e) {
             e.printStackTrace();
         }
@@ -41,26 +147,105 @@ public class SearchTest {
         return new ArrayList<>();
     }
 
+    public static String fixedWidth(String text, int len) {
+        if (text.length() > len) return text.substring(0, len - 4) + "... ";
+
+        StringBuilder buf = new StringBuilder();
+        buf.append(text);
+        for (int i = text.length(); i < len; i++) {
+            buf.append(" ");
+        }
+
+        return buf.toString();
+    }
+
+    public static String getShortRightType(RightType type) {
+        switch (type) {
+            case AUTHOR:
+                return "A";
+            case RELATED:
+                return "R";
+            case AUTHOR_RELATED:
+                return "AR";
+        }
+
+        return "";
+    }
+
 
     public static void main(String[] args) throws IOException {
 
         final SearchTest searcher = new SearchTest();
-//        searcher.search("The Script");
+        //"Pink; Blow Me (One Last Kiss)"
 
-        List<String> lines = Files.readAllLines(Paths.get("/Users/ancalled/Documents/tmp/17", "tracks-test.txt"));
+//        List<SearchResultItem> res = searcher.search("МИРАЖ; Снова вместе");
+//
+//        res.stream()
+//                .filter(i -> i.getTrack() != null)
+//                .forEach(i ->
+//                        System.out.println(i.getScore()
+//                                        + ", " + i.getTrack().getCode()
+//                                        + ", " + i.getTrack().getArtist()
+//                                        + ", " + i.getTrack().getName()
+//                                        + ", " + i.getTrack().getCatalog()
+//                                        + ", " + i.getTrack().getMobileShare()
+//                        ));
+
+        NumberFormat nf = new DecimalFormat("###.##");
+
+        List<String> lines = Files.readAllLines(Paths.get("/home/ancalled/Documents/tmp/41/bgm/csv", "moskvafm.csv"));
         lines.forEach(l -> {
 
-            String[] split = l.split("; ");
+            String[] split = l.split(";");
             String artist = split[0];
             String track = split[1];
+            String qty = split[2];
+
+//            System.out.println(artist + ": " + track);
             List<SearchResultItem> res = searcher.search(artist, track);
 
-//            res.stream().map(i -> i.getTrack().)
+            res.stream()
+                    .filter(i -> i.getTrack() != null)
+                    .forEach(i ->
+//                            System.out.println("\t"
+//                                            + fixedWidth("[" + nf.format(i.getScore()) + "]", 10)
+//                                            + fixedWidth("(" +
+//                                            getShortRightType(i.getTrack().getFoundCatalog().getRightType()) + ") " +
+//                                            i.getTrack().getFoundCatalog().getName(), 29)
+//                                            + fixedWidth(i.getTrack().getFoundCatalog().getPlatform().getName(), 10)
+//                                            + fixedWidth(i.getTrack().getCode(), 15)
+//                                            + fixedWidth(i.getTrack().getMobileShare() + "", 10)
+//                                            + i.getTrack().getArtist() + ": " + i.getTrack().getName()
+//                            ));
 
+                            System.out.println(i.getTrack().getFoundCatalog().getRightType() + ";" +
+                                            i.getTrack().getFoundCatalog().getName() + ";" +
+                                            i.getTrack().getFoundCatalog().getPlatform().getName() + ";" +
+                                            i.getTrack().getCode().trim() + ";" +
+                                            i.getTrack().getMobileShare() + ";" +
+                                            i.getTrack().getArtist() + ";" +
+                                            i.getTrack().getName()
+                            ));
 
-
-//            System.out.println(Arrays.toString(split));
+//            System.out.println();
         });
+
+    }
+
+
+    public static void main1(String[] args) throws IOException, ParseException {
+//        String customer = "GSMTech Management";
+        String customer = "Библиотека мобильного контента";
+//        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/gsmtech-january.csv";
+//        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/gsmtech-febrary.csv";
+//        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/gsmtech-march.csv";
+//        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/bmk-january.csv";
+//        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/bmk-febrary.csv";
+        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/bmk-march.csv";
+
+
+        final SearchTest searcher = new SearchTest();
+        searcher.processMobileReport(customer, reportFile, LocalDate.of(2014, Month.JANUARY, 1));
 
     }
 }

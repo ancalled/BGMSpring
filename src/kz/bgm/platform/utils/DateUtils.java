@@ -6,10 +6,27 @@ import kz.bgm.platform.model.domain.Quarter;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 public class DateUtils {
 
+
+    public static long toEpochMillis(LocalDate ld) {
+        return Date.from(ld.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant())
+                .getTime();
+    }
+
+    public static long toEpochMillis(LocalDateTime ldt) {
+        return Date.from(ldt
+                .atZone(ZoneId.systemDefault())
+                .toInstant())
+                .getTime();
+    }
 
     public static List<Date> getMonthsBefore(Date from, int n, boolean completeToQuarter) {
 

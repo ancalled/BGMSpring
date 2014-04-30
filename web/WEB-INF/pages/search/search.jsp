@@ -168,12 +168,13 @@
 
                     <c:forEach var="g" items="${result.groups}" varStatus="s">
                         <c:forEach var="r" items="${g.tracks}" varStatus="loop">
-                            <tr class="${loop.index gt 0 ? 'same-track' : ''} ${r.score eq bestScore ? 'best-score' : ''}">
+                            <%--<tr class="${loop.index gt 0 ? 'same-track' : ''} ${r.score eq bestScore ? 'best-score' : ''}">--%>
+                            <tr class="same-track ${r.score eq bestScore ? 'best-score' : ''} ${r.track.mobileShare eq 0 and r.track.publicShare eq 0 ? 'no-rights' : ''}">
                                 <td class="score">
                                     <fmt:formatNumber type="number" pattern="##.##" value="${r.score}"/>
                                 </td>
-                                <td>${r.track.code}</td>
-                                <td>${r.track.name}</td>
+                                <td class="track-code">${r.track.code}</td>
+                                <td class="track-name">${r.track.name}</td>
                                 <td>${r.track.artist}</td>
                                 <td>${r.track.composer}</td>
                                 <td>${r.track.mobileShare}</td>
@@ -182,7 +183,7 @@
                                 <span id="catalog-${r.track.id}"
                                       class="catalog ${fn:toLowerCase(r.track.foundCatalog.rightType)}">
                                       <%--style="background: <c:out value="${colorMap[r.track.catalog]}"/>">--%>
-                                        ${r.track.catalog}
+                                        ${r.track.foundCatalog.name}
                                 </span>
                                 </td>
                                 <td class="light" id=${r.track.id}><i class="icon-wrench"></i></td>
