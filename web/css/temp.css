@@ -58,6 +58,10 @@ td.centered {
     text-align: center;
 }
 
+tr.best-score td {
+    background: #F9FFFD;
+}
+
 tr.same-track td {
     border-top: none;
     /*padding: 5px 0 0 0;*/
@@ -67,6 +71,8 @@ tr.same-track td {
 td.score {
     color: #8f6e5f;
 }
+
+
 
 label.separated {
     margin-top: 15px;

@@ -165,38 +165,29 @@
                     </thead>
                     <tbody>
 
-                    <c:set var="lastComposer" value="none"/>
-                    <c:set var="lastName" value="none"/>
-                    <c:set var="lastArtist" value="none"/>
-                    <c:set var="lastCode" value="none"/>
 
-                    <c:forEach var="r" items="${result.tracks}" varStatus="s">
-                        <tr class="${fn:toLowerCase(lastComposer)eq fn:toLowerCase(r.track.composer) &&
-                        fn:toLowerCase(lastName)eq fn:toLowerCase(r.track.name)||
-                        fn:toLowerCase(lastArtist)eq fn:toLowerCase(r.track.artist&&
-                        fn:toLowerCase(lastCode)eq fn:toLowerCase(r.track.code))? 'same-track' : ''}">
-                            <td class="score"><fmt:formatNumber type="number" pattern="##.##"
-                                                                value="${r.score}"/></td>
-                            <td>${r.track.code}</td>
-                            <td>${r.track.name}</td>
-                            <td>${r.track.artist}</td>
-                            <td>${r.track.composer}</td>
-                            <td>${r.track.mobileShare}</td>
-                            <td>${r.track.publicShare}</td>
-                            <td>
+                    <c:forEach var="g" items="${result.groups}" varStatus="s">
+                        <c:forEach var="r" items="${g.tracks}" varStatus="loop">
+                            <tr class="${loop.index gt 0 ? 'same-track' : ''} ${r.score eq bestScore ? 'best-score' : ''}">
+                                <td class="score">
+                                    <fmt:formatNumber type="number" pattern="##.##" value="${r.score}"/>
+                                </td>
+                                <td>${r.track.code}</td>
+                                <td>${r.track.name}</td>
+                                <td>${r.track.artist}</td>
+                                <td>${r.track.composer}</td>
+                                <td>${r.track.mobileShare}</td>
+                                <td>${r.track.publicShare}</td>
+                                <td>
                                 <span id="catalog-${r.track.id}"
                                       class="catalog ${fn:toLowerCase(r.track.foundCatalog.rightType)}">
                                       <%--style="background: <c:out value="${colorMap[r.track.catalog]}"/>">--%>
                                         ${r.track.catalog}
                                 </span>
-                            </td>
-                            <td class="light" id=${r.track.id}><i class="icon-wrench"></i></td>
-                        </tr>
-
-                        <c:set var="lastComposer" value="${r.track.composer}"/>
-                        <c:set var="lastName" value="${r.track.name}"/>
-                        <c:set var="lastArtist" value="${r.track.artist}"/>
-                        <c:set var="lastCode" value="${r.track.code}"/>
+                                </td>
+                                <td class="light" id=${r.track.id}><i class="icon-wrench"></i></td>
+                            </tr>
+                        </c:forEach>
                     </c:forEach>
 
                     </tbody>

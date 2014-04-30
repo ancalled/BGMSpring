@@ -1,12 +1,8 @@
 package kz.bgm.platform.web.controllers;
 
-import kz.bgm.platform.model.domain.Platform;
-import kz.bgm.platform.model.domain.SearchResult;
-import kz.bgm.platform.model.domain.SearchResultItem;
-import kz.bgm.platform.model.domain.SearchType;
+import kz.bgm.platform.model.domain.*;
 import kz.bgm.platform.model.service.MainService;
 import kz.bgm.platform.model.service.SearchService;
-import kz.bgm.platform.utils.BulkSearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping(value = "/search")
@@ -48,7 +45,7 @@ public class Searcher {
 
     private final AtomicInteger requesCounter = new AtomicInteger(1000000);
 
-    public BulkSearchUtil bulkUtil = new BulkSearchUtil(mainService, searchService);
+//    public BulkSearchUtil bulkUtil = new BulkSearchUtil(mainService, searchService);
 
 
     public static final String APP_HOME = System.getProperty("user.dir");
@@ -175,8 +172,47 @@ public class Searcher {
         model.addAttribute("platforms", platforms);
 
         if (resultId != null) {
-            SearchResult searchResult = (SearchResult) ses.getAttribute("search-result-" + resultId);
-            model.addAttribute("result", searchResult);
+            SearchResult sr = (SearchResult) ses.getAttribute("search-result-" + resultId);
+            if (sr != null) {
+
+                double bestScore = sr.getTracks().stream()
+                        .mapToDouble(SearchResultItem::getScore)
+                        .max().getAsDouble();
+
+
+                sr.getTracks().stream()
+                        .collect(Collectors.groupingBy(i -> i.getTrack().getArtist() + ";" +
+                                i.getTrack().getName() + ";" +
+                                i.getTrack().getCatalog() + ";" +
+                                i.getTrack().getMobileShare() + ";" +
+                                i.getTrack().getPublicShare()))
+                        .forEach((s, rl) -> {
+
+                            SearchResultItem i = rl.get(0);
+
+                            if (i.getScore() > bestScore * 0.33) {
+
+                                String codes = rl.stream().map(r -> r.getTrack().getCode()).collect(Collectors.joining(", "));
+                                i.getTrack().setCode(codes);
+
+                                SearchResultGroup group = new SearchResultGroup(i);
+//                            SearchResultGroup group = new SearchResultGroup(rl);
+                                sr.getGroups().add(group);
+                            }
+
+                        });
+
+                sr.getGroups().sort((g1, g2) -> Double.compare(g2.getScore(), g1.getScore()));
+
+
+                model.addAttribute("bestScore", bestScore);
+
+
+
+            }
+
+
+            model.addAttribute("result", sr);
         }
 
 ////      model.addAttribute("from", from);

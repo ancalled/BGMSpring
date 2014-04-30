@@ -47,4 +47,6 @@ public class SearchResultItem {
     public void setTrack(Track track) {
         this.track = track;
     }
+
+
 }

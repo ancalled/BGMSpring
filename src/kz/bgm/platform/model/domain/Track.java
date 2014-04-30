@@ -123,4 +123,16 @@ public class Track implements Serializable {
                 ", publicShare: " + publicShare +
                 ", catalogId: " + catalogId;
     }
+
+
+//    public boolean similar(Track t) {
+//        if (obj == null) return false;
+//        if (!(obj instanceof SearchResultItem)) {
+//            return super.equals(obj);
+//        }
+//
+//        SearchResultItem i = (SearchResultItem) obj;
+//        return i.get
+//
+//    }
 }

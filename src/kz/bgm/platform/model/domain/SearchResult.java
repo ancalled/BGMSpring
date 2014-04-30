@@ -1,6 +1,7 @@
 package kz.bgm.platform.model.domain;
 
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class SearchResult {
     private final List<Long> catalogIds;
     private final Date whenQueried;
     private List<SearchResultItem> tracks;
+    private List<SearchResultGroup> groups = new ArrayList<>();
 
     public SearchResult(long id, String query, SearchType type, List<Long> catalogIds) {
         this.id = id;
@@ -49,4 +51,9 @@ public class SearchResult {
     public void setTracks(List<SearchResultItem> tracks) {
         this.tracks = tracks;
     }
+
+    public List<SearchResultGroup> getGroups() {
+        return groups;
+    }
+
 }
