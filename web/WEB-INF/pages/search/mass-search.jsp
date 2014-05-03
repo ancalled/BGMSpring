@@ -38,24 +38,10 @@
 
     <div class="row">
 
-        <form action="${ctx}/mvc/search/mass-search"
+        <form action="${ctx}/mvc/search/bulk-search"
               method="post" enctype="multipart/form-data">
 
-            <div class="fileupload fileupload-new" data-provides="fileupload">
-                <div class="input-append">
-                    <div class="uneditable-input span3">
-                        <i class="icon-file fileupload-exists"></i>
-                        <span class="fileupload-preview"></span></div>
-                                <span class="btn btn-fileName">
-                                    <span class="fileupload-new">Выбрать отчет</span>
-                                    <span class="fileupload-exists">Изменить</span>
-                                    <input name="file" type="file" id="fileinput" accept=".csv"
-                                           data-url="/admin/action/mass-search"/>
-                                </span>
-                    <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Удалить</a>
-                </div>
-            </div>
-
+            <input name="file" type="file" id="fileinput" accept=".csv">
 
             <div class="row-fluid">
                 <button class="btn" id="submitBtn">Отправить</button>
@@ -65,6 +51,22 @@
 
         <div id="preview-container" class="handsontable">
         </div>
+
+        <c:if test="${result!=null}">
+            <span>
+                Сформирован файл с результатами поиска.
+            </span>
+            <span>
+             Найдено треков: ${result_size}
+            </span>
+            <br>
+
+            <div id="file-link">
+                <a href="${result}">Скачать</a>
+            </div>
+
+        </c:if>
+
     </div>
 
 </div>
@@ -103,50 +105,76 @@
         });
 
 
-        $('#fileinput').fileupload({
-            dataType: 'json',
-
-            done: function (e, data) {
-
-                $('#progress').html("");
-
-                if (data.result.status == 'ok') {
-//                    console.log('Redirect url: ' + data.result.redirect)
-                    $('#status-bar').html("<strong>Загружено</strong>");
-                    window.location.href = data.result.redirect;
-
-                } else if (data.result.status == 'warn') {
-//                    console.log('Got uplaod waringns: ');
-                    $.each(data.result.warningsList, function (index, wrn) {
-                        console.log(wrn);
-                    });
-
-                    $('#status-bar').html("<strong>Неверный формат данных в файле!</strong>");
-
-                    window.location.href = data.result.redirect;
-
-                } else if (data.result.status == 'error') {
-                    $('#status-bar').html("<strong>Ошибка!</strong>");
-
-//                    console.log('Got uplaod error: ' + data.result.er);
-                }
-
-            },
-
-            add: function (e, data) {
-                $("#sbmtBtn").click(function () {
-                    $("#status").show();
-//                    getLoadStatus();
-                    data.context = $('<p/>').text('Загрузка...').replaceAll($(this));
-                    data.submit();
-                });
-            }
-
-//            progressall: function (e, data) {
-//                var progress = parseInt(data.loaded / data.total * 100, 10);
-//                $('#progress .bar').css('width', progress + '%');
+//        $('#fileinput').fileupload({
+//            dataType: 'json',
+//
+//            done: function (e, data) {
+//
+//                $('#progress').html("");
+//
+//                if (data.result.status == 'ok') {
+////                    console.log('Redirect url: ' + data.result.redirect)
+//                    $('#status-bar').html("<strong>Загружено</strong>");
+//                    window.location.href = data.result.redirect;
+//
+//                } else if (data.result.status == 'warn') {
+////                    console.log('Got uplaod waringns: ');
+//                    $.each(data.result.warningsList, function (index, wrn) {
+//                        console.log(wrn);
+//                    });
+//
+//                    $('#status-bar').html("<strong>Неверный формат данных в файле!</strong>");
+//
+//                    window.location.href = data.result.redirect;
+//
+//                } else if (data.result.status == 'error') {
+//                    $('#status-bar').html("<strong>Ошибка!</strong>");
+//
+////                    console.log('Got uplaod error: ' + data.result.er);
+//                }
+//
+//            },
+//
+//            add: function (e, data) {
+//                $("#sbmtBtn").click(function () {
+//                    $("#status").show();
+////                    getLoadStatus();
+//                    data.context = $('<p/>').text('Загрузка...').replaceAll($(this));
+//                    data.submit();
+//                });
 //            }
-        });
+//
+////            progressall: function (e, data) {
+////                var progress = parseInt(data.loaded / data.total * 100, 10);
+////                $('#progress .bar').css('width', progress + '%');
+////            }
+//        });
+//
+
+//        $(':button').click(function(){
+//            var formData = new FormData($('form')[0]);
+//            $.ajax({
+//                url: 'upload.php',  //Server script to process data
+//                type: 'POST',
+//                xhr: function() {  // Custom XMLHttpRequest
+//                    var myXhr = $.ajaxSettings.xhr();
+//                    if(myXhr.upload){ // Check if upload property exists
+//                        myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // For handling the progress of the upload
+//                    }
+//                    return myXhr;
+//                },
+//                //Ajax events
+//                beforeSend: beforeSendHandler,
+//                success: completeHandler,
+//                error: errorHandler,
+//                // Form data
+//                data: formData,
+//                //Options to tell jQuery not to process data or worry about content-type.
+//                cache: false,
+//                contentType: false,
+//                processData: false
+//            });
+//        });
 
 
     });

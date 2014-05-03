@@ -15,9 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
-import java.util.Map;
-
-import static java.util.stream.Collectors.*;
 
 @Controller
 @RequestMapping(value = "/main")
@@ -48,6 +45,11 @@ public class MainController {
         model.addAttribute("totalTracks", totalTracks);
 
         return "index";
+    }
+
+    @RequestMapping(value = "/mass-search", method = RequestMethod.GET)
+    public String showMassSearch(Model model) {
+        return "search/mass-search";
     }
 
 

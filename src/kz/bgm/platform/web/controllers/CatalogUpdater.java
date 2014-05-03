@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -68,6 +69,11 @@ public class CatalogUpdater {
                 updateFilePath = "tmp_file_" + new Random().nextInt(100000);
             }
 
+            File catUpdates = new File(CATALOG_UPDATES_HOME);
+
+            if (!catUpdates.exists()) {
+                catUpdates.mkdirs();
+            }
             Path path = Paths.get(updateFilePath);
             Files.write(path, file.getBytes());
 

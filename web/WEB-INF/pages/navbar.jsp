@@ -11,7 +11,7 @@
             <%--<li class="${param.catalogs}"><a href="/admin/view/catalogs">Каталоги</a></li>--%>
             <li class="${param.reports}"><a href="${ctx}/mvc/reports/reports">Отчеты</a></li>
             <li class="${param.search}"><a href="${ctx}/mvc/search/search">Поиск</a></li>
-            <li class="${param.massSearch}"><a href="${ctx}/mvc/search/mass-search">Массовый поиск</a></li>
+            <li class="${param.massSearch}"><a href="${ctx}/mvc/main/mass-search">Массовый поиск</a></li>
             <li class="${param.customers}"><a href="${ctx}/mvc/admin/customers">Пользователи</a></li>
             <li><a href="${ctx}/mvc/auth/logout">Выход</a></li>
         </ul>

@@ -1,14 +1,10 @@
 package kz.bgm.platform.web.controllers;
 
-import kz.bgm.platform.model.domain.AdminUser;
 import kz.bgm.platform.model.service.MainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/auth")
@@ -17,7 +13,13 @@ public class Authorizer {
     @Autowired
     private MainService mainService;
 
-    @RequestMapping(value = "logon", method = RequestMethod.POST)
+    @RequestMapping(value = "/logon", method = RequestMethod.GET)
+    public String logon() {
+        return "/login";
+
+    }
+
+    /*@RequestMapping(value = "logon", method = RequestMethod.POST)
     public String logon(
             HttpSession session,
             @RequestParam(value = "u") String login,
@@ -47,6 +49,6 @@ public class Authorizer {
 
         return "redirect:/admin-login.html";
     }
-
+*/
 
 }

@@ -205,7 +205,8 @@
             <legend>Обновления</legend>
 
 
-            <form class="form-horizontal" action="${ctx}/mvc/null" method="post"
+            <form class="form-horizontal" id="download_form" action="${ctx}/mvc/catalog-update/update-catalog"
+                  method="post"
                   enctype="multipart/form-data">
 
                 <div class="form-group">
@@ -272,7 +273,7 @@
                     <tr class="${reportType}">
                         <td>
                             <a href="${ctx}/mvc/catalog-update/update?id=${u.id}">
-                            <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${u.whenUpdated}"/>
+                                <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="${u.whenUpdated}"/>
                             </a>
                         </td>
                         <td>
@@ -326,206 +327,226 @@
 <script src="${ctx}/js/jquery.fileupload.js"></script>
 <script type="text/javascript">
 
-    $("#status").hide();
 
-    //    var rowsOnPreview = 10;
-    var rowsOnPreview = 100;
-    var fileData;
+$("#status").hide();
 
-    // csv parameters
-    var encoding = 'utf8';
-    var delimiter = ';';
-    var enclosedBy = '\\';
-    var newline = '\n';
-    var fromLine = 1;
+//    var rowsOnPreview = 10;
+var rowsOnPreview = 100;
+var fileData;
 
-    var headers = ['#', 'Код', 'Композиция', 'Автор произведения', 'Исполнитель', 'Доля / моб. контент', 'Доля / публичка'];
-    var empty = ['', '', '', '', '', '', ''];
-    var testData = [
-        ['1', '4235', 'Ramble On', 'Robert Plant', 'Led Zeppelin', '70', '100']
-    ];
+// csv parameters
+var encoding = 'utf8';
+var delimiter = ';';
+var enclosedBy = '\\';
+var newline = '\n';
+var fromLine = 1;
 
-
-    $(document).ready(function () {
-
-        $('#preview-container').hide();
-        $('#progress').hide();
-
-        $('#fileinput').fileupload({
-            dataType: 'json',
-
-            done: function (e, data) {
-
-                $('#progress').html("");
-
-                if (data.result.status == 'ok') {
-                    $('#status-bar').html("<strong>Файл загружен на сервер, идет обработка...</strong>");
-                    var updateId = data.result.uid;
-                    startTaskStatusChecker(updateId);
-
-                } else if (data.result.status == 'warn') {
-                    $.each(data.result.warningsList, function (index, wrn) {
-                        console.log(wrn);
-                    });
-
-                    $('#status-bar').html("<strong>Неверный формат данных в файле!</strong>");
-//                    window.location.href = data.result.redirect;
-
-                } else if (data.result.status == 'error') {
-                    $('#status-bar').html("<strong>Ошибка!</strong>");
-                }
-
-            },
-
-            add: function (e, data) {
-                $("#sbmtBtn").click(function () {
-                    $("#status").show();
-//                    data.context = $('<p/>').text('Загрузка...').replaceAll($(this));
-                    data.context = $('<p/>').text('').replaceAll($(this));
-                    data.submit();
-                });
-            },
-
-            progressall: function (e, data) {
-                var progress = parseInt((data.loaded / data.total * 100) * .25, 10);
-                $('#progress .bar').css('width', progress + '%');
-            }
-        });
-
-        $("#fileinput").on('change', function (e) {
-            var f = this.files[0];
-            this.setAttribute('text', f.name);
-            if (this.files && f) {
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $('#preview-container').show();
-                    processContents(event.target.result, delimiter);
-                };
-//                reader.readAsText(f, "UTF8");
-                reader.readAsText(f.slice(0, 1024 * 100), "UTF8");
-            }
-        });
+var headers = ['#', 'Код', 'Композиция', 'Автор произведения', 'Исполнитель', 'Доля / моб. контент', 'Доля / публичка'];
+var empty = ['', '', '', '', '', '', ''];
+var testData = [
+    ['1', '4235', 'Ramble On', 'Robert Plant', 'Led Zeppelin', '70', '100']
+];
 
 
+$(document).ready(function () {
+
+
+    $('#close_dialog').click(function () {
+        $("#dialog").dialog('close');
     });
 
-    var tbl_test = buildTable(testData, headers, 0, 1, "preview-table", 'table table-bordered preview');
+    $('#download_new').click(function () {
+        $("#dialog").dialog({
+//            autoOpen: false,
+            height: 660,
+            width: 800,
+            modal: true,
+            draggable: false
+            //               open: function(type, data) {
+            //                   $(this).parent().appendTo("form");
+            //               }
+        });
+    });
+
+
+    $('#preview-container').hide();
+    $('#progress').hide();
+
+    $('#fileinput').fileupload({
+        dataType: 'json',
+
+        done: function (e, data) {
+
+            $('#progress').html("");
+
+            if (data.result.status == 'ok') {
+                $('#status-bar').html("<strong>Файл загружен на сервер, идет обработка...</strong>");
+                var updateId = data.result.uid;
+                startTaskStatusChecker(updateId);
+
+            } else if (data.result.status == 'warn') {
+                $.each(data.result.warningsList, function (index, wrn) {
+                    console.log(wrn);
+                });
+
+                $('#status-bar').html("<strong>Неверный формат данных в файле!</strong>");
+//                    window.location.href = data.result.redirect;
+
+            } else if (data.result.status == 'error') {
+                $('#status-bar').html("<strong>Ошибка!</strong>");
+            }
+
+        },
+
+        add: function (e, data) {
+            $("#sbmtBtn").click(function () {
+                $("#status").show();
+//                    data.context = $('<p/>').text('Загрузка...').replaceAll($(this));
+                data.context = $('<p/>').text('').replaceAll($(this));
+                $("#download_form").submit();
+//                data.submit();
+            });
+        },
+
+        progressall: function (e, data) {
+            var progress = parseInt((data.loaded / data.total * 100) * .25, 10);
+            $('#progress').find('.bar').css('width', progress + '%');
+        }
+    });
+
+    $("#fileinput").on('change', function (e) {
+        var f = this.files[0];
+        this.setAttribute('text', f.name);
+        if (this.files && f) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#preview-container').show();
+                processContents(event.target.result, delimiter);
+            };
+//                reader.readAsText(f, "UTF8");
+            reader.readAsText(f.slice(0, 1024 * 100), "UTF8");
+        }
+    });
+
+
+});
+
+var tbl_test = buildTable(testData, headers, 0, 1, "preview-table", 'table table-bordered preview');
+
+var $preview = $("#preview-container");
+$preview.addClass('csv-preview');
+$preview.html(tbl_test);
+
+function processContents(contents, delim) {
+    fileData = contents;
+    var data = parseCSV(contents, delim);
+
+    console.log('Got data of ' + data.length);
+
+    if (validateDate(data, headers)) {
+        $('#sbmtBtn').removeAttr('disabled');
+    }
+
+    var tbl = buildTable(data, headers, 0, rowsOnPreview, "preview-table", 'table table-bordered preview');
+
+    $('#example').html('');
 
     var $preview = $("#preview-container");
     $preview.addClass('csv-preview');
-    $preview.html(tbl_test);
-
-    function processContents(contents, delim) {
-        fileData = contents;
-        var data = parseCSV(contents, delim);
-
-        console.log('Got data of ' + data.length);
-
-        if (validateDate(data, headers)) {
-            $('#sbmtBtn').removeAttr('disabled');
-        }
-
-        var tbl = buildTable(data, headers, 0, rowsOnPreview, "preview-table", 'table table-bordered preview');
-
-        $('#example').html('');
-
-        var $preview = $("#preview-container");
-        $preview.addClass('csv-preview');
-        $preview.html(tbl);
+    $preview.html(tbl);
 
 //        if (data.length > rowsOnPreview) {
 //            $preview.append("<div class='preview-more'>... и еще " + addCommas(data.length - rowsOnPreview) + " строк </div>")
 //        }
 
-        if ($('#preview-table').width() > $preview.width() || $('#preview-table').height() > $preview.height()) {
-            $preview.css('overflow', 'scroll');
-        }
-
+    if ($('#preview-table').width() > $preview.width() || $('#preview-table').height() > $preview.height()) {
+        $preview.css('overflow', 'scroll');
     }
 
+}
 
-    function startTaskStatusChecker(updateId) {
-        var stop = false;
-        (function worker() {
-            $.ajax({
-                url: '/admin/action/check-update-status',
-                dataType: 'json',
-                method: 'get',
-                async: 'true',
-                data: {'uid': updateId},
 
-                success: function (data) {
-                    if (data.status == 'found') {
-                        var taskStatus = data.taskStatus;
-                        console.log('Got task-status: ' + taskStatus);
+function startTaskStatusChecker(updateId) {
+    var stop = false;
+    (function worker() {
+        $.ajax({
+            url: '/admin/action/check-update-status',
+            dataType: 'json',
+            method: 'get',
+            async: 'true',
+            data: {'uid': updateId},
 
-                        if (taskStatus == 'FILE_UPLOADED') {
+            success: function (data) {
+                if (data.status == 'found') {
+                    var taskStatus = data.taskStatus;
+                    console.log('Got task-status: ' + taskStatus);
 
-                        } else if (taskStatus == 'SQL_LOAD_COMPLETE') {
-                            $('#status-bar').html("<strong>Обновление загружено, идет пересчет статистики...</strong>");
-                            $('#progress .bar').css('width', '75%');
-                        } else if (taskStatus == 'UPDATE_STATISTICS_FINISHED') {
-                            $('#status-bar').html("<strong>Загрузка окончена.</strong>");
-                            stop = true;
-                            $('#progress .bar').css('width', '100%');
-                            window.location.href = '/admin/view/catalog-update?id=' + updateId;
-                        }
-                    } else {
-                        $('#status-bar').html("<strong>Задача " + updateId + " не найдена!</strong>");
+                    if (taskStatus == 'FILE_UPLOADED') {
+
+                    } else if (taskStatus == 'SQL_LOAD_COMPLETE') {
+                        $('#status-bar').html("<strong>Обновление загружено, идет пересчет статистики...</strong>");
+                        $('#progress .bar').css('width', '75%');
+                    } else if (taskStatus == 'UPDATE_STATISTICS_FINISHED') {
+                        $('#status-bar').html("<strong>Загрузка окончена.</strong>");
                         stop = true;
+                        $('#progress .bar').css('width', '100%');
+                        window.location.href = '/admin/view/catalog-update?id=' + updateId;
                     }
-
-                },
-                complete: function () {
-                    // Schedule the next request when the current one's complete
-                    if (!stop) {
-                        setTimeout(worker, 2000);
-                    }
-                },
-
-                error: function (jqXHR, textStatus, errorThrown) {
-                    console.log(textStatus, errorThrown);
+                } else {
+                    $('#status-bar').html("<strong>Задача " + updateId + " не найдена!</strong>");
                     stop = true;
                 }
-            });
-        })();
-    }
 
-
-    // -------------------------------------------------------
-
-    function downloadCatalog() {
-        $('#downloadBtn').remove();
-        $('#loading-gif').css('visibility', 'visible');
-
-        $.ajax({
-            url: "/admin/action/download-catalog",
-            dataType: 'json',
-            method: 'post',
-            async: 'true',
-
-            data: {
-                'cid': $('#catId').val(),
-                'ft': ';',
-//                'eb': '\\\'',
-                'lt': '\\n'
             },
-            error: function () {
-                alert("Неудалось выгрузить каталог в файл" + $('#catName').val() + " .csv");
+            complete: function () {
+                // Schedule the next request when the current one's complete
+                if (!stop) {
+                    setTimeout(worker, 2000);
+                }
             },
-            success: function (data) {
-                $("#file-link").append("<a href='" + data.path + "'>" +
-                        "<i class='icon-download-alt'></i>" + "Скачать " +
-                        $('#catName').val() + ".csv (" + Math.round(data.size / 1024 / 1024) + " Мб)" +
-                        "</a>");
-                $('#loading-gif').css('visibility', 'hidden');
+
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log(textStatus, errorThrown);
+                stop = true;
             }
         });
-    }
+    })();
+}
+
+
+// -------------------------------------------------------
+
+function downloadCatalog() {
+    $('#downloadBtn').remove();
+    $('#loading-gif').css('visibility', 'visible');
+
+    $.ajax({
+        url: "/admin/action/download-catalog",
+        dataType: 'json',
+        method: 'post',
+        async: 'true',
+
+        data: {
+            'cid': $('#catId').val(),
+            'ft': ';',
+//                'eb': '\\\'',
+            'lt': '\\n'
+        },
+        error: function () {
+            alert("Неудалось выгрузить каталог в файл" + $('#catName').val() + " .csv");
+        },
+        success: function (data) {
+            $("#file-link").append("<a href='" + data.path + "'>" +
+                    "<i class='icon-download-alt'></i>" + "Скачать " +
+                    $('#catName').val() + ".csv (" + Math.round(data.size / 1024 / 1024) + " Мб)" +
+                    "</a>");
+            $('#loading-gif').css('visibility', 'hidden');
+        }
+    });
+}
 
 
 </script>
-
 
 <c:import url="footer.jsp"/>
 

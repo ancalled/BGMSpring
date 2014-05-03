@@ -3,13 +3,13 @@ package kz.bgm.platform.web.controllers;
 import kz.bgm.platform.model.domain.*;
 import kz.bgm.platform.model.service.MainService;
 import kz.bgm.platform.model.service.SearchService;
+import kz.bgm.platform.utils.BulkSearchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -55,10 +55,10 @@ public class Searcher {
     public static final float RESULT_MIN_SCORE = 1.0f;
 
 
-    @RequestMapping(value = "/mass-search", method = RequestMethod.POST)
-    @ResponseBody
-    public String massSearch(@RequestParam("file") MultipartFile file) throws IOException {
-        String searchFileName = FILE_SEARCHES_HOME + "/" + file.getName();
+    @RequestMapping(value = "/bulk-search", method = RequestMethod.POST)
+    public String massSearch(Model model,
+                             @RequestParam(value = "file", required = true) MultipartFile file) throws IOException {
+        String searchFileName = FILE_SEARCHES_HOME + "/" + file.getOriginalFilename();
         File searchFile = new File(searchFileName);
 
         try {
@@ -68,11 +68,18 @@ public class Searcher {
             return null;
         }
 
-        String encoding = "utf-8";
-        String fieldSeparator = ",";
+//        String encoding = "utf-8";
+//        String fieldSeparator = ",";
         int artistRow = 2;
         int trackRow = 1;
-        return null;
+        BulkSearchUtil searcher = new BulkSearchUtil(mainService, searchService);
+        String outFilePath = FILE_SEARCHES_HOME + "/result_" + file.getOriginalFilename();
+
+        int size = searcher.bulkSearch(searchFile.getPath(), outFilePath, true, artistRow, trackRow);
+        model.addAttribute("result", new File(outFilePath).toURI().getPath());
+        model.addAttribute("result_size", size);
+
+        return "search/mass-search";
 
     }
 
@@ -149,14 +156,15 @@ public class Searcher {
     }
 
 
-    private void saveToFile(MultipartFile file, File dir) throws IOException {
+    private void saveToFile(MultipartFile multipartFile, File file) throws IOException {
+        File searchFileDir = new File(FILE_SEARCHES_HOME);
 
-        if (!dir.exists()) {
-            dir.mkdirs();
+        if (searchFileDir.exists()) {
+            searchFileDir.mkdirs();
         }
-        Path path = Paths.get(dir.getAbsolutePath());
-        log.info("Saving upload to " + dir.getAbsolutePath());
-        Files.write(path, file.getBytes());
+        Path path = Paths.get(file.getAbsolutePath());
+        log.info("Saving upload to " + file.getAbsolutePath());
+        Files.write(path, multipartFile.getBytes());
         log.info("File saved");
     }
 
