@@ -191,13 +191,13 @@
 
         <c:set var="pages_end" value="${(update.crossing / pageSize) + 1}"/>
 
-        <c:forEach var="page_idx" begin="1" end="${pages_end}" step="1"
+        <c:forEach var="i" begin="1" end="${pages_end}" step="1"
                    varStatus="status">
 
             <c:choose>
-                <c:when test="${from == (page_idx - 1) * pageSize}">
+                <c:when test="${from == (i - 1) * pageSize}">
                     <li class="active">
-                        <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab1">${page_idx}</a>
+                        <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(i - 1) * pageSize}&page=${i}&active-tab=tab1">${i}</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -207,9 +207,9 @@
                         <c:set var="left" value="${left+1}"/>
                     </c:if>
 
-                    <c:if test="${page-page_idx<=left&&page-page_idx>0}">
+                    <c:if test="${page-i<=left&&page-i>0}">
                         <li>
-                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab1">${page_idx}</a>
+                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(i - 1) * pageSize}&page=${i}&active-tab=tab1">${i}</a>
                         </li>
                     </c:if>
 
@@ -218,9 +218,9 @@
                         <c:set var="left" value="${left-1}"/>
                     </c:if>
 
-                    <c:if test="${page_idx-page<right&&page_idx-page>0}">
+                    <c:if test="${i-page<right&&i-page>0}">
                         <li>
-                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab1">${page_idx}</a>
+                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(i - 1) * pageSize}&page=${i}&active-tab=tab1">${i}</a>
                         </li>
                     </c:if>
 
@@ -323,13 +323,13 @@
 
         <c:set var="pages_end" value="${(update.crossing / pageSize) + 1}"/>
 
-        <c:forEach var="page_idx" begin="1" end="${pages_end}" step="1"
+        <c:forEach var="i" begin="1" end="${pages_end}" step="1"
                    varStatus="status">
 
             <c:choose>
-                <c:when test="${from == (page_idx - 1) * pageSize}">
+                <c:when test="${from == (i - 1) * pageSize}">
                     <li class="active">
-                        <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab1">${page_idx}</a>
+                        <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(i - 1) * pageSize}&page=${i}&active-tab=tab1">${i}</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -339,9 +339,9 @@
                         <c:set var="left" value="${left+1}"/>
                     </c:if>
 
-                    <c:if test="${page-page_idx<=left&&page-page_idx>0}">
+                    <c:if test="${page-i<=left&&page-i>0}">
                         <li>
-                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab1">${page_idx}</a>
+                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(i - 1) * pageSize}&page=${i}&active-tab=tab1">${i}</a>
                         </li>
                     </c:if>
 
@@ -350,9 +350,9 @@
                         <c:set var="left" value="${left-1}"/>
                     </c:if>
 
-                    <c:if test="${page_idx-page<right&&page_idx-page>0}">
+                    <c:if test="${i-page<right&&i-page>0}">
                         <li>
-                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab1">${page_idx}</a>
+                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from=${(i - 1) * pageSize}&page=${i}&active-tab=tab1">${i}</a>
                         </li>
                     </c:if>
 
@@ -430,13 +430,13 @@
 
         <c:set var="pages_end" value="${(update.tracks / pageSize) + 1}"/>
 
-        <c:forEach var="page_idx" begin="1" end="${pages_end}" step="1"
+        <c:forEach var="i" begin="1" end="${pages_end}" step="1"
                    varStatus="status">
 
             <c:choose>
-                <c:when test="${fromNew == (page_idx - 1) * pageSize}">
+                <c:when test="${fromNew == (i - 1) * pageSize}">
                     <li class="active">
-                        <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab2">${page_idx}</a>
+                        <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(i - 1) * pageSize}&page=${i}&active-tab=tab2">${i}</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -446,9 +446,9 @@
                         <c:set var="left" value="${left+1}"/>
                     </c:if>
 
-                    <c:if test="${page-page_idx<=left&&page-page_idx>0}">
+                    <c:if test="${page-i<=left&&page-i>0}">
                         <li>
-                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab2">${page_idx}</a>
+                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(i - 1) * pageSize}&page=${i}&active-tab=tab2">${i}</a>
                         </li>
                     </c:if>
 
@@ -457,9 +457,9 @@
                         <c:set var="left" value="${left-1}"/>
                     </c:if>
 
-                    <c:if test="${page_idx-page<right&&page_idx-page>0}">
+                    <c:if test="${i-page<right&&i-page>0}">
                         <li>
-                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab2">${page_idx}</a>
+                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(i - 1) * pageSize}&page=${i}&active-tab=tab2">${i}</a>
                         </li>
                     </c:if>
 
@@ -529,13 +529,13 @@
 
         <c:set var="pages_end" value="${(update.tracks / pageSize) + 1}"/>
 
-        <c:forEach var="page_idx" begin="1" end="${pages_end}" step="1"
+        <c:forEach var="i" begin="1" end="${pages_end}" step="1"
                    varStatus="status">
 
             <c:choose>
-                <c:when test="${fromNew == (page_idx - 1) * pageSize}">
+                <c:when test="${fromNew == (i - 1) * pageSize}">
                     <li class="active">
-                        <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab2">${page_idx}</a>
+                        <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(i - 1) * pageSize}&page=${i}&active-tab=tab2">${i}</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -545,9 +545,9 @@
                         <c:set var="left" value="${left+1}"/>
                     </c:if>
 
-                    <c:if test="${page-page_idx<=left&&page-page_idx>0}">
+                    <c:if test="${page-i<=left&&page-i>0}">
                         <li>
-                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab2">${page_idx}</a>
+                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(i - 1) * pageSize}&page=${i}&active-tab=tab2">${i}</a>
                         </li>
                     </c:if>
 
@@ -556,9 +556,9 @@
                         <c:set var="left" value="${left-1}"/>
                     </c:if>
 
-                    <c:if test="${page_idx-page<right&&page_idx-page>0}">
+                    <c:if test="${i-page<right&&i-page>0}">
                         <li>
-                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(page_idx - 1) * pageSize}&page=${page_idx}&active-tab=tab2">${page_idx}</a>
+                            <a href="${ctx}/mvc/catalog-update/catalog-update?id=${update.id}&from-new=${(i - 1) * pageSize}&page=${i}&active-tab=tab2">${i}</a>
                         </li>
                     </c:if>
 

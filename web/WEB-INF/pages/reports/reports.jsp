@@ -44,29 +44,25 @@
 
                             <div class="incoming-report">
                                 <div class="margins">
-                                    <div class="content ${month.date gt now ? 'future' : ''}">
-                                        <div class="header"><fmt:formatDate pattern="MMMMM" value="${month.date}"/></div>
+                                    <div class="content ${month.localDate gt now ? 'future' : ''}">
+                                        <%--<div class="header"><fmt:formatDate pattern="MMMMM" value="${month.localDate}"/></div>--%>
+                                        <div class="header">${month.localDate.month}</div>
 
-                                        <ul class="reports">
+                                        <table class="month-reports">
                                             <c:forEach items="${month.reports}" var="r">
-                                                <li class="${r.accepted ? 'active' : 'not-active'}">
-                                                <span>
-                                                <a href="${ctx}/mvc/reports/report?id=${r.id}">
-                                                        ${r.customer.name}
-                                                        <%--${not empty r.customer.shortName ? r.customer.shortName : 'Неизвестно' }--%>
-                                                </a>
-                                                 </span>
-                                                <span style="margin-left: 20px">
-                                                    <i class="icon-music"></i>
-                                                    ${r.detected}
-                                                    <%--${r.tracks} / ${r.detected}--%>
-                                                </span>
-                                                <span style="margin-left: 10px">
-                                                    ${r.revenue}₸
-                                                </span>
-                                                </li>
+                                                <tr class="${r.accepted ? 'active' : 'not-active'}">
+                                                    <td class="title">
+                                                        <a href="${ctx}/mvc/reports/report?id=${r.id}">
+                                                                <%--${r.customer.shortName}--%>
+                                                                ${not empty r.customer.shortName ? r.customer.shortName : 'N/A'}
+                                                        </a>
+                                                    </td>
+                                                    <td class="qty">
+                                                            ${r.detected}
+                                                    </td>
+                                                </tr>
                                             </c:forEach>
-                                        </ul>
+                                        </table>
 
                                         <c:if test="${fn:length(month.reports) eq 0}">
                                             <div class="no-reports">
@@ -75,7 +71,7 @@
                                         </c:if>
 
                                         <div class="send-report">
-                                            <button class="btn btn-mini" type="button">Отправить</button>
+                                            <button class="btn btn-mini" type="button">Отправить отчет</button>
                                                 <%--<a href="#">Отправить отчет</a>--%>
                                         </div>
 

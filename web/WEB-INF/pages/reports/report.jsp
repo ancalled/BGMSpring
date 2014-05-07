@@ -61,7 +61,16 @@
         .edit {
             color: #8f8e8e;
         }
+
+        td.author {
+            background: rgba(183, 107, 106, 0.06);
+        }
+
+        td.related {
+           background: rgba(22, 134, 140, 0.06);
+        }
     </style>
+
 </head>
 
 <body>
@@ -75,7 +84,7 @@
 <div class="container">
 <section>
     <div class="row">
-        <div class="span4">
+        <div class="span8">
             <h4>
                 <c:choose>
                     <c:when test="${report.type == 'MOBILE'}">
@@ -85,12 +94,21 @@
                         Отчет по публичному исполнению
                     </c:when>
                 </c:choose>
-                <fmt:formatDate pattern="MMMMM yyyy" value="${report.startDate}"/>
             </h4>
 
             <dl class="dl-horizontal">
+                <dt>Пользователь</dt>
+                <dd>${customer.name}</dd>
+
+                <dt>За период</dt>
+                <dd>${report.startDate}</dd>
+
+                <dt>Доля (авт./смежн.)</dt>
+                <dd>${customer.authorRoyalty}% / ${customer.relatedRoyalty}%</dd>
+
+
                 <dt>Треков</dt>
-                <dd>${report.tracks} / ${report.detected}</dd>
+                <dd>${report.tracks} / ${fn:length(items)}</dd>
                 <dt>Статус</dt>
                 <dd>
                     <c:choose>
@@ -142,15 +160,15 @@
             <c:set var="page" value="1"/>
         </c:if>
 
-        <c:set var="pages_end" value="${(report.detected / size) + 1}"/>
+        <c:set var="pages_end" value="${(fn:length(items) / size) + 1}"/>
 
-        <c:forEach var="page_idx" begin="1" end="${pages_end}" step="1"
+        <c:forEach var="i" begin="1" end="${pages_end}" step="1"
                    varStatus="status">
 
             <c:choose>
-                <c:when test="${from == (page_idx - 1) * size}">
+                <c:when test="${from == (i - 1) * size}">
                     <li class="active">
-                        <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(page_idx - 1) * size}&page=${page_idx}">${page_idx}</a>
+                        <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(i - 1) * size}&page=${i}">${i}</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -160,9 +178,9 @@
                         <c:set var="left" value="${left+1}"/>
                     </c:if>
 
-                    <c:if test="${page-page_idx<=left&&page-page_idx>0}">
+                    <c:if test="${page-i<=left&&page-i>0}">
                         <li>
-                            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(page_idx - 1) * size}&page=${page_idx}">${page_idx}</a>
+                            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(i - 1) * size}&page=${i}">${i}</a>
                         </li>
                     </c:if>
 
@@ -171,9 +189,9 @@
                         <c:set var="left" value="${left-1}"/>
                     </c:if>
 
-                    <c:if test="${page_idx-page<right&&page_idx-page>0}">
+                    <c:if test="${i-page<right&&i-page>0}">
                         <li>
-                            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(page_idx - 1) * size}&page=${page_idx}">${page_idx}</a>
+                            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(i - 1) * size}&page=${i}">${i}</a>
                         </li>
                     </c:if>
 
@@ -183,10 +201,10 @@
 
         </c:forEach>
         <fmt:formatNumber var="pages_end"
-                          value="${report.detected/size}"
+                          value="${fn:length(items)/size}"
                           maxFractionDigits="0"/>
         <li>
-            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${report.detected}&page=${pages_end}">&raquo;</a>
+            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${fn:length(items)}&page=${pages_end}">&raquo;</a>
         </li>
 
     </ul>
@@ -195,90 +213,113 @@
 <table class="table smallcaps">
     <thead>
     <tr>
-        <th>Код</th>
+        <th>Номер</th>
         <th>Исполнитель &mdash; трек</th>
+        <th class="nonwrapped">Кол-во</th>
         <c:if test="${customer.customerType eq 'MOBILE_AGGREGATOR'}">
             <th>Цена</th>
         </c:if>
-        <th class="nonwrapped">Кол-во</th>
-        <th>Что определилось (исполнитель &mdash; трек и код)</th>
+        <th></th>
         <th class="nonwrapped">Каталог</th>
+        <th>Код</th>
         <th>Доля</th>
+        <c:if test="${customer.customerType eq 'MOBILE_AGGREGATOR'}">
+            <th>Сумма сбора</th>
+        </c:if>
     </tr>
     </thead>
     <tbody>
 
     <c:set var="lastNum" value="0"/>
-    <c:forEach items="${items}" var="page_idx" varStatus="loop">
-        <tr class="${page_idx.detected ? '' : 'not-found'} ${lastNum == page_idx.number ? 'same-track' : ''}">
+    <c:forEach items="${items}" var="i" varStatus="loop">
+        <tr class="${i.detected ? '' : 'not-found'} ${lastNum == i.number ? 'same-track' : ''}">
             <td class="invariant number">
-                <c:if test="${lastNum != page_idx.number}">
-                    ${page_idx.number}
+                <c:if test="${lastNum != i.number}">
+                    ${i.number}
                 </c:if>
             </td>
-            <td>
-                <c:if test="${lastNum != page_idx.number}">
-                    ${page_idx.artist} &mdash; ${page_idx.track}
+            <td style="width: 30%;">
+                <c:if test="${lastNum != i.number}">
+                    ${i.artist} &mdash; ${i.track}
+                </c:if>
+            </td>
+
+            <td class="number">
+                <c:if test="${lastNum != i.number}">
+                    ${i.qty}
                 </c:if>
             </td>
 
             <c:if test="${customer.customerType eq 'MOBILE_AGGREGATOR'}">
                 <td class="number">
-                    <c:if test="${lastNum != page_idx.number}">
-                        ${page_idx.price}
+                    <c:if test="${lastNum != i.number}">
+                        ${i.price}
                     </c:if>
                 </td>
+
             </c:if>
 
-            <td class="number">
-                <c:if test="${lastNum != page_idx.number}">
-                    ${page_idx.qty}
-                </c:if>
-            </td>
 
-            <td>
-                <c:if test="${page_idx.detected}">
-                    <span>${page_idx.foundTrack.artist} &mdash; </span>
-                    <span>${page_idx.foundTrack.name}</span>
-                            <span class="nonwrapped"
-                                  style="padding-left: 10px; font-style: italic">#${page_idx.foundTrack.code}</span>
-                </c:if>
-            </td>
-            <td>
-                <c:if test="${page_idx.detected}">
+            <c:if test="${i.detected}">
+                <c:set var="rt" value="${fn:toLowerCase(i.foundTrack.foundCatalog.rightType)}"/>
 
-                            <span class="nonwrapped ${fn:toLowerCase(page_idx.foundTrack.foundCatalog.rightType)}">
-                                    ${page_idx.foundTrack.catalog}
-                            </span>
 
-                </c:if>
-            </td>
-            <td class="number">
-                <c:if test="${page_idx.detected}">
+                <td style="width: 10%"></td>
+
+                <td class="${rt}">
+                    <span class="nonwrapped">
+                        ${i.foundTrack.foundCatalog.name}
+                    </span>
+                </td>
+
+                <td class="${rt}">
+                      <span class="nonwrapped"
+                            style="padding-left: 10px; font-style: italic">
+                          <a href="${ctx}/mvc/admin/edit-track?id=${i.foundTrack.id}"
+                             title="${i.foundTrack.artist} &mdash; ${i.foundTrack.name}">
+                                  ${i.foundTrack.code}
+                          </a>
+                      </span>
+                </td>
+
+                <td class="number ${rt}">
                     <c:choose>
                         <c:when test="${customer.customerType eq 'MOBILE_AGGREGATOR'}">
-                            ${page_idx.foundTrack.mobileShare}%
+                            ${i.foundTrack.mobileShare}%
                         </c:when>
                         <c:when test="${customer.customerType eq 'PUBLIC_RIGHTS_SOCIETY'}">
-                            ${page_idx.foundTrack.publicShare}%
+                            ${i.foundTrack.publicShare}%
                         </c:when>
                     </c:choose>
 
+                </td>
+
+                <c:if test="${customer.customerType eq 'MOBILE_AGGREGATOR'}">
+                    <td class="number ${rt}">
+                            <c:set var="royalty"
+                                   value="${i.foundTrack.foundCatalog.rightType eq 'AUTHOR' ?
+                                   customer.authorRoyalty :
+                                   customer.relatedRoyalty}"/>
+                            <fmt:formatNumber
+                                    value="${i.qty * i.price * (i.foundTrack.mobileShare / 100) * (royalty / 100)}"
+                                    pattern="###,##0.00"/>
+                    </td>
+
                 </c:if>
-            </td>
-            <c:if test="${not report.accepted}">
-                <td>
-                    <c:if test="${page_idx.detected}">
-                        <a href="#_" class="remove-track" id="${page_idx.id}"
+
+                <c:if test="${not report.accepted}">
+                    <td>
+                        <a href="#_" class="remove-track" id="${i.id}"
                            title="Этот трек определился неверно, убрать">
                             <i class="icon-remove"></i>
                         </a>
-                    </c:if>
-                </td>
+                    </td>
+                </c:if>
             </c:if>
+
         </tr>
 
-        <c:set var="lastNum" value="${page_idx.number}"/>
+        <c:set var="lastNum" value="${i.number}"/>
     </c:forEach>
 
 
@@ -305,15 +346,15 @@
             <c:set var="page" value="1"/>
         </c:if>
 
-        <c:set var="pages_end" value="${(report.detected / size) + 1}"/>
+        <c:set var="pages_end" value="${(fn:length(items) / size) + 1}"/>
 
-        <c:forEach var="page_idx" begin="1" end="${pages_end}" step="1"
+        <c:forEach var="i" begin="1" end="${pages_end}" step="1"
                    varStatus="status">
 
             <c:choose>
-                <c:when test="${from == (page_idx - 1) * size}">
+                <c:when test="${from == (i - 1) * size}">
                     <li class="active">
-                        <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(page_idx - 1) * size}&page=${page_idx}">${page_idx}</a>
+                        <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(i - 1) * size}&page=${i}">${i}</a>
                     </li>
                 </c:when>
                 <c:otherwise>
@@ -323,9 +364,9 @@
                         <c:set var="left" value="${left+1}"/>
                     </c:if>
 
-                    <c:if test="${page-page_idx<=left&&page-page_idx>0}">
+                    <c:if test="${page-i<=left&&page-i>0}">
                         <li>
-                            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(page_idx - 1) * size}&page=${page_idx}">${page_idx}</a>
+                            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${(i - 1) * size}&page=${i}">${i}</a>
                         </li>
                     </c:if>
 
@@ -334,9 +375,9 @@
                         <c:set var="left" value="${left-1}"/>
                     </c:if>
 
-                    <c:if test="${page_idx-page<right&&page_idx-page>0}">
+                    <c:if test="${i-page<right&&i-page>0}">
                         <li>
-                            <a href="r${ctx}/mvc/reports/eport?id=${report.id}&from=${(page_idx - 1) * size}&page=${page_idx}">${page_idx}</a>
+                            <a href="r${ctx}/mvc/reports/eport?id=${report.id}&from=${(i - 1) * size}&page=${i}">${i}</a>
                         </li>
                     </c:if>
 
@@ -346,10 +387,10 @@
 
         </c:forEach>
         <fmt:formatNumber var="last"
-                          value="${report.detected/size}"
+                          value="${fn:length(items)/size}"
                           maxFractionDigits="0"/>
         <li>
-            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${report.detected}&page=${last}">&raquo;</a>
+            <a href="${ctx}/mvc/reports/report?id=${report.id}&from=${fn:length(items)}&page=${last}">&raquo;</a>
         </li>
 
     </ul>

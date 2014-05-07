@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.time.ZoneOffset;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -52,8 +52,8 @@ public class CustomerReportServiceImpl implements CustomerReportService {
             );
 
             ps.setLong(1, report.getCustomerId());
-            ps.setDate(2, new java.sql.Date(DateUtils.toEpochMillis(report.getStartDate())));
-            ps.setDate(3, new java.sql.Date(DateUtils.toEpochMillis(report.getUploadDate())));
+            ps.setDate(2, DateUtils.toSql(report.getStartDate()));
+            ps.setDate(3, DateUtils.toSql(report.getUploadDate()));
             ps.setInt(4, report.getType().ordinal());
             ps.setInt(5, report.getPeriod().ordinal());
             ps.setInt(6, report.getTracks());
@@ -183,7 +183,7 @@ public class CustomerReportServiceImpl implements CustomerReportService {
 
 
     @Override
-    public List<CustomerReport> getAllCustomerReports(Date later) {
+    public List<CustomerReport> getAllCustomerReports(LocalDate later) {
         return db.query(
                 "SELECT" +
                         "  cr.id cr_id, " +
@@ -210,7 +210,7 @@ public class CustomerReportServiceImpl implements CustomerReportService {
                         "WHERE cr.start_date > ? " +
                         "ORDER BY start_date",
                 new CustomerReportAndCustomerMapper("cr_", "c_"),
-                new java.sql.Date(later.getTime())
+                DateUtils.toSql(later)
         );
     }
 
@@ -226,7 +226,7 @@ public class CustomerReportServiceImpl implements CustomerReportService {
 
 
     @Override
-    public List<CustomerReport> getCustomerReports(long customerId, Date from, Date to) {
+    public List<CustomerReport> getCustomerReports(long customerId, LocalDate from, LocalDate to) {
         return db.query(
                 "SELECT * FROM customer_report " +
                         "WHERE customer_id = ? " +
@@ -304,7 +304,8 @@ public class CustomerReportServiceImpl implements CustomerReportService {
                         "WHERE report_id = ? " +
 //                                "AND t.shareMobile > 0 " +
                         "AND (deleted IS NULL OR NOT deleted)  " +
-                        "  ORDER BY item_number, cat_right_type, track_shareMobile, track_sharePublic DESC  " +
+                        "  ORDER BY item_qty DESC, cat_right_type   " +
+//                        "  ORDER BY item_number, cat_right_type, track_shareMobile, track_sharePublic DESC  " +
                         "LIMIT ?, ?",
                 new CustomerReportItemFullMapper("item_", "track_", "cat_"),
                 reportId, from, size

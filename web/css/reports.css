@@ -117,3 +117,21 @@ div.outgoing-report dl.catalogs dt {
 div.outgoing-report dl.catalogs dd {
     margin-left: 85px;
 }
+
+table.month-reports {
+    font-size: 10pt;
+    margin: 10px 5px 5px 15px;
+}
+
+table.month-reports td.title {
+    padding-right: 10px;
+}
+
+table.month-reports td.qty {
+    text-align: right;
+    min-width: 30px;
+}
+
+td.right {
+    text-align: right;
+}

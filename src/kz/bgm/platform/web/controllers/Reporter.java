@@ -4,15 +4,11 @@ package kz.bgm.platform.web.controllers;
 import kz.bgm.platform.model.domain.*;
 import kz.bgm.platform.model.service.AdminService;
 import kz.bgm.platform.model.service.CustomerReportService;
+import kz.bgm.platform.model.service.MainService;
 import kz.bgm.platform.model.service.SearchService;
-import kz.bgm.platform.utils.DateUtils;
-import kz.bgm.platform.utils.Month;
-import kz.bgm.platform.utils.ReportParser;
-import kz.bgm.platform.utils.Year;
+import kz.bgm.platform.utils.*;
 import org.apache.log4j.Logger;
-import org.apache.lucene.queryparser.classic.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +20,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import static java.time.format.DateTimeFormatter.ofPattern;
 
 @Controller
 @RequestMapping(value = "/reports")
@@ -41,7 +39,8 @@ public class Reporter {
     public static final String APP_HOME = System.getProperty("user.dir");
     public static final String REPORTS_HOME = APP_HOME + "/reports";
 
-    public static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+//    public static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyy-MM-dd");
+    public static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static final String FILE = "file";
     public static final int LIMIT = 10;
@@ -56,14 +55,16 @@ public class Reporter {
     private SearchService searchService;
 
     @Autowired
+    private MainService mainService;
+
+    @Autowired
     private AdminService adminService;
 
 
     @RequestMapping(value = "/reports")
     public String showReports(Model model,
                               @RequestParam(value = "from", required = false)
-                              @DateTimeFormat(pattern = FROM_PATTERN)
-                              Date from,
+                              String fromDate,
                               @RequestParam(value = "quarters", required = false, defaultValue = "6") int quartersAgo,
                               @RequestParam(value = "non-active", required = false) String showNonActive
     ) {
@@ -73,33 +74,34 @@ public class Reporter {
 
         boolean showNonAccepted = "yes".equals(showNonActive);
 
-        int monthsAgo = quartersAgo * 3;
+        LocalDate from = fromDate != null ?
+                LocalDate.parse(fromDate, ofPattern(FROM_PATTERN)) :
+                LocalDate.now();
 
-        if (from == null) from = new Date();
-        Date notLaterThen = DateUtils.getPreviousMonth(from, monthsAgo);
+        LocalDate notLaterThen = from.minus(quartersAgo * 3, ChronoUnit.MONTHS);
 
         List<CustomerReport> reports = reportService.getAllCustomerReports(notLaterThen);
 
         List<Year> years = DateUtils.getQuartersBefore(from, quartersAgo);
-//        for (CustomerReport r : reports) {
-//            if (!showNonAccepted && !r.isAccepted()) continue;
-//
-//            LocalDate reportDate = r.getStartDate();
-//
-//            for (Year y : years) {
-//                for (Quarter q : y.getQuarters()) {
-//                    for (Month m : q.getMonths()) {
-//                        Date monthStart = m.getDate();
-//                        Date monthEnd = DateUtils.getNextMonth(monthStart, 1);
-//
-//                        if (!reportDate.isBefore(monthStart) &&
-//                                reportDate.isBefore(monthEnd)) {
-//                            m.addReport(r);
-//                        }
-//                    }
-//                }
-//            }
-//        }
+        for (CustomerReport r : reports) {
+            if (!showNonAccepted && !r.isAccepted()) continue;
+
+            LocalDate reportDate = r.getStartDate();
+
+            for (Year y : years) {
+                for (Quarter q : y.getQuarters()) {
+                    for (Month m : q.getMonths()) {
+                        LocalDate monthStart = m.getLocalDate();
+                        LocalDate monthEnd = monthStart.plus(1, ChronoUnit.MONTHS);
+
+                        if (!reportDate.isBefore(monthStart) &&
+                                reportDate.isBefore(monthEnd)) {
+                            m.addReport(r);
+                        }
+                    }
+                }
+            }
+        }
 
         model.addAttribute("now", from);
         model.addAttribute("years", years);
@@ -112,16 +114,19 @@ public class Reporter {
     public String showAllCustomerReports(Model model,
                                          HttpSession ses,
                                          @RequestParam(value = "from", required = true)
-                                         @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                         Date from,
+//                                         @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                         String from,
                                          @RequestParam(value = "to", required = true)
-                                         @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                         Date to
+//                                         @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                         String to
     ) {
         User user = (User) ses.getAttribute("user");
         if (user != null) {
             List<CustomerReport> reports = reportService.
-                    getCustomerReports(user.getCustomerId(), from, to);
+                    getCustomerReports(user.getCustomerId(),
+                            LocalDate.parse(from),
+                            LocalDate.parse(to)
+                    );
 
             model.addAttribute("reports", reports);
         }
@@ -139,13 +144,17 @@ public class Reporter {
     ) {
 
         CustomerReport report = reportService.getCustomerReport(reportId);
-        List<CustomerReportItem> items = reportService.getCustomerReportsItems(reportId, from, size);
+        if (report != null) {
+            Customer customer = adminService.getCustomer(report.getCustomerId());
+            List<CustomerReportItem> items = reportService.getCustomerReportsItems(reportId, from, size);
 
-        model.addAttribute("report", report)
-                .addAttribute("items", items)
-                .addAttribute("from", from)
-                .addAttribute("size", size)
-                .addAttribute("page", page);
+            model.addAttribute("report", report)
+                    .addAttribute("customer", customer)
+                    .addAttribute("items", items)
+                    .addAttribute("from", from)
+                    .addAttribute("size", size)
+                    .addAttribute("page", page);
+        }
 
         return "/reports/report";
     }
@@ -154,135 +163,60 @@ public class Reporter {
     @RequestMapping(value = "/upload-mobile-report", method = RequestMethod.POST)
     public String uploadMobileReport(
             HttpSession ses,
+            @RequestParam("date") String repDate,
+            @RequestParam("customer") String customerName,
             @RequestParam("file") MultipartFile file
     ) throws IOException {
 
+        String reportFile = file.getName();
+        Files.write(Paths.get(reportFile), file.getBytes());
 
-//        try {
-//        log.info("got request admin uploader report");
-//
-//        CustomerReport report = new CustomerReport();
-//
-//        String updateFilePath = REPORTS_HOME + "/" + file.getName();
-//
-//        Path path = Paths.get(updateFilePath);
-//        Files.write(path, file.getBytes());
-//
-//        List<CustomerReportItem> allItems = ReportParser.parseMobileReport(updateFilePath);
-//
-//        Date now = new Date();
-//
-//        report.setUploadDate(now);
-//        report.setTracks(allItems.size());
-//        report.setType(CustomerReport.Type.MOBILE);
-//
-//        long reportId = reportService.saveCustomerReport(report);
-//        report.setId(reportId);
-//
-//        List<ReportItemTrack> tracks = new ArrayList<>();
-//
-//        for (CustomerReportItem i : allItems) {
-//            i.setReportId(reportId);
-//
-//            long itemId = reportService.saveCustomerReportItem(i);
-//
-//            List<SearchResultItem> found = null;
-//            try {
-//                found = searchService.search(i.getArtist(), i.getAuthors(), i.getTrack(), LIMIT);
-//            } catch (IOException | ParseException e) {
-//                e.printStackTrace();
-//            }
-//
-//            if (found != null) {
-//                for (SearchResultItem r : found) {
-//                    tracks.add(new ReportItemTrack(itemId, r.getTrackId(), r.getScore()));
-//                }
-//            }
-//        }
-//
-//
-//        ses.setAttribute("report-" + reportId, report);
-//
-//        return "redirect:/admin/view/report-upload-result.jsp?rid=" + reportId;
 
-        return null;
+        System.out.println("Processing report from file: " + reportFile);
+
+        LocalDate startDate = LocalDate.parse(repDate, DATE_FORMATTER);
+
+        Customer customer = adminService.getCustomer(customerName);
+        if (customer == null) {
+            System.err.println("Customer not found!");
+            return "";
+        }
+
+        CustomerReport report = new CustomerReport();
+        report.setCustomer(customer);
+        report.setCustomerId(customer.getId());
+        report.setUploadDate(LocalDateTime.now());
+        report.setStartDate(startDate);
+        report.setPeriod(CustomerReport.Period.MONTH);
+        report.setType(CustomerReport.Type.MOBILE);
+        List<CustomerReportItem> items = ReportParser.parseItemsFromCsv(reportFile, ";");
+        System.out.println("Found " + items.size() + " items");
+
+        report.setTracks(items.size());
+
+        long reportId = reportService.saveCustomerReport(report);
+        System.out.println("Report id: " + reportId);
+
+        report.setId(reportId);
+
+        List<CustomerReportItem> detected = new ArrayList<>();
+        for (CustomerReportItem i : items) {
+            i.setReportId(reportId);
+            searchService.searchWithoutDuplicates(i.getArtist(), i.getTrack(), mainService.getAllCatalogIds())
+                    .forEach(sr -> detected.add(i.duplicate(sr)));
+        }
+
+        System.out.println("Detected " + detected.size() + " items");
+
+        reportService.saveCustomerReportItems(detected);
+
+        return "/reports/report-upload-result";
     }
 
 
     @RequestMapping(value = "/upload-public-report", method = RequestMethod.POST)
     public String uploadPublicReport(HttpServletRequest req) {
-//        ServletFileUpload fileUploader = new ServletFileUpload(new DiskFileItemFactory());
-//
-//        try {
-////            String dateParam = req.getParameter("dt");
-////            Date reportDate = dateParam != null ? FORMAT.parse(dateParam) : new Date();
-//
-//            SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-//            Date reportDate = format.parse("2012/01/01");
-//
-////            String periodParam = req.getParameter("per");
-////            int per = periodParam != null ? Integer.parseInt(periodParam) : 0;
-////            CustomerReport.Period period = periodParam != null ?
-////                    CustomerReport.Period.values()[per] :
-////                    CustomerReport.Period.MONTH;
-//
-//            CustomerReport.Period period = CustomerReport.Period.MONTH;
-//            List<FileItem> files = fileUploader.parseRequest(req);
-//
-//            if (files == null) {
-//                return "redirect:/reports/report?er=no-freports-uploaded";
-//            }
-//
-//
-//            List<CustomerReportItem> allItems = new ArrayList<>();
-//            for (FileItem item : files) {
-//
-//                String reportFile = REPORTS_HOME + "/" + item.getName();
-//                saveToFile(item, reportFile);
-//
-//                log.info("Got client report " + item.getName());
-//
-////                List<CustomerReportItem> items = ReportParser.parsePublicReport(reportFile);
-////                allItems.addAll(items);
-//            }
-//
-//            Date now = new Date();
-//
-//            CustomerReport report = new CustomerReport();
-//            report.setStartDate(reportDate);
-//            report.setPeriod(period);
-//            report.setUploadDate(now);
-//            report.setType(CustomerReport.Type.PUBLIC);
-//            report.setTracks(allItems.size());
-//
-//            long reportId = dbService.saveCustomerReport(report);
-//            report.setId(reportId);
-//
-//            int detected = 0;
-//
-//            for (CustomerReportItem i : allItems) {
-//                i.setReportId(reportId);
-//                List<SearchResult> ids = luceneService.search(i.getArtist(), null, i.getTrack(), 100);
-//                if (ids.size() > 0) {
-//                    i.setCompositionId(ids.get(0).getTrackId());
-//                    detected++;
-//                }
-//            }
-//            log.info("composition detected " + detected);
-//
-//            report.setDetected(detected);
-//
-//            dbService.saveCustomerReportItems(allItems);
-//
-//            HttpSession ses = req.getSession(true);
-//            ses.setAttribute("report-" + reportId, report);
-//
-//            return "redirect:/admin/view/report-upload-result?rid=" + reportId;
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return "redirect:/admin/reports.html?er=" + e.getMessage();
-//        }
+
 
         return null;
     }

@@ -2,6 +2,7 @@ package kz.bgm.platform.model.domain;
 
 import kz.bgm.platform.utils.Month;
 
+import java.time.temporal.ChronoField;
 import java.util.*;
 
 
@@ -51,6 +52,16 @@ public class Quarter {
                     return o1.getDate().compareTo(o2.getDate());
                 }
             });
+        }
+    }
+
+    public void setupLocal() {
+        if (!months.isEmpty()) {
+            Month first = months.get(0);
+            number = (first.getLocalDate().getMonthValue() / 3) + 1;
+            year = first.getLocalDate().getYear();
+
+            Collections.sort(months, (o1, o2) -> o1.getLocalDate().compareTo(o2.getLocalDate()));
         }
     }
 }

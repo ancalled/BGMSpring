@@ -5,6 +5,7 @@ import kz.bgm.platform.model.domain.CalculatedReportItem;
 import kz.bgm.platform.model.domain.CustomerReport;
 import kz.bgm.platform.model.domain.CustomerReportItem;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -31,9 +32,9 @@ public interface CustomerReportService {
     CustomerReport getCustomerReport(long id);
 
 
-    List<CustomerReport> getAllCustomerReports(Date later);
+    List<CustomerReport> getAllCustomerReports(LocalDate later);
 
-    List<CustomerReport> getCustomerReports(long customerId, Date from, Date to);
+    List<CustomerReport> getCustomerReports(long customerId, LocalDate from, LocalDate to);
 
     CustomerReportItem getCustomerReportsItem(long id);
 

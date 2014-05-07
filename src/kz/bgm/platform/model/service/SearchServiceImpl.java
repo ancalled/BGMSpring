@@ -24,6 +24,7 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -39,6 +40,8 @@ public class SearchServiceImpl implements SearchService {
     private static final Logger log = Logger.getLogger(SearchServiceImpl.class);
 
     public static final int LIMIT = 100;
+    public static final double MIN_SCORE = 4.0;
+    public static final double BEST_RESULT_DEVIATION = 0.20;
 
     public static final String FIELD_ID = "id";
     public static final String FIELD_NAME = "name";
@@ -333,4 +336,53 @@ public class SearchServiceImpl implements SearchService {
     }
 
 
+
+
+    @Override
+    public List<SearchResultItem> searchWithoutDuplicates(String artist, String track, List<Long> catalogs) {
+
+        try {
+            List<SearchResultItem> tracks = getTracks(
+                    search(artist, null, track, LIMIT), catalogs);
+
+            List<SearchResultItem> filtered = new ArrayList<>();
+            if (tracks == null || tracks.isEmpty()) return filtered;
+
+            double bestScore = tracks.stream()
+                    .mapToDouble(SearchResultItem::getScore)
+                    .max().getAsDouble();
+
+            tracks.stream()
+                    .filter(i -> i.getScore() > MIN_SCORE &&
+                                    i.getScore() > bestScore * (1 - BEST_RESULT_DEVIATION) &&
+                                    i.getTrack() != null &&
+                                    (i.getTrack().getMobileShare() > 0 || i.getTrack().getPublicShare() > 0)
+                    )
+                    .collect(Collectors.groupingBy(i -> i.getTrack().getArtist() + ";" +
+                            i.getTrack().getName() + ";" +
+                            i.getTrack().getFoundCatalog().getName() + ";" +
+                            i.getTrack().getMobileShare() + ";" +
+                            i.getTrack().getPublicShare()))
+                    .forEach((s, rl) -> filtered.add(rl.get(0)));
+
+            List<SearchResultItem> filtered2 = new ArrayList<>();
+            filtered.stream()
+                    .collect(Collectors.groupingBy(i -> i.getTrack().getFoundCatalog().getName()))
+                    .forEach((s, rl) -> {
+                        rl.sort((i1, i2) -> Float.compare(i2.getScore(), i1.getScore()));
+                        SearchResultItem first = rl.get(0);
+                        filtered2.add(first);
+                    });
+
+            filtered2.sort((i1, i2) -> i1.getTrack().getFoundCatalog().getName()
+                    .compareTo(i2.getTrack().getFoundCatalog().getName()));
+
+
+            return filtered2;
+        } catch (ParseException | IOException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
 }

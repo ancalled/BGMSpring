@@ -191,7 +191,7 @@ public class Searcher {
                 sr.getTracks().stream()
                         .collect(Collectors.groupingBy(i -> i.getTrack().getArtist() + ";" +
                                 i.getTrack().getName() + ";" +
-                                i.getTrack().getCatalog() + ";" +
+                                i.getTrack().getFoundCatalog().getName() + ";" +
                                 i.getTrack().getMobileShare() + ";" +
                                 i.getTrack().getPublicShare()))
                         .forEach((s, rl) -> {

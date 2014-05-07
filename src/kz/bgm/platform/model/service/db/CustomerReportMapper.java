@@ -1,11 +1,11 @@
 package kz.bgm.platform.model.service.db;
 
 import kz.bgm.platform.model.domain.CustomerReport;
+import kz.bgm.platform.utils.DateUtils;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
@@ -33,7 +33,7 @@ public class CustomerReportMapper implements RowMapper<CustomerReport> {
             report.setCustomerId(customerId);
         }
 
-        report.setStartDate(LocalDate.ofEpochDay(rs.getDate(prefix + "start_date").getTime()));
+        report.setStartDate(DateUtils.fromSql(rs.getDate(prefix + "start_date")));
         int period = rs.getInt(prefix + "period");
         report.setPeriod(CustomerReport.Period.values()[period]);
         report.setUploadDate(

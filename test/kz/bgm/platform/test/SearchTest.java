@@ -21,13 +21,9 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SearchTest {
 
-    public static final double MIN_SCORE = 4.0;
-    public static final double BEST_RESULT_DEVIATION = 0.20;
-    public static final int LIMIT = 100;
 
     private List<Long> catalogs = new ArrayList<>();
 
@@ -36,6 +32,7 @@ public class SearchTest {
     private final MainService mainService;
     private final CustomerReportService customerReportService;
     private final AdminService adminService;
+    public static final NumberFormat NF = new DecimalFormat("###.##");
 
 
     public SearchTest() throws IOException {
@@ -56,10 +53,11 @@ public class SearchTest {
 
     public List<SearchResultItem> search(String query) {
         String[] split = query.split("; ");
-        return search(split[0], split[1]);
+        return searchService.searchWithoutDuplicates(split[0], split[1], catalogs);
     }
 
-    public void processMobileReport(String customerName, String reportFile, LocalDate startDate) throws IOException, ParseException {
+    public void processMobileReport(String customerName, String reportFile, LocalDate startDate)
+            throws IOException, ParseException {
         System.out.println("Processing report from file: " + reportFile);
 
         Customer customer = adminService.getCustomer(customerName);
@@ -88,7 +86,7 @@ public class SearchTest {
         List<CustomerReportItem> detected = new ArrayList<>();
         for (CustomerReportItem i : items) {
             i.setReportId(reportId);
-            search(i.getArtist(), i.getTrack())
+            searchService.searchWithoutDuplicates(i.getArtist(), i.getTrack(), catalogs)
                     .forEach(sr -> detected.add(i.duplicate(sr)));
         }
 
@@ -98,57 +96,8 @@ public class SearchTest {
     }
 
 
-
-
-
-    public List<SearchResultItem> search(String artist, String track) {
-
-        try {
-            List<SearchResultItem> tracks = searchService.getTracks(
-                    searchService.search(artist, null, track, LIMIT), catalogs);
-
-            List<SearchResultItem> filtered = new ArrayList<>();
-            if (tracks == null || tracks.isEmpty()) return filtered;
-
-            double bestScore = tracks.stream()
-                    .mapToDouble(SearchResultItem::getScore)
-                    .max().getAsDouble();
-
-            tracks.stream()
-                    .filter(i -> i.getScore() > MIN_SCORE &&
-                                    i.getScore() > bestScore * (1 - BEST_RESULT_DEVIATION) &&
-                                    i.getTrack() != null &&
-                                    (i.getTrack().getMobileShare() > 0 || i.getTrack().getPublicShare() > 0)
-                    )
-                    .collect(Collectors.groupingBy(i -> i.getTrack().getArtist() + ";" +
-                            i.getTrack().getName() + ";" +
-                            i.getTrack().getCatalog() + ";" +
-                            i.getTrack().getMobileShare() + ";" +
-                            i.getTrack().getPublicShare()))
-                    .forEach((s, rl) -> filtered.add(rl.get(0)));
-
-            List<SearchResultItem> filtered2 = new ArrayList<>();
-            filtered.stream()
-                    .collect(Collectors.groupingBy(i -> i.getTrack().getCatalog()))
-                    .forEach((s, rl) -> {
-                        rl.sort((i1, i2) -> Float.compare(i2.getScore(), i1.getScore()));
-                        SearchResultItem first = rl.get(0);
-                        filtered2.add(first);
-                    });
-
-            filtered2.sort((i1, i2) -> i1.getTrack().getCatalog().compareTo(i2.getTrack().getCatalog()));
-
-
-            return filtered2;
-        } catch (ParseException | IOException e) {
-            e.printStackTrace();
-        }
-
-        return new ArrayList<>();
-    }
-
     public static String fixedWidth(String text, int len) {
-        if (text.length() > len) return text.substring(0, len - 4) + "... ";
+        if (text.length() > len) return text.substring(0, len - 4) + "...";
 
         StringBuilder buf = new StringBuilder();
         buf.append(text);
@@ -173,12 +122,14 @@ public class SearchTest {
     }
 
 
+
+
     public static void main(String[] args) throws IOException {
 
         final SearchTest searcher = new SearchTest();
         //"Pink; Blow Me (One Last Kiss)"
 
-//        List<SearchResultItem> res = searcher.search("МИРАЖ; Снова вместе");
+//        List<SearchResultItem> res = searcher.searchWithoutDuplicates("МИРАЖ; Снова вместе");
 //
 //        res.stream()
 //                .filter(i -> i.getTrack() != null)
@@ -191,8 +142,6 @@ public class SearchTest {
 //                                        + ", " + i.getTrack().getMobileShare()
 //                        ));
 
-        NumberFormat nf = new DecimalFormat("###.##");
-
         List<String> lines = Files.readAllLines(Paths.get("/home/ancalled/Documents/tmp/41/bgm/csv", "moskvafm.csv"));
         lines.forEach(l -> {
 
@@ -202,7 +151,8 @@ public class SearchTest {
             String qty = split[2];
 
 //            System.out.println(artist + ": " + track);
-            List<SearchResultItem> res = searcher.search(artist, track);
+            List<SearchResultItem> res = searcher.searchService.searchWithoutDuplicates(artist, track,
+                    searcher.mainService.getAllCatalogIds());
 
             res.stream()
                     .filter(i -> i.getTrack() != null)
@@ -223,8 +173,10 @@ public class SearchTest {
                                             i.getTrack().getFoundCatalog().getPlatform().getName() + ";" +
                                             i.getTrack().getCode().trim() + ";" +
                                             i.getTrack().getMobileShare() + ";" +
-                                            i.getTrack().getArtist() + ";" +
-                                            i.getTrack().getName()
+                                            i.getTrack().getArtist().replace(";", ",") + ";" +
+                                            i.getTrack().getComposer().replace(";", ",") + ";" +
+                                            i.getTrack().getName().replace(";", ",")    + ";" +
+                                            qty
                             ));
 
 //            System.out.println();
@@ -233,15 +185,17 @@ public class SearchTest {
     }
 
 
+
+
     public static void main1(String[] args) throws IOException, ParseException {
-//        String customer = "GSMTech Management";
-        String customer = "Библиотека мобильного контента";
-//        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/gsmtech-january.csv";
+        String customer = "GSMTech Management";
+//        String customer = "Библиотека мобильного контента";
+        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/gsmtech-january.csv";
 //        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/gsmtech-febrary.csv";
 //        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/gsmtech-march.csv";
 //        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/bmk-january.csv";
 //        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/bmk-febrary.csv";
-        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/bmk-march.csv";
+//        String reportFile = "/home/ancalled/Documents/tmp/41/bgm/csv/bmk-march.csv";
 
 
         final SearchTest searcher = new SearchTest();

@@ -33,4 +33,5 @@ public interface SearchService {
     List<SearchResultItem> search(String artist, String authors, String composition, int limit)
             throws IOException, ParseException;
 
+    List<SearchResultItem> searchWithoutDuplicates(String artist, String track, List<Long> catalogs);
 }
