@@ -14,10 +14,10 @@
 <body>
 <div class="container">
 
-    <form class="form-signin span5" action="/j_spring_security_check" method="post">
+    <form class="form-signin span5" action="${ctx}/mvc/main/auth/admin-auth" method="get">
         <h2 class="form-signin-heading">Доборо пожаловать</h2>
-        <input type="text" class="input-block-level" name="j_username" placeholder="Имя">
-        <input type="password" class="input-block-level" name="j_password" placeholder="Пароль">
+        <input type="text" class="input-block-level" name="user" placeholder="Имя">
+        <input type="password" class="input-block-level" name="pass" placeholder="Пароль">
         <label class="checkbox">
             <input type="checkbox" name="_spring_security_remember_me" value="remember-me"> Запомнить меня
         </label>

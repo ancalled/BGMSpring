@@ -47,6 +47,11 @@ public class MainController {
         return "index";
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String showLogin(Model model) {
+        return "login";
+    }
+
     @RequestMapping(value = "/mass-search", method = RequestMethod.GET)
     public String showMassSearch(Model model) {
         return "search/mass-search";

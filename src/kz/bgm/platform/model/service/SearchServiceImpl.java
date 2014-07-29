@@ -24,7 +24,6 @@ import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -58,10 +57,12 @@ public class SearchServiceImpl implements SearchService {
     public void setDataSource(DataSource dataSource) {
         this.db = new JdbcTemplate(dataSource);
     }
+
     ///home/ancalled/Documents/tmp/39/bgm-lucene
     @PostConstruct
     public void initSearcher() throws IOException {
-        String indexDir = "/home/ancalled/Documents/tmp/39/bgm-lucene";
+//        String indexDir = "/home/ancalled/Documents/tmp/39/bgm-lucene";
+        String indexDir = "D:/DIST/Projects/BGMSpring/lucen-indexes";
         FSDirectory index = FSDirectory.open(new File(indexDir));
         IndexReader reader = DirectoryReader.open(index);
         searcher = new IndexSearcher(reader);
@@ -334,8 +335,6 @@ public class SearchServiceImpl implements SearchService {
         parse.setBoost(boost);
         return parse;
     }
-
-
 
 
     @Override
