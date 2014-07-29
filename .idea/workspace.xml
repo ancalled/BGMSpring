@@ -1413,7 +1413,7 @@
       <workItem from="1399110932389" duration="7989000" />
       <workItem from="1399171760665" duration="3807000" />
       <workItem from="1399265251593" duration="25000" />
-      <workItem from="1406603397173" duration="17369000" />
+      <workItem from="1406603397173" duration="17380000" />
     </task>
     <task id="LOCAL-00001" summary="Тестовый коммит">
       <created>1397471419200</created>
@@ -1443,11 +1443,15 @@
       <created>1406624021512</created>
       <updated>1406624021512</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Тестовый коммит">
+      <created>1406624217991</created>
+      <updated>1406624217991</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132184000" />
+    <option name="totallyTimeSpent" value="132195000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
@@ -1506,12 +1510,12 @@
     <MESSAGE value="Либы забыл" />
     <MESSAGE value="Разбил DbStorage на несколько сервисов" />
     <MESSAGE value="Поиск стал чуть более охуенным" />
-    <MESSAGE value="Тестовый коммит" />
     <MESSAGE value="Аншюз с автолризацией не удался , поправил создание орагнизации , теперь работает" />
     <MESSAGE value="Добавил BulckUtil и допилил его ,чтобыон выдавал сгенерированный excel-ий файл. и помелочи поправки" />
     <MESSAGE value="Начал починку загрузки каталогов, надо доделать еще" />
     <MESSAGE value="авторизация для админа" />
-    <option name="LAST_COMMIT_MESSAGE" value="авторизация для админа" />
+    <MESSAGE value="Тестовый коммит" />
+    <option name="LAST_COMMIT_MESSAGE" value="Тестовый коммит" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
