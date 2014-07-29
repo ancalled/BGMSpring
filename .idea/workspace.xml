@@ -31,16 +31,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d87401e3-6623-4189-847c-4be267ebd3f6" name="Default" comment="Тестовый коммит">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/AdminAuthorizeFilter.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/AuthorizationController.java" />
-      <change type="DELETED" beforePath="D:\DIST\Projects\BGMSpring\src\kz\bgm\platform\web\SecurityConfig.java" afterPath="" />
-      <change type="DELETED" beforePath="D:\DIST\Projects\BGMSpring\src\kz\bgm\platform\web\controllers\Authorizer.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/BGMSpring.iml" afterPath="$PROJECT_DIR$/BGMSpring.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/MainController.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/MainController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/kz/bgm/platform/model/service/SearchServiceImpl.java" afterPath="$PROJECT_DIR$/src/kz/bgm/platform/model/service/SearchServiceImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/jdbc.properties" afterPath="$PROJECT_DIR$/src/jdbc.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/pages/login.jsp" afterPath="$PROJECT_DIR$/web/WEB-INF/pages/login.jsp" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BGMSpring.iws" />
@@ -125,8 +117,8 @@
       <file leaf-file-name="AdminAuthorizeFilter.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/AdminAuthorizeFilter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5151515" vertical-offset="408" max-vertical-offset="969">
-              <caret line="41" column="6" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="6" />
+            <state vertical-scroll-proportion="0.3030303" vertical-offset="408" max-vertical-offset="969">
+              <caret line="34" column="85" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1421,7 +1413,7 @@
       <workItem from="1399110932389" duration="7989000" />
       <workItem from="1399171760665" duration="3807000" />
       <workItem from="1399265251593" duration="25000" />
-      <workItem from="1406603397173" duration="17146000" />
+      <workItem from="1406603397173" duration="17369000" />
     </task>
     <task id="LOCAL-00001" summary="Тестовый коммит">
       <created>1397471419200</created>
@@ -1447,11 +1439,15 @@
       <created>1399118894997</created>
       <updated>1399118894997</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="авторизация для админа">
+      <created>1406624021512</created>
+      <updated>1406624021512</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="131961000" />
+    <option name="totallyTimeSpent" value="132184000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1696" height="1026" extended-state="6" />
@@ -1514,7 +1510,8 @@
     <MESSAGE value="Аншюз с автолризацией не удался , поправил создание орагнизации , теперь работает" />
     <MESSAGE value="Добавил BulckUtil и допилил его ,чтобыон выдавал сгенерированный excel-ий файл. и помелочи поправки" />
     <MESSAGE value="Начал починку загрузки каталогов, надо доделать еще" />
-    <option name="LAST_COMMIT_MESSAGE" value="Начал починку загрузки каталогов, надо доделать еще" />
+    <MESSAGE value="авторизация для админа" />
+    <option name="LAST_COMMIT_MESSAGE" value="авторизация для админа" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2022,8 +2019,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/kz/bgm/platform/web/controllers/AdminAuthorizeFilter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5151515" vertical-offset="408" max-vertical-offset="969">
-          <caret line="41" column="6" selection-start-line="41" selection-start-column="6" selection-end-line="41" selection-end-column="6" />
+        <state vertical-scroll-proportion="0.3030303" vertical-offset="408" max-vertical-offset="969">
+          <caret line="34" column="85" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
