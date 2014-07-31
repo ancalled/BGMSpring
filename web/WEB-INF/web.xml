@@ -10,28 +10,42 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <!--<servlet>-->
-        <!--<servlet-name>authorization</servlet-name>-->
-        <!--<servlet-class>kz.bgm.platform.web.controllers.AdminAuthorizationServlet</servlet-class>-->
-    <!--</servlet>-->
+    <servlet-mapping>
+        <servlet-name>mvc-dispatcher</servlet-name>
+        <url-pattern>/mvc/*</url-pattern>
+    </servlet-mapping>
 
-    <!--<servlet-mapping>-->
-        <!--<servlet-name>authorization</servlet-name>-->
-        <!--<url-pattern>/mvc/main/admin-auth</url-pattern>-->
-    <!--</servlet-mapping>-->
 
     <filter>
         <filter-name>adminFilter</filter-name>
         <filter-class>kz.bgm.platform.web.controllers.AdminAuthorizeFilter</filter-class>
     </filter>
+
     <filter-mapping>
         <filter-name>adminFilter</filter-name>
         <url-pattern>/mvc/admin/*</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>adminFilter</filter-name>
+        <url-pattern>/mvc/catalog-update/*</url-pattern>
+    </filter-mapping>
 
-    <servlet-mapping>
-        <servlet-name>mvc-dispatcher</servlet-name>
-        <url-pattern>/mvc/*</url-pattern>
-    </servlet-mapping>
+    <filter>
+        <filter-name>userFilter</filter-name>
+        <filter-class>kz.bgm.platform.web.controllers.UserAuthorizeFilter</filter-class>
+    </filter>
+
+    <!--<filter-mapping>-->
+        <!--<filter-name>userFilter</filter-name>-->
+        <!--<url-pattern>/mvc/main/*</url-pattern>-->
+    <!--</filter-mapping>-->
+    <filter-mapping>
+        <filter-name>userFilter</filter-name>
+        <url-pattern>/mvc/reports/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>userFilter</filter-name>
+        <url-pattern>/mvc/search/*</url-pattern>
+    </filter-mapping>
 
 </web-app>

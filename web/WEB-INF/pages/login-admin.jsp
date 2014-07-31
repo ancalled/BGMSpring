@@ -14,7 +14,7 @@
 <body>
 <div class="container">
 
-    <form class="form-signin span5" action="${ctx}/mvc/main/auth/authorization" method="get">
+    <form class="form-signin span5" action="${ctx}/mvc/main/auth/admin-authorization" method="get">
         <h2 class="form-signin-heading">Доборо пожаловать</h2>
         <input type="text" class="input-block-level" name="user" placeholder="Имя">
         <input type="password" class="input-block-level" name="pass" placeholder="Пароль">
