@@ -17,6 +17,8 @@
           <element id="library" level="project" name="org.apache.lucene:lucene-queryparser:4.7.0" />
           <element id="library" level="project" name="org.apache.lucene:lucene-analyzers-common:4.7.0" />
           <element id="library" level="project" name="mysql:mysql-connector-java:5.1.29" />
+          <element id="library" level="project" name="commons-fileupload-1.2.1" />
+          <element id="library" level="project" name="commons-io-2.5" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="BGMSpring/web/Web" />

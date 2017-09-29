@@ -61,8 +61,8 @@ public class SearchServiceImpl implements SearchService {
     ///home/ancalled/Documents/tmp/39/bgm-lucene
     @PostConstruct
     public void initSearcher() throws IOException {
-//        String indexDir = "/home/ancalled/Documents/tmp/39/bgm-lucene";
-        String indexDir = "D:/DIST/Projects/BGMSpring/lucen-indexes";
+        String indexDir = "/home/ancalled/Documents/tmp/21/lucene-indexes";
+//        String indexDir = "D:/DIST/Projects/BGMSpring/lucen-indexes";
         FSDirectory index = FSDirectory.open(new File(indexDir));
         IndexReader reader = DirectoryReader.open(index);
         searcher = new IndexSearcher(reader);
