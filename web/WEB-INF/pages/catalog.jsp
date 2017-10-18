@@ -217,8 +217,9 @@
                                 <a class="btn btn-primary btn-file">
                                     <span class="fileupload-new">Выбрать файл с обновлением</span>
                                     <%--<span class="fileupload-exists">Изменить</span>--%>
-                                    <input type="file" name="file" class="file-input" id="fileinput" accept=".csv"
-                                           data-url="/admin/action/update-catalog"/></a>
+                                    <input type="file" name="file" class="file-input" id="fileinput" accept=".csv"/>
+                                           <%--data-url="/admin/action/update-catalog"/>--%>
+                                </a>
                                 <a href="#" class="btn btn-default fileupload-exists"
                                    data-dismiss="fileupload">Убрать</a>
                             </div>

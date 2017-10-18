@@ -4,14 +4,15 @@ package kz.bgm.platform.model.domain;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CatalogUpdate {
 
-    public static final String DEFAULT_ENCODING = "utf8";
-    public static final String DEFAULT_SEPATRATOR = ";";
-    public static final String DEFAULT_NEWLINE = "\n";
-    public static final String NOT_ENCLOSED = "";
-    public static final int DEFAULT_FROM_LINE = 0;
+    private static final String DEFAULT_ENCODING = "utf8";
+    private static final String DEFAULT_SEPATRATOR = ";";
+    private static final String DEFAULT_NEWLINE = "\n";
+    private static final String NOT_ENCLOSED = "";
+    private static final int DEFAULT_FROM_LINE = 0;
 
     public static enum Status {NONE, OK, HAS_WARNINGS}
 
@@ -36,6 +37,7 @@ public class CatalogUpdate {
     private boolean applied = false;
 
     private final List<UpdateWarning> warnings = new ArrayList<>();
+    private List<String> fields;
 
 
     public Long getId() {
@@ -175,7 +177,21 @@ public class CatalogUpdate {
         warnings.add(w);
     }
 
+    public List<String> getFields() {
+        return fields;
+    }
 
+    public void setFields(List<String> fields) {
+        this.fields = fields;
+    }
+
+    public String fieldsAsQuery() {
+        if (fields != null) {
+           return "(" + fields.stream().collect(Collectors.joining(",")) + ")";
+        }
+
+        return "(@dummy, code, name, composer, artist, @shareMobile, @sharePublic)";
+    }
 
     public boolean isApplied() {
         return applied;

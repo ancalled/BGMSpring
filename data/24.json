@@ -1,0 +1,12 @@
+{
+  "catalogId": "22",
+  "whenUpdated": "2017-09-29",
+  "filePath": "/home/ancalled/Documents/tmp/27/bgm/24.csv",
+  "fileName": "24.csv",
+  "fields": ["@num", "code", "name", "artist", "@lyricsAuthor", "composer", "@shareMobile", "@related"],
+  "encoding": "utf8",
+  "separator": ";",
+  "enclosedBy": "\"",
+  "newline": "\n",
+  "fromLine": "1"
+}

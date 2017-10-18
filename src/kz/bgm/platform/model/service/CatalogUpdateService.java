@@ -14,7 +14,7 @@ public interface CatalogUpdateService {
 
     CatalogUpdate importCatalogUpdate(CatalogUpdate update);
 
-    public CatalogUpdate calculateCatalogUpdateStats(long updateId, CatalogUpdate.Status st);
+    CatalogUpdate calculateCatalogUpdateStats(long updateId, CatalogUpdate.Status st);
 
     List<Track> getAllTracksOfCatalogUpdate(long updateId);
 

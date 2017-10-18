@@ -29,16 +29,16 @@ public class CatalogUpdater {
     private static final Logger log = Logger.getLogger(CatalogUpdater.class);
 
 
-    public static final int TRACKS_PER_PAGE = 50;
+    private static final int TRACKS_PER_PAGE = 50;
 
-    public static final String APP_HOME = System.getProperty("user.dir");
-    public static final String CATALOG_UPDATES_HOME = APP_HOME + "/catalog-updates";
+    private static final String APP_HOME = System.getProperty("user.dir");
+    private static final String CATALOG_UPDATES_HOME = APP_HOME + "/catalog-updates";
 
-    public static final String DEFAULT_ENCODING = "utf8";
-    public static final String DEFAULT_FIELD_SEPARATOR = ";";
-    public static final String DEFAULT_ENCLOSED_BY = "\"";
-    public static final String DEFAULT_NEWLINE = "\n";
-    public static final int DEFAULT_FROM_LINE = 1;
+    private static final String DEFAULT_ENCODING = "utf8";
+    private static final String DEFAULT_FIELD_SEPARATOR = ";";
+    private static final String DEFAULT_ENCLOSED_BY = "\"";
+    private static final String DEFAULT_NEWLINE = "\n";
+    private static final int DEFAULT_FROM_LINE = 1;
 
 
     @Autowired

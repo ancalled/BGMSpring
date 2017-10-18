@@ -138,8 +138,8 @@ public class CatalogUpdateServiceImpl implements CatalogUpdateService {
                         "SET c.name = IF(t.name != '', t.name, c.name), " +
                         "  c.composer = IF(t.composer != '', t.composer, c.composer), " +
                         "  c.artist = IF(t.artist != '', t.artist, c.artist), " +
-                        "  c.shareMobile = IF(t.shareMobile != '', t.shareMobile, c.shareMobile), " +
-                        "  c.sharePublic = IF(t.sharePublic != '', t.sharePublic, c.sharePublic), " +
+                        "  c.shareMobile = IF(t.shareMobile != '', t.shareMobile, IF(c.shareMobile ='', 0, c.shareMobile)), " +
+//                        "  c.sharePublic = IF(t.sharePublic != '', t.sharePublic, c.sharePublic), " +
                         "  t.done = 1 " +
                         "WHERE t.update_id = ?", updateId
         );
@@ -238,20 +238,21 @@ public class CatalogUpdateServiceImpl implements CatalogUpdateService {
 
 
     public CatalogUpdate importCatalogUpdate(final CatalogUpdate update) {
-        db.update(
-                "LOAD DATA LOCAL INFILE ? " +
-                        "INTO TABLE comp_tmp " +
-                        "CHARACTER SET ? " +
-                        "FIELDS TERMINATED BY ? " +
-                        "OPTIONALLY ENCLOSED BY ?" +
-                        "LINES TERMINATED BY ? " +
-                        "IGNORE ? LINES " +
-                        "(@dummy, code, name, composer, artist, @shareMobile, @sharePublic) " +
+        String query = "LOAD DATA LOCAL INFILE ? " +
+                "INTO TABLE comp_tmp " +
+                "CHARACTER SET ? " +
+                "FIELDS TERMINATED BY ? " +
+                "OPTIONALLY ENCLOSED BY ?" +
+                "LINES TERMINATED BY ? " +
+                "IGNORE ? LINES " +
+                " " + update.fieldsAsQuery() + " " +
 //                                "(@dummy, code, name, composer, artist, @dummy, @dummy, @shareMobile, @sharePublic) " +
-                        "SET update_id=?, " +
-                        "  catalog_id=?, " +
-                        "  shareMobile=IF(@shareMobile != '', @shareMobile, 0), " +
-                        "  sharePublic=IF(@sharePublic != '', @sharePublic, 0)",
+                "SET update_id=?, " +
+                "  catalog_id=?, " +
+                "  shareMobile=IF(@shareMobile != '', @shareMobile, 0), " +
+                "  sharePublic=IF(@sharePublic != '', @sharePublic, 0)";
+
+        db.update(query,
                 update.getFilePath(),
                 update.getEncoding(),
                 update.getSeparator(),

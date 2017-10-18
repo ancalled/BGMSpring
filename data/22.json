@@ -1,0 +1,12 @@
+{
+  "catalogId": "22",
+  "whenUpdated": "2017-09-29",
+  "filePath": "/home/ancalled/Documents/tmp/27/bgm/blackstar.csv",
+  "fileName": "blackstar.csv",
+  "fields": ["@dummy", "code", "name", "composer", "artist", "@shareMobile", "@sharePublic"],
+  "encoding": "utf8",
+  "separator": ";",
+  "enclosedBy": "\"",
+  "newline": "\n",
+  "fromLine": "1"
+}

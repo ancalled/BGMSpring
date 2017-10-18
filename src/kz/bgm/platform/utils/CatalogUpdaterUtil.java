@@ -3,19 +3,19 @@ package kz.bgm.platform.utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import kz.bgm.platform.model.domain.CatalogUpdate;
+import kz.bgm.platform.model.domain.Track;
 import kz.bgm.platform.model.service.CatalogUpdateService;
 import kz.bgm.platform.model.service.CatalogUpdateServiceImpl;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.List;
 import java.util.Properties;
 
 public class CatalogUpdaterUtil {
 
-    public static final String SRC_JDBC_PROPERTIES = "./src/jdbc.properties";
+    private static final String SRC_JDBC_PROPERTIES = "./src/jdbc.properties";
     private CatalogUpdateService catalogUpdateService;
 
     private CatalogUpdaterUtil(Properties dbProps) {
@@ -27,53 +27,46 @@ public class CatalogUpdaterUtil {
         ((CatalogUpdateServiceImpl) catalogUpdateService).setDataSource(dataSource);
     }
 
-    private void update(UpdateInfo info) {
-        CatalogUpdate update = new CatalogUpdate();
-        update.setCatalogId(info.catalogId);
-        update.setFilePath(info.path);
-        update.setFileName(info.fname);
-        update.setEncoding(info.encoding);
-        update.setSeparator(info.fieldSeparator);
-        update.setEnclosedBy(info.enclosedBy);
-        update.setNewline(info.newline);
-        update.setFromLine(info.fromLine);
-
-        System.out.println("Got catalog updates " + info.fname);
+    private void update(CatalogUpdate update) {
+        System.out.println("Got catalog updates " + update.getFileName());
 
         update = catalogUpdateService.saveCatalogUpdate(update);
         System.out.println("Starting update catalog...");
-//        changeStatus(UpdateStatus.FILE_UPLOADED);
         CatalogUpdate updateResult = catalogUpdateService.importCatalogUpdate(update);
 
         System.out.println("Load complete, calc stats...");
         catalogUpdateService.calculateCatalogUpdateStats(update.getId(), updateResult.getStatus());
+
+        System.out.println("Applying catalog updates, id: " + update.getId());
+        catalogUpdateService.applyCatalogUpdateStep1(update.getId());
+        catalogUpdateService.applyCatalogUpdateStep2(update.getId());
+        catalogUpdateService.applyCatalogUpdateStep3(update.getId());
+
+        System.out.println("Get all new tracks for reindex");
+        List<Track> updatedTracks = catalogUpdateService.getAllTracksOfCatalogUpdate(update.getId());
+
+        System.out.println("Found " + updatedTracks.size() + " indexes. Rebuilding index for this tracks");
+//        System.out.println("Done. Reinitializing searcher");
+        System.out.println("Applied.");
     }
 
-    public static UpdateInfo readInfo(String fpath) throws IOException {
+    private static CatalogUpdate readUpdateInfoFromJson(String fpath) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         File file = new File(fpath);
         return mapper
-                .reader(UpdateInfo.class)
+                .reader(CatalogUpdate.class)
                 .readValue(file);
     }
 
-    public static void main1(String[] args) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        File file = new File("./data/1.json");
-        UpdateInfo info = mapper
-                .reader(UpdateInfo.class)
-                .readValue(file);
-
-        System.out.println(info.catalogId);
-    }
 
     public static void main(String[] args) throws IOException {
-        String updatePath = args[0];
-        UpdateInfo info = readInfo(updatePath);
+        String updateJsonPath = args[0];
+        CatalogUpdate updateInfo = readUpdateInfoFromJson(updateJsonPath);
+        System.out.println(updateInfo.fieldsAsQuery());
 
         Properties dbProps = new Properties();
         dbProps.load(new FileReader(SRC_JDBC_PROPERTIES));
         CatalogUpdaterUtil util = new CatalogUpdaterUtil(dbProps);
-        util.update(info);
+        util.update(updateInfo);
     }
 }
