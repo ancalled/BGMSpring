@@ -37,7 +37,6 @@ public class CustomerReportItem {
     }
 
 
-
     public Long getId() {
         return id;
     }

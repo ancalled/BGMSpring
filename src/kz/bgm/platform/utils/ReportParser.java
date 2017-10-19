@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 //import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
@@ -153,7 +154,15 @@ public class ReportParser {
 //        ReportParser.parseMobileReport(filepath);
 //    }
 
-    public static CustomerReportItem parseFromLine(String l, String sep) {
+    private static int trackCol;
+    private static int artistCol;
+    private static int contentCol;
+    private static int qtyCol;
+    private static int priceCol;
+
+    private static boolean columnsFound = false;
+
+    private static CustomerReportItem parseFromLine(String l, String sep) {
         String[] split = l.split(sep);
         if (split.length < 6) return null;
         for (String s : split) {
@@ -161,14 +170,41 @@ public class ReportParser {
         }
 
         CustomerReportItem item = new CustomerReportItem();
-        if (!split[0].isEmpty()) {
-            item.setNumber(Integer.parseInt(split[0]));
+//            item.setNumber(Integer.parseInt(split[0]));
+
+        if (!columnsFound) {
+            trackCol = IntStream.range(0, split.length).filter(i -> "Название Произведения".equals(split[i]))
+                    .findFirst().orElse(0);
+            artistCol = IntStream.range(0, split.length)
+                    .filter(i -> "Исполнитель Произведения".equals(split[i]))
+                    .findFirst().orElse(0);
+            contentCol = IntStream.range(0, split.length)
+                    .filter(i -> "Название Сервиса".equals(split[i]))
+                    .findFirst().orElse(0);
+            qtyCol = IntStream.range(0, split.length)
+                    .filter(i -> "Количество Запросов".equals(split[i]))
+                    .findFirst().orElse(0);
+            priceCol = IntStream.range(0, split.length)
+                    .filter(i -> "Стоимость подписки для Абонентов без НДС".equals(split[i]))
+                    .findFirst().orElse(0);
+
+
+            if (trackCol == 0 && artistCol == 0 &&
+                    contentCol == 0 && qtyCol == 0 && priceCol == 0) {
+                System.out.println("Some columns was not found");
+                return null;
+            } else {
+                columnsFound = true;
+                return null;
+            }
         }
-        item.setTrack(split[1]);
-        item.setArtist(split[2]);
-        item.setContentType(split[3]);
-        item.setQty(Integer.parseInt(split[4]));
-        item.setPrice(Float.parseFloat(split[5]));
+
+
+        item.setTrack(split[trackCol]);//Название Произведения
+        item.setArtist(split[artistCol]);//Исполнитель Произведения
+        item.setContentType(split[contentCol]);//Название Сервиса
+        item.setQty(Integer.parseInt(split[qtyCol]));//Количество Запросов
+        item.setPrice(Float.parseFloat(split[priceCol]));//Стоимость подписки для Абонентов без НДС
         return item;
     }
 

@@ -1,5 +1,6 @@
 package kz.bgm.platform.utils;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import kz.bgm.platform.model.domain.CatalogUpdate;
@@ -50,23 +51,26 @@ public class CatalogUpdaterUtil {
         System.out.println("Applied.");
     }
 
-    private static CatalogUpdate readUpdateInfoFromJson(String fpath) throws IOException {
+    private static List<CatalogUpdate> readUpdateInfoFromJson(String fpath) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         File file = new File(fpath);
         return mapper
-                .reader(CatalogUpdate.class)
+                .reader(new TypeReference<List<CatalogUpdate>>() {
+                })
                 .readValue(file);
     }
 
 
     public static void main(String[] args) throws IOException {
         String updateJsonPath = args[0];
-        CatalogUpdate updateInfo = readUpdateInfoFromJson(updateJsonPath);
-        System.out.println(updateInfo.fieldsAsQuery());
+        List<CatalogUpdate> updates = readUpdateInfoFromJson(updateJsonPath);
+//        updates.stream().forEach(u -> System.out.println(u.fieldsAsQuery()));
 
         Properties dbProps = new Properties();
         dbProps.load(new FileReader(SRC_JDBC_PROPERTIES));
         CatalogUpdaterUtil util = new CatalogUpdaterUtil(dbProps);
-        util.update(updateInfo);
+
+        updates.stream().forEach(util::update);
+
     }
 }

@@ -1,0 +1,234 @@
+[
+
+
+  {
+    "catalogId": "22",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/blackstar.csv",
+    "fileName": "blackstar.csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  },
+
+
+  {
+    "catalogId": "23",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/blackstar.csv",
+    "fileName": "blackstar.csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  },
+
+  {
+    "catalogId": "24",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог Диджитал Прожект_25.09.17.csv",
+    "fileName": "Каталог Диджитал Прожект_25.09.17.csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  },
+  {
+    "catalogId": "25",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог Диджитал Прожект_25.09.17.csv",
+    "fileName": "Каталог Диджитал Прожект_25.09.17.csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  },
+  {
+    "catalogId": "26",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог Креатив Медиа_25.09.17г..csv",
+    "fileName": "Каталог Креатив Медиа_25.09.17г..csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  },
+  {
+    "catalogId": "27",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог Креатив Медиа_25.09.17г..csv",
+    "fileName": "Каталог Креатив Медиа_25.09.17г..csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  }
+,
+  {
+    "catalogId": "28",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог Креатив Медиа_25.09.17г..csv",
+    "fileName": "Каталог Креатив Медиа_25.09.17г..csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  },
+  {
+    "catalogId": "29",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог Мэйк ит Мьюзик_26.09.17г..csv",
+    "fileName": "Каталог Мэйк ит Мьюзик_26.09.17г..csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  }
+,
+  {
+    "catalogId": "30",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог Мэйк ит Мьюзик_26.09.17г..csv",
+    "fileName": "Каталог Мэйк ит Мьюзик_26.09.17г..csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  }
+
+,
+  {
+    "catalogId": "31",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог МоМу_казахстанский контент_25.09.17.csv",
+    "fileName": "Каталог МоМу_казахстанский контент_25.09.17.csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  }
+
+,
+  {
+    "catalogId": "32",
+    "whenUpdated": "2017-09-29",
+    "filePath": "/media/sdb/Downloads/BGM/catalogs/Каталог МоМу_казахстанский контент_25.09.17.csv",
+    "fileName": "Каталог МоМу_казахстанский контент_25.09.17.csv",
+    "fields": [
+      "@dummy",
+      "code",
+      "name",
+      "composer",
+      "artist",
+      "@shareMobile",
+      "@sharePublic"
+    ],
+    "encoding": "utf8",
+    "separator": ";",
+    "enclosedBy": "\"",
+    "newline": "\n",
+    "fromLine": "1"
+  }
+
+]
