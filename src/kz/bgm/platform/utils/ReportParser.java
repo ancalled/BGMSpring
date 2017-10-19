@@ -197,14 +197,13 @@ public class ReportParser {
                 columnsFound = true;
                 return null;
             }
+        } else {
+            item.setTrack(split[trackCol]);
+            item.setArtist(split[artistCol]);
+            item.setContentType(split[contentCol]);
+            item.setQty(Integer.parseInt(split[qtyCol]));
+            item.setPrice(Float.parseFloat(split[priceCol]));
         }
-
-
-        item.setTrack(split[trackCol]);//Название Произведения
-        item.setArtist(split[artistCol]);//Исполнитель Произведения
-        item.setContentType(split[contentCol]);//Название Сервиса
-        item.setQty(Integer.parseInt(split[qtyCol]));//Количество Запросов
-        item.setPrice(Float.parseFloat(split[priceCol]));//Стоимость подписки для Абонентов без НДС
         return item;
     }
 

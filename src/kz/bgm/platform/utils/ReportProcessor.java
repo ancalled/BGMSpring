@@ -42,6 +42,7 @@ public class ReportProcessor {
         adminService.setDataSource(dataSource);
         reportService.setDataSource(dataSource);
         searchService.setDataSource(dataSource);
+        searchService.initSearcher();
         mainService.setDataSource(dataSource);
     }
 
